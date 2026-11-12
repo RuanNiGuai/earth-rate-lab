@@ -1,0 +1,9 @@
+# Host tools; hardware libraries are imported only when opening a device.
+numpy==2.2.6
+scipy==1.15.3
+pyserial==3.5
+hidapi==0.14.0.post4
+intelhex==2.3.0
+PyYAML==6.0.2
+pyelftools==0.32
+cmake==3.31.6

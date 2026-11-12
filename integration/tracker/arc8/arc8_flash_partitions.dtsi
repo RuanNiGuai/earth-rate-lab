@@ -1,0 +1,38 @@
+/* ARC8 prototype fixed partitions. NEVER flash until both boot and app are
+ * linked and chain-start has been proved on a recoverable test tracker.
+ * All offsets are relative to the 1 MiB internal flash.
+ */
+&flash0 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        reserved_partition: partition@0 {
+            label = "Adafruit reserved lower page";
+            reg = <0x00000 0x01000>;
+            read-only;
+        };
+        boot_partition: partition@1000 {
+            label = "ARC8 second-stage MCUboot";
+            reg = <0x01000 0x0e000>;
+        };
+        slot0_partition: partition@f000 {
+            label = "MCUboot image 0 (primary)";
+            reg = <0x0f000 0x6f000>;
+        };
+        slot1_partition: partition@7e000 {
+            label = "MCUboot image 1 (secondary, offset swap)";
+            reg = <0x7e000 0x70000>;
+        };
+        storage_partition: partition@ee000 {
+            label = "Existing tracker NVS: never relocate or erase";
+            reg = <0xee000 0x6000>;
+        };
+        uf2_partition: partition@f4000 {
+            label = "Existing Adafruit UF2: never relocate or erase";
+            reg = <0xf4000 0x0c000>;
+            read-only;
+        };
+    };
+};

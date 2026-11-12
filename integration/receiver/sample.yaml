@@ -1,0 +1,8 @@
+tests:
+  common:
+    platform_allow:
+      - nrf21540dk/nrf52840
+      - nrf52840dk/nrf52840
+      - nrf52840dongle/nrf52840
+      - xiao_ble/nrf52840
+    sysbuild: true

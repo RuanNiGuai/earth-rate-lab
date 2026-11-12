@@ -1,0 +1,2 @@
+#include "styria_mini_mcuboot.dts"
+/delete-node/ &i2c0;

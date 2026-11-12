@@ -1,0 +1,11 @@
+# editors
+*.swp
+*~
+
+# build
+/build*/
+.cache
+compile_commands.json
+
+# version
+VERSION

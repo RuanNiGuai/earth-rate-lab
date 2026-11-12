@@ -1,0 +1,54 @@
+manifest:
+  projects:
+  - name: cmsis
+    url: https://github.com/zephyrproject-rtos/cmsis
+    revision: d1b8b20b6278615b00e136374540eb1c00dcabe7
+    path: modules/hal/cmsis
+  - name: cmsis-dsp
+    url: https://github.com/zephyrproject-rtos/cmsis-dsp
+    revision: d80a49b2bb186317dc1db4ac88da49c0ab77e6e7
+    path: modules/lib/cmsis-dsp
+  - name: cmsis_6
+    url: https://github.com/zephyrproject-rtos/CMSIS_6
+    revision: 6dd50439a9b83398ff2ae1376eef0a2a0b95913b
+    path: modules/hal/cmsis_6
+  - name: hal_nordic
+    url: https://github.com/zephyrproject-rtos/hal_nordic
+    revision: a6579483deb33112cc763d05a4a3f8085883c1ac
+    path: modules/hal/nordic
+  - name: mbedtls
+    url: https://github.com/nrfconnect/sdk-mbedtls
+    revision: c5115abac477249fab42e61368b8f87c3c9265e1
+    path: modules/crypto/mbedtls
+  - name: mcuboot
+    url: https://github.com/nrfconnect/sdk-mcuboot
+    revision: 9b4ae4cbc9e2acf56d904647e2d5c6716d7e567d
+    path: bootloader/mcuboot
+  - name: segger
+    url: https://github.com/zephyrproject-rtos/segger
+    revision: cf56b1d9c80f81a26e2ac5727c9cf177116a4692
+    path: modules/debug/segger
+  - name: trusted-firmware-m
+    url: https://github.com/nrfconnect/sdk-trusted-firmware-m
+    revision: 44bbc980ed6bcc7583d5bf532991f804d8ef0ea6
+    path: modules/tee/tf-m/trusted-firmware-m
+  - name: zcbor
+    url: https://github.com/zephyrproject-rtos/zcbor
+    revision: 9b07780aca6fb21f82a241ba386ad9b379809337
+    path: modules/lib/zcbor
+  - name: oberon-psa-crypto
+    url: https://github.com/nrfconnect/sdk-oberon-psa-crypto
+    revision: d682b30a4498ecbaa8992e909b8d8c31f4988956
+    path: modules/crypto/oberon-psa-crypto
+  - name: nrfxlib
+    url: https://github.com/nrfconnect/sdk-nrfxlib
+    revision: 3b210a24d3bc7ecfc268e0feab6436306b11e7cb
+  - name: nrf
+    url: https://github.com/jitingcn/sdk-nrf.git
+    revision: b15546351c4a6083002cab6f029ef72138b44521
+  - name: zephyr
+    url: https://github.com/nrfconnect/sdk-zephyr.git
+    revision: ff8f0c579eeb896876b6f36aca70c2bbfa756e19
+    west-commands: scripts/west-commands.yml
+  self:
+    path: manifest

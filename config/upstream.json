@@ -1,0 +1,37 @@
+{
+  "source_mode": "vendored working-tree sources; base tree IDs for bundled dependencies",
+  "repositories": [
+    {
+      "path": "integration/tracker",
+      "base_commit": "06ce018fa6d17a3ffa8b7826b9928470881bce87"
+    },
+    {
+      "path": "integration/tracker/vqf-c",
+      "base_tree": "05401d1dd2c152bc03dc54d0aecd4dd6fd733a87",
+      "kind": "tree"
+    },
+    {
+      "path": "integration/tracker/Fusion",
+      "base_tree": "7346f1eaa5321121d3bfbcdcaaeffe51c406a8c3",
+      "kind": "tree"
+    },
+    {
+      "path": "integration/receiver",
+      "base_commit": "46f0f6d6a2156204dbcc5e6fa8a5b52ce89ccd6d"
+    }
+  ],
+  "selective_ports_20261111": {
+    "tracker": [
+      "a3f95446dcd75267afe8be428578bb5f3b2a51a1",
+      "75fff95b41f8455f9a48cfc8b86bd6572ed2fa60"
+    ],
+    "receiver": [
+      "109a4d26ac93e69bc326865fc741960ae13e828d"
+    ],
+    "vqf": [
+      "1d1d8676265761f0e45915b614aa6480865fa65d",
+      "6d68ad6905bf278ae1b528736f9d3ffccf235e20"
+    ],
+    "scope": "Selected numeric/data-validity changes only, not full commits; see docs/FUSION_UPSTREAM_zh.md"
+  }
+}

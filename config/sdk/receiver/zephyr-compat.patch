@@ -1,0 +1,764 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f84a32ac1e9..2a800fcc358 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1860,7 +1860,7 @@ if(CONFIG_BUILD_OUTPUT_BIN)
+   endif()
+ endif()
+ 
+-if(CONFIG_BUILD_OUTPUT_BIN AND CONFIG_BUILD_OUTPUT_UF2)
++if(CONFIG_BUILD_OUTPUT_UF2)
+   if(CONFIG_BUILD_OUTPUT_UF2_USE_FLASH_BASE)
+     set(code_address "${CONFIG_FLASH_BASE_ADDRESS}")
+   else()
+@@ -1904,15 +1904,34 @@ if(CONFIG_BUILD_OUTPUT_BIN AND CONFIG_BUILD_OUTPUT_UF2)
+     endif()
+   endif()
+ 
+-  list(APPEND
+-    post_build_commands
+-    COMMAND ${PYTHON_EXECUTABLE} ${ZEPHYR_BASE}/scripts/build/uf2conv.py
+-            -c
+-            -f ${CONFIG_BUILD_OUTPUT_UF2_FAMILY_ID}
+-            -b ${code_address}
+-            -o ${KERNEL_UF2_NAME}
+-            ${KERNEL_BIN_NAME}
+-  )
++  if(CONFIG_BUILD_OUTPUT_HEX)
++    # HEX format embeds addresses, so no -b flag is needed.
++    # This method is required for mapped-partition.
++    list(APPEND
++      post_build_commands
++      COMMAND ${PYTHON_EXECUTABLE} ${ZEPHYR_BASE}/scripts/build/uf2conv.py
++              -c
++              -f ${CONFIG_BUILD_OUTPUT_UF2_FAMILY_ID}
++              -o ${KERNEL_UF2_NAME}
++              ${KERNEL_HEX_NAME}
++    )
++  elseif(CONFIG_BUILD_OUTPUT_BIN AND NOT "${code_address}" STREQUAL "")
++    # BIN format requires an explicit base address via -b.
++    list(APPEND
++      post_build_commands
++      COMMAND ${PYTHON_EXECUTABLE} ${ZEPHYR_BASE}/scripts/build/uf2conv.py
++              -c
++              -f ${CONFIG_BUILD_OUTPUT_UF2_FAMILY_ID}
++              -b ${code_address}
++              -o ${KERNEL_UF2_NAME}
++              ${KERNEL_BIN_NAME}
++    )
++  else()
++    message(WARNING
++      "UF2 output requires either a) CONFIG_BUILD_OUTPUT_HEX or b) CONFIG_BUILD_OUTPUT_BIN with a "
++      "known code address. Enable CONFIG_BUILD_OUTPUT_HEX in your board configuration.")
++  endif()
++
+   list(APPEND
+     post_build_byproducts
+     ${KERNEL_UF2_NAME}
+diff --git a/Kconfig.zephyr b/Kconfig.zephyr
+index 83a52527e7c..73aef681aa0 100644
+--- a/Kconfig.zephyr
++++ b/Kconfig.zephyr
+@@ -884,7 +884,7 @@ config BUILD_OUTPUT_VERILOG_DATA_WIDTH
+ 
+ config BUILD_OUTPUT_UF2
+ 	bool "Build a binary in UF2 format"
+-	depends on BUILD_OUTPUT_BIN
++	depends on BUILD_OUTPUT_BIN || BUILD_OUTPUT_HEX
+ 	help
+ 	  Build a UF2 binary zephyr/zephyr.uf2 in the build directory.
+ 	  The name of this file can be customized with CONFIG_KERNEL_BIN_NAME.
+diff --git a/cmake/modules/FindZephyr-sdk.cmake b/cmake/modules/FindZephyr-sdk.cmake
+index 3c2c4ded0b5..8f60ec3c8a7 100644
+--- a/cmake/modules/FindZephyr-sdk.cmake
++++ b/cmake/modules/FindZephyr-sdk.cmake
+@@ -78,7 +78,7 @@ if((${ZEPHYR_TOOLCHAIN_VARIANT} MATCHES "^zephyr/?") OR
+     # To support Zephyr SDK tools (DTC, and other tools) with 3rd party toolchains
+     # then we keep track of current toolchain variant.
+     set(ZEPHYR_CURRENT_TOOLCHAIN_VARIANT ${ZEPHYR_TOOLCHAIN_VARIANT})
+-    find_package(Zephyr-sdk ${Zephyr-sdk_FIND_VERSION_COMPLETE}
++    find_package(Zephyr-sdk 0.17
+                  REQUIRED QUIET CONFIG HINTS ${ZEPHYR_SDK_INSTALL_DIR}
+     )
+     if(DEFINED ZEPHYR_CURRENT_TOOLCHAIN_VARIANT)
+diff --git a/drivers/led_strip/ws2812_i2s.c b/drivers/led_strip/ws2812_i2s.c
+index c0993bccf50..4167dfc2895 100644
+--- a/drivers/led_strip/ws2812_i2s.c
++++ b/drivers/led_strip/ws2812_i2s.c
+@@ -29,7 +29,38 @@ LOG_MODULE_REGISTER(ws2812_i2s);
+ #include <zephyr/kernel.h>
+ #include <zephyr/sys/util.h>
+ 
+-#define WS2812_I2S_PRE_DELAY_WORDS 1
++/*
++ * Pre-data reset words.
++ *
++ * The strip latches its input after the data line has been low for more than
++ * ~80 us, which is the only thing that guarantees a frame starts at a known
++ * bit position: the LED supply is gated (led-en-gpios) and is switched on while
++ * a frame may already be on the wire, and the line is inverted by the level
++ * shifter, so a single word (10 us) leaves the first frame after a supply
++ * transition undecodable and the pixel shows an undefined color. Ten words
++ * (100 us) clear the latch state before the first bit.
++ */
++#define WS2812_I2S_PRE_DELAY_WORDS 10
++#define WS2812_I2S_RETRY_COUNT 1
++
++/*
++ * Minimum time one frame occupies on the wire.
++ *
++ * The I2S driver asks for the next TX buffer in the interrupt raised when the
++ * peripheral starts the current one, and reports an underrun ("Next buffers not
++ * supplied on time", which it turns into an ERROR state) if no buffer was
++ * supplied by the time that one ends. I2S_TRIGGER_DRAIN, which ends the transfer
++ * after the queued frame, is only accepted while the stream is still running, so
++ * it has to be processed before the transmitted buffer ends. The update path
++ * blocks preemption across those two triggers, so this minimum only has to cover
++ * the remaining interrupt latency.
++ *
++ * Keeping the minimum small therefore limits both how long a caller is blocked
++ * per frame (a 1 ms minimum measured 1.5 ms per update, a third of it this
++ * padding) and how much of the time the I2S peripheral runs between
++ * pattern steps, while still leaving the strip the latch reset it needs.
++ */
++#define WS2812_I2S_MIN_FRAME_US 300
+ 
+ struct ws2812_i2s_cfg {
+ 	struct device const *dev;
+@@ -38,7 +69,6 @@ struct ws2812_i2s_cfg {
+ 	uint8_t num_colors;
+ 	size_t length;
+ 	const uint8_t *color_mapping;
+-	uint16_t reset_words;
+ 	uint32_t lrck_period;
+ 	uint32_t extra_wait_time_us;
+ 	bool active_low;
+@@ -46,6 +76,10 @@ struct ws2812_i2s_cfg {
+ 	uint8_t nibble_zero;
+ };
+ 
++struct ws2812_i2s_data {
++	struct k_mutex lock;
++};
++
+ static inline uint32_t ws2812_i2s_reset_word(const struct ws2812_i2s_cfg *cfg)
+ {
+ 	return cfg->active_low ? ~0 : 0;
+@@ -74,10 +108,53 @@ static uint32_t ws2812_i2s_ser(const struct ws2812_i2s_cfg *cfg, uint8_t color)
+ 	return (word >> 16) | (word << 16);
+ }
+ 
+-static int ws2812_strip_update(const struct ws2812_i2s_cfg *cfg, void *mem_block, size_t size)
++/*
++ * Bring the TX stream back to READY after a failed transfer.
++ *
++ * I2S_TRIGGER_PREPARE is the documented recovery from the ERROR state
++ * (underrun/overrun); it is rejected with -EIO in any other state, where
++ * I2S_TRIGGER_DROP discards the queue and returns to READY from any state but
++ * NOT_READY. Both triggers release the memory blocks handed to the driver by a
++ * successful i2s_write(), so a failed frame has to be discarded here instead of
++ * being freed by the caller.
++ */
++static void ws2812_i2s_recover(const struct ws2812_i2s_cfg *cfg)
++{
++	int ret = i2s_trigger(cfg->dev, I2S_DIR_TX, I2S_TRIGGER_PREPARE);
++
++	if (ret == 0) {
++		return;
++	}
++
++	ret = i2s_trigger(cfg->dev, I2S_DIR_TX, I2S_TRIGGER_DROP);
++	if (ret < 0) {
++		LOG_ERR("Failed to recover the I2S TX stream: %d", ret);
++	}
++}
++
++/*
++ * The I2S API reports -EIO when a trigger is not allowed in the current state
++ * and -EAGAIN when the TX queue stays full; both mean the frame can be sent
++ * again once the stream has been recovered. Every other errno (for example
++ * -EINVAL for a request the driver rejects) is passed to the caller unchanged.
++ */
++static inline bool ws2812_i2s_retryable(int err)
+ {
+-	uint32_t *frame = mem_block;
+-	uint32_t flush_time_us;
++	return (err == -EIO) || (err == -EAGAIN);
++}
++
++/*
++ * Time one frame needs on the wire: one 32-bit word per LRCK period, covering
++ * the pre-data and post-data reset words.
++ */
++static uint32_t ws2812_i2s_frame_time_us(const struct ws2812_i2s_cfg *cfg)
++{
++	return cfg->lrck_period * (cfg->tx_buf_bytes / sizeof(uint32_t));
++}
++
++static int ws2812_strip_update(const struct ws2812_i2s_cfg *cfg, void **mem_block, size_t size)
++{
++	uint32_t *frame = *mem_block;
+ 	int ret;
+ 
+ 	/* Add a pre-data reset, so the first pixel isn't skipped by the strip. */
+@@ -85,58 +162,116 @@ static int ws2812_strip_update(const struct ws2812_i2s_cfg *cfg, void *mem_block
+ 		frame[i] = ws2812_i2s_reset_word(cfg);
+ 	}
+ 
+-	/* Add post-data reset */
+-	frame = (uint32_t *)mem_block + WS2812_I2S_PRE_DELAY_WORDS + size;
+-	for (uint16_t i = 0; i < cfg->reset_words; i++) {
++	/*
++	 * Add the post-data reset and the minimum frame padding: everything up
++	 * to the end of the block is written, which also keeps a partial channel
++	 * update from transmitting whatever the previous frame left behind.
++	 */
++	frame = (uint32_t *)*mem_block + WS2812_I2S_PRE_DELAY_WORDS + size;
++	for (size_t i = 0; i < cfg->tx_buf_bytes / sizeof(uint32_t) - WS2812_I2S_PRE_DELAY_WORDS - size;
++	     i++) {
+ 		frame[i] = ws2812_i2s_reset_word(cfg);
+ 	}
+ 
+ 	/* Flush the buffer on the wire. */
+-	ret = i2s_write(cfg->dev, mem_block, cfg->tx_buf_bytes);
++	ret = i2s_write(cfg->dev, *mem_block, cfg->tx_buf_bytes);
+ 	if (ret < 0) {
+-		k_mem_slab_free(cfg->mem_slab, mem_block);
+ 		LOG_ERR("Failed to write data: %d", ret);
+ 		return ret;
+ 	}
+ 
++	/*
++	 * The I2S driver owns the memory block from here on. It releases it when
++	 * the frame has been transmitted or when the queue is dropped, so the
++	 * caller must not free it anymore.
++	 */
++	*mem_block = NULL;
++
++	/*
++	 * The transfer may not be preempted between starting it and requesting
++	 * the drain: the I2S driver asks for the next TX buffer in the very
++	 * interrupt that the START trigger raises, and turns a missing buffer
++	 * into an error once the transmitted one ends. Disabling preemption for
++	 * these two triggers (neither of them blocks) keeps DRAIN ahead of that
++	 * deadline no matter how long the caller would otherwise be descheduled.
++	 */
++	k_sched_lock();
++
+ 	ret = i2s_trigger(cfg->dev, I2S_DIR_TX, I2S_TRIGGER_START);
+ 	if (ret < 0) {
++		k_sched_unlock();
+ 		LOG_ERR("Failed to trigger command %d on TX: %d", I2S_TRIGGER_START, ret);
++		ws2812_i2s_recover(cfg);
+ 		return ret;
+ 	}
+ 
+ 	ret = i2s_trigger(cfg->dev, I2S_DIR_TX, I2S_TRIGGER_DRAIN);
++	k_sched_unlock();
++
+ 	if (ret < 0) {
+ 		LOG_ERR("Failed to trigger command %d on TX: %d", I2S_TRIGGER_DRAIN, ret);
++		ws2812_i2s_recover(cfg);
+ 		return ret;
+ 	}
+ 
+ 	/* Wait until transaction is over */
+-	flush_time_us = cfg->lrck_period * cfg->tx_buf_bytes / sizeof(uint32_t);
+-	k_usleep(flush_time_us + cfg->extra_wait_time_us);
++	k_usleep(ws2812_i2s_frame_time_us(cfg) + cfg->extra_wait_time_us);
+ 
+ 	return ret;
+ }
+ 
+-static int ws2812_strip_update_rgb(const struct device *dev, struct led_rgb *pixels,
+-				   size_t num_pixels)
++/*
++ * Allocate a TX block for a new frame.
++ *
++ * The slab holds two blocks, which is the minimum the I2S API requires for a
++ * queue, and the driver releases a block only once it has been transmitted (or
++ * dropped). Taking both blocks and returning the second one immediately
++ * therefore waits for the previous frame to complete; relying on the transfer
++ * time alone leaves a window in which the next frame is queued while the
++ * previous one is still being drained.
++ *
++ * Both waits are bounded by the time one frame needs on the wire: a block that
++ * is still busy cannot be released later than that, so waiting longer would
++ * only stall the caller without being able to succeed.
++ */
++static int ws2812_i2s_acquire_tx_buffer(const struct ws2812_i2s_cfg *cfg, void **mem_block)
+ {
+-	const struct ws2812_i2s_cfg *cfg = dev->config;
+-	void *mem_block;
+-	uint32_t *frame;
++	uint32_t wait_us = ws2812_i2s_frame_time_us(cfg) + cfg->extra_wait_time_us;
++	void *barrier_block;
+ 	int ret;
+ 
+-	ret = k_mem_slab_alloc(cfg->mem_slab, &mem_block, K_SECONDS(10));
++	*mem_block = NULL;
++
++	ret = k_mem_slab_alloc(cfg->mem_slab, mem_block, K_USEC(wait_us));
+ 	if (ret < 0) {
+ 		LOG_ERR("Unable to allocate mem slab for TX (err %d)", ret);
+ 		return -ENOMEM;
+ 	}
+ 
+-	/*
+-	 * Convert pixel data into I2S frames. Each frame has pixel data
+-	 * in color mapping on-wire format (e.g. GRB, GRBW, RGB, etc).
+-	 */
+-	frame = ws2812_get_first_data_frame(mem_block);
++	ret = k_mem_slab_alloc(cfg->mem_slab, &barrier_block, K_USEC(wait_us));
++	if (ret < 0) {
++		k_mem_slab_free(cfg->mem_slab, *mem_block);
++		*mem_block = NULL;
++		LOG_ERR("Previous LED strip frame did not complete (err %d)", ret);
++		return -EBUSY;
++	}
++
++	k_mem_slab_free(cfg->mem_slab, barrier_block);
++
++	return 0;
++}
++
++/*
++ * Convert pixel data into I2S frames. Each frame has pixel data in color
++ * mapping on-wire format (e.g. GRB, GRBW, RGB, etc). The block is allocated by
++ * the caller and initially holds the encoded pixels only; the reset words are
++ * added by the transmit step.
++ */
++static int ws2812_i2s_fill_rgb(const struct ws2812_i2s_cfg *cfg, struct led_rgb *pixels,
++			       size_t num_pixels, void *mem_block)
++{
++	uint32_t *frame = ws2812_get_first_data_frame(mem_block);
++
+ 	for (uint16_t i = 0; i < num_pixels; i++) {
+ 		for (uint16_t j = 0; j < cfg->num_colors; j++) {
+ 			uint8_t pixel;
+@@ -162,34 +297,134 @@ static int ws2812_strip_update_rgb(const struct device *dev, struct led_rgb *pix
+ 		}
+ 	}
+ 
+-	return ws2812_strip_update(cfg, mem_block, cfg->num_colors * num_pixels);
++	return 0;
+ }
+ 
+-static int ws2812_strip_update_channels(const struct device *dev, uint8_t *channels,
+-					size_t num_channels)
++static int ws2812_i2s_update_rgb(const struct device *dev, struct led_rgb *pixels,
++				 size_t num_pixels)
+ {
+ 	const struct ws2812_i2s_cfg *cfg = dev->config;
+-	void *mem_block;
+-	uint32_t *frame;
+-	int ret;
++	void *mem_block = NULL;
++	int ret = 0;
+ 
+-	ret = k_mem_slab_alloc(cfg->mem_slab, &mem_block, K_SECONDS(10));
+-	if (ret < 0) {
+-		LOG_ERR("Unable to allocate mem slab for TX (err %d)", ret);
+-		return -ENOMEM;
++	/* The TX buffer is sized for the strip length from devicetree. */
++	if (num_pixels > cfg->length) {
++		return -EINVAL;
+ 	}
++
+ 	/*
+-	 * Convert pixel data into I2S frames. Each frame has pixel data
+-	 * in color mapping on-wire format (e.g. GRB, GRBW, RGB, etc).
++	 * A failed transfer releases the block to the I2S driver, so every
++	 * attempt needs a freshly allocated and filled frame.
+ 	 */
+-	frame = ws2812_get_first_data_frame(mem_block);
++	for (uint8_t attempt = 0; attempt <= WS2812_I2S_RETRY_COUNT; attempt++) {
++		ret = ws2812_i2s_acquire_tx_buffer(cfg, &mem_block);
++		if (ret < 0) {
++			return ret;
++		}
++
++		ret = ws2812_i2s_fill_rgb(cfg, pixels, num_pixels, mem_block);
++		if (ret < 0) {
++			k_mem_slab_free(cfg->mem_slab, mem_block);
++			return ret;
++		}
++
++		ret = ws2812_strip_update(cfg, &mem_block, cfg->num_colors * num_pixels);
++		if (ret == 0) {
++			break;
++		}
++
++		/* Leave the stream usable and retry only a recoverable failure. */
++		ws2812_i2s_recover(cfg);
++		if (!ws2812_i2s_retryable(ret)) {
++			break;
++		}
++	}
++
++	if (mem_block != NULL) {
++		k_mem_slab_free(cfg->mem_slab, mem_block);
++	}
++
++	return ret;
++}
++
++static int ws2812_strip_update_rgb(const struct device *dev, struct led_rgb *pixels,
++				   size_t num_pixels)
++{
++	struct ws2812_i2s_data *data = dev->data;
++	int ret;
++
++	k_mutex_lock(&data->lock, K_FOREVER);
++	ret = ws2812_i2s_update_rgb(dev, pixels, num_pixels);
++	k_mutex_unlock(&data->lock);
++
++	return ret;
++}
++
++static void ws2812_i2s_fill_channels(const struct ws2812_i2s_cfg *cfg, uint8_t *channels,
++				     size_t num_channels, void *mem_block)
++{
++	uint32_t *frame = ws2812_get_first_data_frame(mem_block);
+ 
+ 	for (size_t i = 0; i < num_channels; i++) {
+ 		*frame = ws2812_i2s_ser(cfg, channels[i]) ^ ws2812_i2s_reset_word(cfg);
+ 		frame++;
+ 	}
++}
++
++static int ws2812_i2s_update_channels(const struct device *dev, uint8_t *channels,
++				      size_t num_channels)
++{
++	const struct ws2812_i2s_cfg *cfg = dev->config;
++	void *mem_block = NULL;
++	int ret = 0;
++
++	/* The TX buffer is sized for the strip length from devicetree. */
++	if (num_channels > cfg->length * cfg->num_colors) {
++		return -EINVAL;
++	}
++
++	/*
++	 * A failed transfer releases the block to the I2S driver, so every
++	 * attempt needs a freshly allocated and filled frame.
++	 */
++	for (uint8_t attempt = 0; attempt <= WS2812_I2S_RETRY_COUNT; attempt++) {
++		ret = ws2812_i2s_acquire_tx_buffer(cfg, &mem_block);
++		if (ret < 0) {
++			return ret;
++		}
++
++		ws2812_i2s_fill_channels(cfg, channels, num_channels, mem_block);
++
++		ret = ws2812_strip_update(cfg, &mem_block, num_channels);
++		if (ret == 0) {
++			break;
++		}
++
++		/* Leave the stream usable and retry only a recoverable failure. */
++		ws2812_i2s_recover(cfg);
++		if (!ws2812_i2s_retryable(ret)) {
++			break;
++		}
++	}
++
++	if (mem_block != NULL) {
++		k_mem_slab_free(cfg->mem_slab, mem_block);
++	}
++
++	return ret;
++}
+ 
+-	return ws2812_strip_update(cfg, mem_block, num_channels);
++static int ws2812_strip_update_channels(const struct device *dev, uint8_t *channels,
++					size_t num_channels)
++{
++	struct ws2812_i2s_data *data = dev->data;
++	int ret;
++
++	k_mutex_lock(&data->lock, K_FOREVER);
++	ret = ws2812_i2s_update_channels(dev, channels, num_channels);
++	k_mutex_unlock(&data->lock);
++
++	return ret;
+ }
+ 
+ static size_t ws2812_strip_length(const struct device *dev)
+@@ -202,10 +437,13 @@ static size_t ws2812_strip_length(const struct device *dev)
+ static int ws2812_i2s_init(const struct device *dev)
+ {
+ 	const struct ws2812_i2s_cfg *cfg = dev->config;
++	struct ws2812_i2s_data *data = dev->data;
+ 	struct i2s_config config;
+ 	uint32_t lrck_hz;
+ 	int ret;
+ 
++	k_mutex_init(&data->lock);
++
+ 	lrck_hz = USEC_PER_SEC / cfg->lrck_period;
+ 	LOG_DBG("Word clock: freq %u Hz period %u us",
+ 		lrck_hz, cfg->lrck_period);
+@@ -218,7 +456,12 @@ static int ws2812_i2s_init(const struct device *dev)
+ 	config.frame_clk_freq = lrck_hz; /* WS (or LRCK) */
+ 	config.mem_slab = cfg->mem_slab;
+ 	config.block_size = cfg->tx_buf_bytes;
+-	config.timeout = 1000;
++	/*
++	 * The update path holds every slab block while it writes, so the driver
++	 * queue cannot fill up behind it. Report a full queue as -EAGAIN for the
++	 * caller to retry instead of blocking here for up to a second.
++	 */
++	config.timeout = 0;
+ 
+ 	ret = i2s_configure(cfg->dev, I2S_DIR_TX, &config);
+ 	if (ret < 0) {
+@@ -261,9 +504,26 @@ static DEVICE_API(led_strip, ws2812_i2s_api) = {
+ 
+ #define WS2812_I2S_NUM_PIXELS(idx) (DT_INST_PROP(idx, chain_length))
+ 
++#define WS2812_I2S_DATA_WORDS(idx) (WS2812_NUM_COLORS(idx) * WS2812_I2S_NUM_PIXELS(idx))
++
++#define WS2812_I2S_MIN_FRAME_WORDS(idx)                                                            \
++	DIV_ROUND_UP(WS2812_I2S_MIN_FRAME_US, WS2812_I2S_LRCK_PERIOD_US(idx))
++
++/* Reset words appended after the data to reach the minimum frame duration;
++ * zero when the data alone already takes longer than that.
++ */
++#define WS2812_I2S_PAD_WORDS(idx)                                                                  \
++	((WS2812_I2S_MIN_FRAME_WORDS(idx) >                                                        \
++	  (WS2812_I2S_PRE_DELAY_WORDS + WS2812_I2S_DATA_WORDS(idx) +                                \
++	   WS2812_RESET_DELAY_WORDS(idx)))                                                         \
++		 ? (WS2812_I2S_MIN_FRAME_WORDS(idx) -                                              \
++		    (WS2812_I2S_PRE_DELAY_WORDS + WS2812_I2S_DATA_WORDS(idx) +                     \
++		     WS2812_RESET_DELAY_WORDS(idx)))                                               \
++		 : 0)
++
+ #define WS2812_I2S_BUFSIZE(idx)                                                                    \
+-	(((WS2812_NUM_COLORS(idx) * WS2812_I2S_NUM_PIXELS(idx)) +	                           \
+-	  WS2812_I2S_PRE_DELAY_WORDS + WS2812_RESET_DELAY_WORDS(idx)) * 4)
++	((WS2812_I2S_DATA_WORDS(idx) + WS2812_I2S_PRE_DELAY_WORDS +                                \
++	  WS2812_RESET_DELAY_WORDS(idx) + WS2812_I2S_PAD_WORDS(idx)) * 4)
+ 
+ #define WS2812_I2S_DEVICE(idx)                                                                     \
+                                                                                                    \
+@@ -271,6 +531,8 @@ static DEVICE_API(led_strip, ws2812_i2s_api) = {
+                                                                                                    \
+ 	static const uint8_t ws2812_i2s_##idx##_color_mapping[] =                                  \
+ 		DT_INST_PROP(idx, color_mapping);                                                  \
++	static struct ws2812_i2s_data ws2812_i2s_##idx##_data;                                     \
++                                                                                                   \
+                                                                                                    \
+ 	static const struct ws2812_i2s_cfg ws2812_i2s_##idx##_cfg = {                              \
+ 		.dev = DEVICE_DT_GET(DT_INST_BUS(idx)),                                            \
+@@ -281,13 +543,13 @@ static DEVICE_API(led_strip, ws2812_i2s_api) = {
+ 		.color_mapping = ws2812_i2s_##idx##_color_mapping,                                 \
+ 		.lrck_period = WS2812_I2S_LRCK_PERIOD_US(idx),                                     \
+ 		.extra_wait_time_us = DT_INST_PROP(idx, extra_wait_time),                          \
+-		.reset_words = WS2812_RESET_DELAY_WORDS(idx),                                      \
+ 		.active_low = DT_INST_PROP(idx, out_active_low),                                   \
+ 		.nibble_one = DT_INST_PROP(idx, nibble_one),                                       \
+ 		.nibble_zero = DT_INST_PROP(idx, nibble_zero),                                     \
+ 	};                                                                                         \
+                                                                                                    \
+-	DEVICE_DT_INST_DEFINE(idx, ws2812_i2s_init, NULL, NULL, &ws2812_i2s_##idx##_cfg,           \
+-			      POST_KERNEL, CONFIG_LED_STRIP_INIT_PRIORITY, &ws2812_i2s_api);
++	DEVICE_DT_INST_DEFINE(idx, ws2812_i2s_init, NULL, &ws2812_i2s_##idx##_data,                \
++			      &ws2812_i2s_##idx##_cfg, POST_KERNEL,                                \
++			      CONFIG_LED_STRIP_INIT_PRIORITY, &ws2812_i2s_api);
+ 
+ DT_INST_FOREACH_STATUS_OKAY(WS2812_I2S_DEVICE)
+diff --git a/drivers/led_strip/ws2812_spi.c b/drivers/led_strip/ws2812_spi.c
+index 7f6fa5f3a36..03072f186d8 100644
+--- a/drivers/led_strip/ws2812_spi.c
++++ b/drivers/led_strip/ws2812_spi.c
+@@ -56,6 +56,10 @@ struct ws2812_spi_cfg {
+ 	uint16_t reset_delay;
+ };
+ 
++struct ws2812_spi_data {
++	struct k_mutex lock;
++};
++
+ static const struct ws2812_spi_cfg *dev_cfg(const struct device *dev)
+ {
+ 	return dev->config;
+@@ -116,9 +120,9 @@ static inline void ws2812_reset_delay(uint16_t delay)
+ 	k_usleep(delay);
+ }
+ 
+-static int ws2812_strip_update_rgb(const struct device *dev,
+-				   struct led_rgb *pixels,
+-				   size_t num_pixels)
++static int ws2812_spi_update_rgb(const struct device *dev,
++				 struct led_rgb *pixels,
++				 size_t num_pixels)
+ {
+ 	const struct ws2812_spi_cfg *cfg = dev_cfg(dev);
+ 	const uint8_t one = cfg->one_frame, zero = cfg->zero_frame;
+@@ -139,6 +143,11 @@ static int ws2812_strip_update_rgb(const struct device *dev,
+ 	size_t i;
+ 	int rc;
+ 
++	/* The buffer is a static array sized for the strip length. */
++	if (num_pixels > cfg->length) {
++		return -EINVAL;
++	}
++
+ 	/*
+ 	 * Convert pixel data into an SPI bitstream. The bitstream contains
+ 	 * pixel data in color mapping on-wire format (e.g. GRB, GRBW, RGB,
+@@ -187,6 +196,20 @@ static int ws2812_strip_update_rgb(const struct device *dev,
+ 	return rc;
+ }
+ 
++static int ws2812_strip_update_rgb(const struct device *dev,
++				   struct led_rgb *pixels,
++				   size_t num_pixels)
++{
++	struct ws2812_spi_data *data = dev->data;
++	int ret;
++
++	k_mutex_lock(&data->lock, K_FOREVER);
++	ret = ws2812_spi_update_rgb(dev, pixels, num_pixels);
++	k_mutex_unlock(&data->lock);
++
++	return ret;
++}
++
+ static size_t ws2812_strip_length(const struct device *dev)
+ {
+ 	const struct ws2812_spi_cfg *cfg = dev_cfg(dev);
+@@ -197,8 +220,11 @@ static size_t ws2812_strip_length(const struct device *dev)
+ static int ws2812_spi_init(const struct device *dev)
+ {
+ 	const struct ws2812_spi_cfg *cfg = dev_cfg(dev);
++	struct ws2812_spi_data *data = dev->data;
+ 	uint8_t i;
+ 
++	k_mutex_init(&data->lock);
++
+ 	if (!spi_is_ready_dt(&cfg->bus)) {
+ 		LOG_ERR("SPI device %s not ready", cfg->bus.bus->name);
+ 		return -ENODEV;
+@@ -263,6 +289,8 @@ static DEVICE_API(led_strip, ws2812_spi_api) = {
+ 		IF_ENABLED(CONFIG_WS2812_STRIP_SPI_FORCE_NOCACHE, (__nocache)); \
+ 										\
+ 	WS2812_COLOR_MAPPING(idx);						\
++	static struct ws2812_spi_data ws2812_spi_##idx##_data;                  \
++                                                                                \
+ 										\
+ 	static const struct ws2812_spi_cfg ws2812_spi_##idx##_cfg = {		\
+ 		.bus = SPI_DT_SPEC_INST_GET(idx, SPI_OPER(idx)),		\
+@@ -279,7 +307,7 @@ static DEVICE_API(led_strip, ws2812_spi_api) = {
+ 	DEVICE_DT_INST_DEFINE(idx,						\
+ 			      ws2812_spi_init,					\
+ 			      NULL,						\
+-			      NULL,						\
++			      &ws2812_spi_##idx##_data,                         \
+ 			      &ws2812_spi_##idx##_cfg,				\
+ 			      POST_KERNEL,					\
+ 			      CONFIG_LED_STRIP_INIT_PRIORITY,			\
+diff --git a/include/zephyr/usb/usbd.h b/include/zephyr/usb/usbd.h
+index 1af16232533..42607fce11a 100644
+--- a/include/zephyr/usb/usbd.h
++++ b/include/zephyr/usb/usbd.h
+@@ -43,6 +43,19 @@ extern "C" {
+ /* Maximum bulk max packet size the stack supports */
+ #define USBD_MAX_BULK_MPS COND_CODE_1(USBD_SUPPORTS_HIGH_SPEED, (512), (64))
+ 
++/*
++ * Upper bound for the control transfer data-IN stage buffer allocation.
++ *
++ * Hosts may request descriptors with a large wLength (e.g. 4095 for the
++ * BOS descriptor) to learn the actual size. The stack answers with the
++ * real descriptor length (see sreq_get_desc_*), which never exceeds 512
++ * bytes for any standard, class or vendor descriptor supported here, so
++ * allocating wLength bytes upfront wastes the shared UDC buffer pool and
++ * can fail with -ENOMEM on a busy pool (setup + CDC bulk buffers), which
++ * stalls enumeration. Cap the allocation at 512 bytes.
++ */
++#define USBD_CTRL_DATA_IN_MAX 512U
++
+ /*
+  * The length of the string descriptor (bLength) is calculated from the
+  * size of the two octets bLength and bDescriptorType plus the
+diff --git a/subsys/usb/device_next/class/usbd_cdc_acm.c b/subsys/usb/device_next/class/usbd_cdc_acm.c
+index 933396a597e..ae5126a6c04 100644
+--- a/subsys/usb/device_next/class/usbd_cdc_acm.c
++++ b/subsys/usb/device_next/class/usbd_cdc_acm.c
+@@ -354,6 +354,7 @@ static void usbd_cdc_acm_enable(struct usbd_class_data *const c_data)
+ 	struct cdc_acm_uart_data *data = dev->data;
+ 
+ 	atomic_set_bit(&data->state, CDC_ACM_CLASS_ENABLED);
++	atomic_clear_bit(&data->state, CDC_ACM_RX_FIFO_BUSY);
+ 	LOG_INF("Configuration enabled");
+ 
+ 	if (atomic_test_bit(&data->state, CDC_ACM_IRQ_RX_ENABLED)) {
+@@ -383,6 +384,7 @@ static void usbd_cdc_acm_disable(struct usbd_class_data *const c_data)
+ 
+ 	atomic_clear_bit(&data->state, CDC_ACM_CLASS_ENABLED);
+ 	atomic_clear_bit(&data->state, CDC_ACM_CLASS_SUSPENDED);
++	atomic_clear_bit(&data->state, CDC_ACM_RX_FIFO_BUSY);
+ 	LOG_INF("Configuration disabled");
+ }
+ 
+@@ -542,6 +544,10 @@ static int usbd_cdc_acm_ctd(struct usbd_class_data *const c_data,
+ 		data->line_state = setup->wValue;
+ 		cdc_acm_update_linestate(data);
+ 		usbd_msg_pub_device(uds_ctx, USBD_MSG_CDC_ACM_CONTROL_LINE_STATE, dev);
++		if (atomic_test_bit(&data->state, CDC_ACM_IRQ_RX_ENABLED)) {
++			/* Keep BUSY until the pending OUT transfer completes. */
++			cdc_acm_work_submit(&data->rx_fifo_work);
++		}
+ 		return 0;
+ 
+ 	default:
+@@ -564,6 +570,11 @@ static int usbd_cdc_acm_init(struct usbd_class_data *const c_data)
+ 
+ 	desc->if0_union.bControlInterface = desc->if0.bInterfaceNumber;
+ 	desc->if0_union.bSubordinateInterface0 = desc->if1.bInterfaceNumber;
++	/* bDataInterface is instance-specific: the static descriptor defaults
++	 * to 1, which is wrong for any CDC ACM instance beyond the first
++	 * (for example the DataCollect data port).
++	 */
++	desc->if0_cm.bDataInterface = desc->if1.bInterfaceNumber;
+ 
+ 	if (cfg->if_desc_data != NULL && desc->if0.iInterface == 0) {
+ 		if (usbd_add_descriptor(uds_ctx, cfg->if_desc_data)) {
+@@ -714,6 +725,7 @@ static void cdc_acm_rx_fifo_handler(struct k_work *work)
+ 
+ 	buf = cdc_acm_buf_alloc(c_data, cdc_acm_get_bulk_out(c_data));
+ 	if (buf == NULL) {
++		atomic_clear_bit(&data->state, CDC_ACM_RX_FIFO_BUSY);
+ 		return;
+ 	}
+ 
+@@ -725,6 +737,7 @@ static void cdc_acm_rx_fifo_handler(struct k_work *work)
+ 		LOG_ERR("Failed to enqueue net_buf for 0x%02x",
+ 			cdc_acm_get_bulk_out(c_data));
+ 		net_buf_unref(buf);
++		atomic_clear_bit(&data->state, CDC_ACM_RX_FIFO_BUSY);
+ 	}
+ }
+ 
+diff --git a/subsys/usb/device_next/usbd_endpoint.c b/subsys/usb/device_next/usbd_endpoint.c
+index 0023604847b..5d7f2304534 100644
+--- a/subsys/usb/device_next/usbd_endpoint.c
++++ b/subsys/usb/device_next/usbd_endpoint.c
+@@ -102,7 +102,14 @@ static void usbd_ep_ctrl_set_zlp(struct usbd_context *const uds_ctx,
+ struct net_buf *usbd_ep_ctrl_data_in_alloc(const struct usbd_context *const uds_ctx,
+ 					   const size_t size)
+ {
+-	return udc_ctrl_data_alloc(uds_ctx->dev, USB_CONTROL_EP_IN, size);
++	/*
++	 * Cap the allocation: hosts may query descriptors with a large
++	 * wLength (e.g. 4095 for BOS), but the stack never answers with
++	 * more than USBD_CTRL_DATA_IN_MAX bytes. Allocating wLength bytes
++	 * can exhaust the shared UDC buffer pool and stall enumeration.
++	 */
++	return udc_ctrl_data_alloc(uds_ctx->dev, USB_CONTROL_EP_IN,
++				   MIN(size, USBD_CTRL_DATA_IN_MAX));
+ }
+ 
+ int usbd_ep_ctrl_enqueue(struct usbd_context *const uds_ctx,

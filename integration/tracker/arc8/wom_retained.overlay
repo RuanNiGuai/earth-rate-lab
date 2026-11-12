@@ -1,0 +1,24 @@
+/* Styria two-stage boot chain, audited against UF2 b9572b4 and the deployed
+ * MCUboot 0d4e4e77. UF2 owns 0x20008000..0x20040000 (including its stack);
+ * MCUboot ends at 0x20003ec0. Never retain application state in either range.
+ * The app starts above the complete low-memory boot/retention reservation.
+ * Re-audit this contract whenever either bootloader changes. */
+/ {
+    /delete-node/ sram0@2003f000;
+
+    sram0@20006000 {
+        compatible = "zephyr,memory-region", "mmio-sram";
+        reg = <0x20006000 DT_SIZE_K(4)>;
+        zephyr,memory-region = "RETAINED_MEM";
+        status = "okay";
+
+        retainedmem0: retainedmem {
+            compatible = "zephyr,retained-ram";
+            status = "okay";
+        };
+    };
+};
+
+&sram0 {
+    reg = <0x20008000 DT_SIZE_K(224)>;
+};

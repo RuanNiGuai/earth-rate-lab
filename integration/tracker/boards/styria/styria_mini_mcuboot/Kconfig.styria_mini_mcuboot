@@ -1,0 +1,3 @@
+# Keep the same nRF52840 silicon and pin map without importing tracker-only Kconfig.
+config BOARD_STYRIA_MINI_MCUBOOT
+    select SOC_NRF52840_QIAA

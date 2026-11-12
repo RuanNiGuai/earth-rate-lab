@@ -1,0 +1,61 @@
+{
+  "schema": "PUBLICATION_VALIDATION1",
+  "date": "2026-11-12",
+  "host_checks": {
+    "passed": true,
+    "tests": 182,
+    "suite_counts": [
+      22,
+      35,
+      30,
+      93,
+      2
+    ],
+    "report_sha256": "35c3f97affde17d8201f7b1a5c8be8a24884a6d95c60b9608d6a50567831b5fb"
+  },
+  "helper_verified_source": {
+    "files": 467,
+    "changes_from_verified_delivery": [
+      "README.md",
+      "README.zh-CN.md"
+    ],
+    "production_sources_unchanged": true,
+    "runtime_sources_unchanged": true,
+    "original_executable_sha256": "b344174225d07ba9cd7203a3bf44a7be7e6dd14bc5b9877826faa6a4a5755f72"
+  },
+  "inherited_functional_validation": {
+    "rust_workspace_tests": 1873,
+    "ignored_tests": 2,
+    "fmt": true,
+    "clippy": true,
+    "windows_release_no_firmware": true,
+    "frozen_runtime_end_to_end": true,
+    "native_ui_read_only_ota_query_trackers": 10,
+    "native_ui_read_only_ota_query_receivers": 1,
+    "source_report_sha256": "e494ecfff95a54eaf07e0fe550126d297c14169fd8c319d12e90544782a0e4db"
+  },
+  "publication_checks": {
+    "allowlist": true,
+    "maintained_document_links": true,
+    "secret_and_machine_path_scan": true,
+    "known_rf_identities_and_latitude_absent": true
+  },
+  "hardware_writes_in_this_publication": 0,
+  "limits": [
+    "Prior native UI evidence is for the original executable; UPX packaging has separate checks.",
+    "No new firmware build, device installation, restart or independent accuracy trial in this publication.",
+    "Linux/macOS native UI and complete embedded-firmware package are not validated."
+  ],
+  "exported_source_checks": {
+    "passed": true,
+    "tests": 182,
+    "suite_counts": [
+      22,
+      35,
+      30,
+      93,
+      2
+    ],
+    "report_sha256": "d7b21a7b1c28b90362e4e8388408d997f1de72a6c48d343dbe4b3bab4a638b04"
+  }
+}

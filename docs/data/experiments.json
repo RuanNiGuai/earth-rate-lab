@@ -1,0 +1,422 @@
+{
+  "schema": "PUBLIC_EXPERIMENT_SUMMARY1",
+  "date": "2026-11-12",
+  "raw_data_public": false,
+  "note": "Whitelisted aggregates and anonymous slot metrics. Original reports and recordings remain private; hashes bind the source reports, not a public raw-data reproduction.",
+  "E01_uncompensated_ablation": {
+    "source_report_sha256": "ed8e28bebb5ea425683f865cda390ff64f535ea77492030ddec84af6cc3f068c",
+    "baseline": "T=0 S=1 M=0 E=0; both sides use one initial stationary bias removal",
+    "static_unit": "deg/s",
+    "single_component": {
+      "temperature": {
+        "disabled": 0.005164729595014154,
+        "enabled": 0.0055105453760258775,
+        "reduction_percent": -6.6957190042545855
+      },
+      "gsens": {
+        "disabled": 0.00583304467072331,
+        "enabled": 0.005703533874763776,
+        "reduction_percent": 2.2202949449292353
+      },
+      "earth": {
+        "disabled": 0.0036193452872432716,
+        "enabled": 0.002815997652877408,
+        "reduction_percent": 22.195937955887747
+      }
+    },
+    "all_enabled": {
+      "disabled": 0.005164729595014154,
+      "enabled": 0.00482453200509334,
+      "reduction_percent": 6.58693903838119
+    },
+    "scale_equivalent_turn_rms_deg": {
+      "all_disabled": 2.6061194193991857,
+      "only_scale": 0.006169588261643938,
+      "only_scale_disabled": 2.604275889530329,
+      "all_enabled": 0.0025298957741897088
+    },
+    "leave_one_out": {
+      "temperature": {
+        "disabled": 0.00441118026330786,
+        "enabled": 0.00482453200509334,
+        "reduction_percent": -9.370547497769133
+      },
+      "gsens": {
+        "disabled": 0.005437858220100045,
+        "enabled": 0.005666746532651032,
+        "reduction_percent": -4.209162933026511
+      },
+      "earth": {
+        "disabled": 0.0037865606139857277,
+        "enabled": 0.0029282837297242834,
+        "reduction_percent": 22.666397603444764
+      }
+    }
+  },
+  "E02_current_helper_plan": {
+    "source_report_sha256": "1d232c5cc7bca3975dc41cdd5d5df3df5ad49219fa0d86b10b151f4462b46004",
+    "comparison": "new versus old parameters; same calibration recordings, repeated-mean 400/100 Hz replay",
+    "updated_devices": 10,
+    "metrics": {
+      "old": {
+        "train_rest_deg_per_min": {
+          "rms": 0.04873320574058881,
+          "median": 0.0362045004554624,
+          "maximum": 0.1189483764843245
+        },
+        "held_rest_deg_per_min": {
+          "rms": 0.09194806330539981,
+          "median": 0.07037380175282312,
+          "maximum": 0.28925425085874956
+        },
+        "train_closure_deg": {
+          "rms": 5.403293791208108,
+          "median": 5.422864864649504,
+          "maximum": 8.518400215072663
+        },
+        "held_closure_deg": {
+          "rms": 5.688786672922665,
+          "median": 0.9293143068974667,
+          "maximum": 14.80722322721194
+        },
+        "training_score": 5.646959819911052
+      },
+      "new_scale": {
+        "train_rest_deg_per_min": {
+          "rms": 0.04851683590126039,
+          "median": 0.036170600986848815,
+          "maximum": 0.11731868952797087
+        },
+        "held_rest_deg_per_min": {
+          "rms": 0.09212086318880518,
+          "median": 0.07038638221534735,
+          "maximum": 0.2894317200162675
+        },
+        "train_closure_deg": {
+          "rms": 0.3612589378835834,
+          "median": 0.277086708668977,
+          "maximum": 0.8497878470124047
+        },
+        "held_closure_deg": {
+          "rms": 0.7364419963365788,
+          "median": 0.5836934976542487,
+          "maximum": 1.9127063203852093
+        },
+        "training_score": 0.6038431173898853
+      },
+      "selected": {
+        "train_rest_deg_per_min": {
+          "rms": 0.04851683590126039,
+          "median": 0.036170600986848815,
+          "maximum": 0.11731868952797087
+        },
+        "held_rest_deg_per_min": {
+          "rms": 0.09212086318880518,
+          "median": 0.07038638221534735,
+          "maximum": 0.2894317200162675
+        },
+        "train_closure_deg": {
+          "rms": 0.3612589378835834,
+          "median": 0.277086708668977,
+          "maximum": 0.8497878470124047
+        },
+        "held_closure_deg": {
+          "rms": 0.7364419963365788,
+          "median": 0.5836934976542487,
+          "maximum": 1.9127063203852093
+        },
+        "training_score": 0.6038431173898853
+      },
+      "stable_numeric": {
+        "train_rest_deg_per_min": {
+          "rms": 0.048497538798106664,
+          "median": 0.03635173123537474,
+          "maximum": 0.11824749018938716
+        },
+        "held_rest_deg_per_min": {
+          "rms": 0.09238331837525136,
+          "median": 0.06924010977815362,
+          "maximum": 0.28904424348529645
+        },
+        "train_closure_deg": {
+          "rms": 0.359559828741342,
+          "median": 0.27242223914049696,
+          "maximum": 0.8481052230342628
+        },
+        "held_closure_deg": {
+          "rms": 0.737016224288898,
+          "median": 0.5876343415774318,
+          "maximum": 1.910567983182773
+        },
+        "training_score": 0.6020475227318753
+      },
+      "adaptive_rest": {
+        "train_rest_deg_per_min": {
+          "rms": 0.04608770155918285,
+          "median": 0.02907607844131179,
+          "maximum": 0.12023586453187399
+        },
+        "held_rest_deg_per_min": {
+          "rms": 0.08606087421156663,
+          "median": 0.06181206449711162,
+          "maximum": 0.2805957398248833
+        },
+        "train_closure_deg": {
+          "rms": 0.34560588632554545,
+          "median": 0.24439103204206286,
+          "maximum": 0.8480351194328567
+        },
+        "held_closure_deg": {
+          "rms": 0.7056121229391563,
+          "median": 0.43796996481238654,
+          "maximum": 1.9071449251247128
+        },
+        "training_score": 0.5760443941214597
+      }
+    },
+    "devices": [
+      {
+        "device": "T01",
+        "turn_rms_deg": {
+          "old": 3.737533375967775,
+          "new": 1.3416766709011845
+        },
+        "before": {
+          "closure_rms_deg": 4.921685083163163,
+          "rest_rms_deg_per_min": 0.0737338092976128
+        },
+        "after": {
+          "closure_rms_deg": 0.6303675438630679,
+          "rest_rms_deg_per_min": 0.07288603333599748
+        }
+      },
+      {
+        "device": "T02",
+        "turn_rms_deg": {
+          "old": 5.085988074431959,
+          "new": 2.4026199677474223
+        },
+        "before": {
+          "closure_rms_deg": 6.308676495113865,
+          "rest_rms_deg_per_min": 0.09340672524727274
+        },
+        "after": {
+          "closure_rms_deg": 0.5725065871094732,
+          "rest_rms_deg_per_min": 0.09430327067404659
+        }
+      },
+      {
+        "device": "T03",
+        "turn_rms_deg": {
+          "old": 4.068899323627029,
+          "new": 1.5816438053392572
+        },
+        "before": {
+          "closure_rms_deg": 5.209969895736422,
+          "rest_rms_deg_per_min": 0.0755645192956295
+        },
+        "after": {
+          "closure_rms_deg": 0.7266197662149875,
+          "rest_rms_deg_per_min": 0.07564230093224768
+        }
+      },
+      {
+        "device": "T04",
+        "turn_rms_deg": {
+          "old": 3.207641655101059,
+          "new": 1.3364588918302387
+        },
+        "before": {
+          "closure_rms_deg": 4.364250982981013,
+          "rest_rms_deg_per_min": 0.08887757431992435
+        },
+        "after": {
+          "closure_rms_deg": 0.7432059158240717,
+          "rest_rms_deg_per_min": 0.08868223225919572
+        }
+      },
+      {
+        "device": "T05",
+        "turn_rms_deg": {
+          "old": 5.040516672802705,
+          "new": 1.0784769980003808
+        },
+        "before": {
+          "closure_rms_deg": 6.909303488791455,
+          "rest_rms_deg_per_min": 0.06943418833153654
+        },
+        "after": {
+          "closure_rms_deg": 0.6867436969592144,
+          "rest_rms_deg_per_min": 0.07029446564263638
+        }
+      },
+      {
+        "device": "T06",
+        "turn_rms_deg": {
+          "old": 5.39155773294591,
+          "new": 2.429897416264991
+        },
+        "before": {
+          "closure_rms_deg": 6.94110853650547,
+          "rest_rms_deg_per_min": 0.08119890875219062
+        },
+        "after": {
+          "closure_rms_deg": 0.5690816053863548,
+          "rest_rms_deg_per_min": 0.08021980556456879
+        }
+      },
+      {
+        "device": "T07",
+        "turn_rms_deg": {
+          "old": 6.110956131996578,
+          "new": 4.503548435512997
+        },
+        "before": {
+          "closure_rms_deg": 5.775721947491247,
+          "rest_rms_deg_per_min": 0.07493488258695691
+        },
+        "after": {
+          "closure_rms_deg": 0.5559502152557623,
+          "rest_rms_deg_per_min": 0.07583213312880667
+        }
+      },
+      {
+        "device": "T08",
+        "turn_rms_deg": {
+          "old": 4.1756657653118125,
+          "new": 2.847170495544794
+        },
+        "before": {
+          "closure_rms_deg": 4.296993645205544,
+          "rest_rms_deg_per_min": 0.07419672880200669
+        },
+        "after": {
+          "closure_rms_deg": 0.7047611782419713,
+          "rest_rms_deg_per_min": 0.07417903840094135
+        }
+      },
+      {
+        "device": "T09",
+        "turn_rms_deg": {
+          "old": 3.3183352507059896,
+          "new": 0.9935389396018156
+        },
+        "before": {
+          "closure_rms_deg": 4.580172306811738,
+          "rest_rms_deg_per_min": 0.07023496508047998
+        },
+        "after": {
+          "closure_rms_deg": 0.7665178376498689,
+          "rest_rms_deg_per_min": 0.07024493540752645
+        }
+      },
+      {
+        "device": "T10",
+        "turn_rms_deg": {
+          "old": 4.922609597667933,
+          "new": 2.137833297713382
+        },
+        "before": {
+          "closure_rms_deg": 6.239700971484365,
+          "rest_rms_deg_per_min": 0.07062547619287239
+        },
+        "after": {
+          "closure_rms_deg": 0.8248773531165572,
+          "rest_rms_deg_per_min": 0.07055037306168847
+        }
+      }
+    ]
+  },
+  "E03_raw_numeric": {
+    "source_report_sha256": [
+      "b6ec5936b566fd4ab8ccd1a147ab798530cbae07c4307e8800cc9837831c7ef9",
+      "96cccb94eff3428a9110761920885b3b73dfe42f9389d7c2f33a1ad577f13b0d"
+    ],
+    "segments": 17,
+    "samples": 2398324,
+    "duration_minutes": 97.58805338541667,
+    "metric": "median across recordings of five-second orientation-increment drift RMS (deg/min), initial 15 seconds excluded from drift metric",
+    "production": 0.24277846134308864,
+    "stable": 0.19403948970911647,
+    "worst_stable": 1.476812652667833
+  },
+  "E04_independent_replay": {
+    "source_report_sha256": "6d470b498670de4f8b1c95443a2a4d8e980f8646ea1f6c5d459dd95c975a207a",
+    "long_static_deg_per_min": {
+      "production_baseline": 0.1565055467373987,
+      "stable_baseline": 0.1561768858475259,
+      "stable_guarded": 0.10457734561665394
+    },
+    "wrist_return_deg": {
+      "production_baseline": 11.41116774376012,
+      "stable_baseline": 11.310730080378473,
+      "stable_guarded": 11.674122334330786
+    },
+    "note": "Independent recordings, but manual wrist return has no external angular truth; Earth disabled for long-static comparison."
+  },
+  "E05_adaptive_counterexamples": {
+    "source_report_sha256": "3b83220224d94afe3a3fa0bd3eeb86d8c3132c2dcfa5fd8f499d9de09c5dc897",
+    "wrist_return_deg": 11.427466677982157,
+    "synthetic_scenarios": {
+      "stationary": {
+        "conservative": {
+          "expected_yaw_deg": 0,
+          "output_yaw_deg": 0.0,
+          "yaw_error_deg": 0.0,
+          "maximum_tilt_deg": 0.0,
+          "final_tilt_deg": 0.0,
+          "rest_fraction_after_30s": 1.0
+        }
+      },
+      "yaw_0.2dps": {
+        "conservative": {
+          "expected_yaw_deg": 18.0,
+          "output_yaw_deg": 1.4464593632229277,
+          "yaw_error_deg": 16.553540636777072,
+          "maximum_tilt_deg": 1.7075472925031877e-06,
+          "final_tilt_deg": 1.4787793334710982e-06,
+          "rest_fraction_after_30s": 1.0
+        }
+      },
+      "yaw_0.05dps": {
+        "conservative": {
+          "expected_yaw_deg": 4.5,
+          "output_yaw_deg": 0.36162793953476136,
+          "yaw_error_deg": 4.1383720604652385,
+          "maximum_tilt_deg": 1.7075472925031877e-06,
+          "final_tilt_deg": 8.537736462515939e-07,
+          "rest_fraction_after_30s": 1.0
+        }
+      },
+      "yaw_0.01dps": {
+        "conservative": {
+          "expected_yaw_deg": 0.9,
+          "output_yaw_deg": 0.07231801482506449,
+          "yaw_error_deg": 0.8276819851749355,
+          "maximum_tilt_deg": 1.7075472925031877e-06,
+          "final_tilt_deg": 8.537736462515939e-07,
+          "rest_fraction_after_30s": 1.0
+        }
+      },
+      "horizontal_accel": {
+        "conservative": {
+          "expected_yaw_deg": 0,
+          "output_yaw_deg": 0.0,
+          "yaw_error_deg": 0.0,
+          "maximum_tilt_deg": 26.574514396594783,
+          "final_tilt_deg": 0.0,
+          "rest_fraction_after_30s": 0.9384444444444444
+        }
+      }
+    }
+  },
+  "E06_accel_candidate": {
+    "source_report_sha256": "64d881a5cf33607f7aa8e15a037c732fc8d61c959f81c97b19fdccf11b796299",
+    "joint_devices": 10,
+    "jacobian_rank": 78,
+    "raw_hold_norm_rms_g": 0.0029882642289802883,
+    "corrected_hold_norm_rms_g": 0.0006283306017934461,
+    "installed": false,
+    "comparison": "raw acceleration, not the existing device acceleration calibration"
+  }
+}

@@ -1,0 +1,5 @@
+-r requirements.txt
+west==1.5.0
+cmake==3.31.6
+ninja==1.11.1.4
+# Zephyr's own requirements must also be installed from the frozen SDK.

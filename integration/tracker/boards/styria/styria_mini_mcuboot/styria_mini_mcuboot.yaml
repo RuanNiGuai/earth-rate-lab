@@ -1,0 +1,11 @@
+identifier: styria_mini_mcuboot
+name: Styria Mini second-stage MCUboot
+vendor: nordic
+type: mcu
+arch: arm
+ram: 256
+flash: 1024
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools

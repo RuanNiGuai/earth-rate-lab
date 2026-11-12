@@ -1,0 +1,393 @@
+name: Native no-firmware CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  source:
+    name: Source hygiene and license notices
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out standalone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install repository-pinned Rust toolchain
+        run: |
+          # Rustup reads rust-toolchain.toml and installs its profile/components.
+          rustc --version --verbose
+          cargo --version
+
+      - name: Install checksum-pinned cargo-nextest
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/cargo-nextest-0.9.150.tar.gz"
+          tools="$RUNNER_TEMP/cargo-nextest-0.9.150"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.150/cargo-nextest-0.9.150-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$archive"
+          printf '%s  %s\n' 'b0959bc64232974224cf9fb22c915845398c0e8668fa7831eb5b43fb1eef781f' "$archive" | sha256sum --check -
+          mkdir -p "$tools"
+          tar -xzf "$archive" -C "$tools" cargo-nextest
+          test -x "$tools/cargo-nextest"
+          printf '%s\n' "$tools" >> "$GITHUB_PATH"
+
+      - name: Cache source tool dependencies
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: '. -> target'
+          # Preserve the existing source-job prefix and share it with publication.
+          shared-key: ubuntu-24.04-x64-tools-source
+          cache-bin: false
+
+      - name: Test source tools without building the application
+        run: cargo nextest run --locked -p slimenrf-tools
+
+      - name: Check publication boundaries and frozen notices
+        run: |
+          cargo run --quiet --locked -p slimenrf-tools -- check-public
+          cargo run --quiet --locked -p slimenrf-tools -- notices --check
+
+  windows:
+    name: Windows x64 / no firmware
+    needs: source
+    runs-on: windows-2022
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out standalone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install repository-pinned Rust toolchain
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          # Rustup reads rust-toolchain.toml and installs its profile/components.
+          rustc --version --verbose
+          cargo --version
+          rustup target add x86_64-pc-windows-msvc
+          # windows-2022 supplies VS 2022 C++, Windows SDK, CMake and LLVM.
+          # Existing entrypoints initialize VS, CMake and static CRT settings.
+          if (-not (Test-Path -LiteralPath 'C:\Program Files\LLVM\bin\libclang.dll' -PathType Leaf)) {
+            throw 'The Windows runner must provide LLVM/libclang.'
+          }
+
+      - name: Install checksum-pinned cargo-nextest
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'cargo-nextest-0.9.150.zip'
+          $tools = Join-Path $env:RUNNER_TEMP 'cargo-nextest-0.9.150'
+          Invoke-WebRequest -Uri 'https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.150/cargo-nextest-0.9.150-x86_64-pc-windows-msvc.zip' -OutFile $archive
+          if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne '6fd8f9ba48c946a79a5bcdd35bf4f922447b149f7ca6c3ff7f39e12f32ef78db') {
+            throw 'cargo-nextest archive SHA-256 mismatch.'
+          }
+          Expand-Archive -LiteralPath $archive -DestinationPath $tools
+          if (-not (Test-Path -LiteralPath (Join-Path $tools 'cargo-nextest.exe') -PathType Leaf)) {
+            throw 'cargo-nextest executable is missing from the archive.'
+          }
+          $tools >> $env:GITHUB_PATH
+
+      - name: Cache native Rust dependencies
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: '. -> target'
+          key: windows-2022-x64-no-firmware
+          cache-bin: false
+
+      - name: Test source tools on Windows
+        run: |
+          . ./scripts/environment.ps1
+          Initialize-SlimeNRFBuildEnvironment
+          cargo nextest run --locked -p slimenrf-tools --target x86_64-pc-windows-msvc
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Check formatting, strict workspace Clippy, tests and doctests
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File ./quality.ps1 -NoFirmware
+
+      - name: Package compressed Release executable
+        env:
+          OFFICIAL_PRERELEASE_TAG: ${{ github.repository == 'jitingcn/SlimeNRF-Helper' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !github.event.deleted && github.ref_name || '' }}
+        run: |
+          if ($env:OFFICIAL_PRERELEASE_TAG) {
+            powershell -NoProfile -ExecutionPolicy Bypass -File ./package.ps1 -NoFirmware -OfficialPrereleaseTag $env:OFFICIAL_PRERELEASE_TAG
+          } else {
+            powershell -NoProfile -ExecutionPolicy Bypass -File ./package.ps1 -NoFirmware
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Select sole no-firmware executable
+        id: normal
+        run: |
+          $packages = @(Get-ChildItem -Path './dist/slimenrf-helper-*-windows-x64-no-firmware.exe' -File)
+          if ($packages.Count -ne 1) { throw "Expected one no-firmware EXE, found $($packages.Count)." }
+          "path=$($packages[0].FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Upload Windows executable only
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: ${{ steps.normal.outputs.path }}
+          archive: false
+          if-no-files-found: error
+          retention-days: 14
+
+
+  linux:
+    name: Linux x64 / no firmware
+    needs: source
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out standalone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install native build and AppImage dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential clang libclang-dev cmake pkg-config \
+            libudev-dev libdbus-1-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libwayland-dev libx11-dev libx11-xcb-dev libxcb1-dev \
+            libfontconfig1-dev libfreetype6-dev libvulkan1 \
+            curl desktop-file-utils file
+
+      - name: Install repository-pinned Rust toolchain
+        run: |
+          # Rustup reads rust-toolchain.toml and installs its profile/components.
+          rustc --version --verbose
+          cargo --version
+
+      - name: Install checksum-pinned cargo-nextest
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/cargo-nextest-0.9.150.tar.gz"
+          tools="$RUNNER_TEMP/cargo-nextest-0.9.150"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/nextest-rs/nextest/releases/download/cargo-nextest-0.9.150/cargo-nextest-0.9.150-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$archive"
+          printf '%s  %s\n' 'b0959bc64232974224cf9fb22c915845398c0e8668fa7831eb5b43fb1eef781f' "$archive" | sha256sum --check -
+          mkdir -p "$tools"
+          tar -xzf "$archive" -C "$tools" cargo-nextest
+          test -x "$tools/cargo-nextest"
+          printf '%s\n' "$tools" >> "$GITHUB_PATH"
+
+      - name: Cache native Rust dependencies
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: '. -> target'
+          key: ubuntu-22.04-x64-no-firmware
+          cache-bin: false
+
+      - name: Check formatting, strict workspace Clippy, tests and doctests
+        run: bash ./quality.sh --no-firmware
+
+      - name: Download checksum-pinned AppImage tools
+        run: |
+          # Exact releases and cache layout from the AppImage packager.
+          # The packager verifies SHA-256 before executing either tool and uses
+          # appimagetool's embedded runtime, not a mutable runtime download.
+          tools="${XDG_CACHE_HOME:-$HOME/.cache}/slimenrf-helper/appimage-tools"
+          mkdir -p "$tools/1-alpha-20251107-1" "$tools/1.9.1"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage \
+            --output "$tools/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage \
+            --output "$tools/1.9.1/appimagetool-x86_64.AppImage"
+
+      - name: Package Release AppImage
+        run: bash ./package.sh --format appimage --no-firmware
+
+      - name: Select sole executable no-firmware AppImage
+        id: linux_package
+        run: |
+          shopt -s nullglob
+          packages=(dist/slimenrf-helper-*-linux-x64-no-firmware.AppImage)
+          if (( ${#packages[@]} != 1 )); then
+            printf 'Expected one no-firmware AppImage, found %s.\n' "${#packages[@]}" >&2
+            exit 1
+          fi
+          executable="${packages[0]}"
+          [[ -f "$executable" && ! -L "$executable" && -x "$executable" ]]
+          printf 'path=%s\n' "$executable" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Linux AppImage only
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: ${{ steps.linux_package.outputs.path }}
+          archive: false
+          if-no-files-found: error
+          retention-days: 14
+
+  prerelease:
+    name: Publish tagged prerelease
+    needs: [source, windows, linux]
+    if: >-
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v') &&
+      !github.event.deleted
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    concurrency:
+      group: prerelease-${{ github.ref }}
+      cancel-in-progress: false
+    defaults:
+      run:
+        shell: bash
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - name: Check out the exact tag event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Install repository-pinned Rust toolchain
+        run: |
+          # Rustup reads rust-toolchain.toml and installs its profile/components.
+          rustc --version --verbose
+          cargo --version
+
+      - name: Cache source tool dependencies
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: '. -> target'
+          # Match the source job instead of adding a separate prerelease job key.
+          shared-key: ubuntu-24.04-x64-tools-source
+          cache-bin: false
+
+      - name: Prepare exact-version changelog notes
+        id: release
+        run: |
+          set -euo pipefail
+          [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]
+          version="$(cargo run --quiet --locked -p slimenrf-tools -- prepare-prerelease \
+            --tag "$RELEASE_TAG" \
+            --repository "$GITHUB_REPOSITORY" \
+            --commit "$GITHUB_SHA" \
+            --notes-output "$RUNNER_TEMP/prerelease-notes.md")"
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+
+      # Named downloads use this run's artifact service, including v7 archive:false files.
+      # No cross-run API token or actions:read permission is needed.
+      - name: Download exact Windows executable
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: slimenrf-helper-${{ steps.release.outputs.version }}-windows-x64-no-firmware.exe
+          path: ${{ runner.temp }}/prerelease-assets
+
+      - name: Download exact Linux AppImage
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: slimenrf-helper-${{ steps.release.outputs.version }}-linux-x64-no-firmware.AppImage
+          path: ${{ runner.temp }}/prerelease-assets
+
+      - name: Validate release inputs and refuse existing releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" == "v$VERSION" && "$GITHUB_REF" == "refs/tags/$RELEASE_TAG" ]]
+          [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]
+          notes="$RUNNER_TEMP/prerelease-notes.md"
+          [[ -f "$notes" && ! -L "$notes" && -s "$notes" ]]
+          assets=(
+            "$RUNNER_TEMP/prerelease-assets/slimenrf-helper-${VERSION}-windows-x64-no-firmware.exe"
+            "$RUNNER_TEMP/prerelease-assets/slimenrf-helper-${VERSION}-linux-x64-no-firmware.AppImage"
+          )
+          for asset in "${assets[@]}"; do
+            if [[ ! -f "$asset" || -L "$asset" || ! -s "$asset" ]]; then
+              printf 'Missing, empty or nonregular release asset: %s\n' "$asset" >&2
+              exit 1
+            fi
+          done
+          # The explicit tag namespace also resolves annotated tags to their commit.
+          tag_commit="$(gh api "repos/$GH_REPO/commits/refs%2Ftags%2F$RELEASE_TAG" --jq .sha)"
+          if [[ "$tag_commit" != "$GITHUB_SHA" ]]; then
+            printf 'Remote tag %s no longer points to event commit %s.\n' "$RELEASE_TAG" "$GITHUB_SHA" >&2
+            exit 1
+          fi
+          # A failed API call is never interpreted as absence; include drafts and all pages.
+          releases="$(gh api --paginate --slurp "repos/$GH_REPO/releases?per_page=100")"
+          existing_count="$(jq --arg tag "$RELEASE_TAG" \
+            '[.[][] | select(.tag_name == $tag)] | length' <<< "$releases")"
+          if [[ "$existing_count" != 0 ]]; then
+            printf 'Refusing to modify an existing release (including drafts) for %s.\n' "$RELEASE_TAG" >&2
+            exit 1
+          fi
+
+      - name: Create draft prerelease and upload assets
+        id: upload_release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          target_commitish: ${{ github.sha }}
+          name: SlimeNRF Helper ${{ env.RELEASE_TAG }}
+          body_path: ${{ runner.temp }}/prerelease-notes.md
+          # Upstream otherwise publishes prerelease:true before uploading assets.
+          draft: true
+          prerelease: true
+          make_latest: 'false'
+          overwrite_files: false
+          fail_on_unmatched_files: true
+          files: |
+            ${{ runner.temp }}/prerelease-assets/slimenrf-helper-${{ steps.release.outputs.version }}-windows-x64-no-firmware.exe
+            ${{ runner.temp }}/prerelease-assets/slimenrf-helper-${{ steps.release.outputs.version }}-linux-x64-no-firmware.AppImage
+
+      - name: Verify uploaded draft and publish the prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ steps.release.outputs.version }}
+          RELEASE_ID: ${{ steps.upload_release.outputs.id }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_ID" =~ ^[1-9][0-9]*$ ]]
+          assets=(
+            "$RUNNER_TEMP/prerelease-assets/slimenrf-helper-${VERSION}-windows-x64-no-firmware.exe"
+            "$RUNNER_TEMP/prerelease-assets/slimenrf-helper-${VERSION}-linux-x64-no-firmware.AppImage"
+          )
+          expected_assets='[]'
+          for asset in "${assets[@]}"; do
+            [[ -f "$asset" && ! -L "$asset" && -s "$asset" ]]
+            size="$(stat --format=%s -- "$asset")"
+            expected_assets="$(jq --arg name "${asset##*/}" --argjson size "$size" \
+              '. + [{name: $name, size: $size}]' <<< "$expected_assets")"
+          done
+          release="$(gh api "repos/$GH_REPO/releases/$RELEASE_ID")"
+          jq -e --arg tag "$RELEASE_TAG" --arg commit "$GITHUB_SHA" \
+            --argjson expected "$expected_assets" '
+            .draft == true and .prerelease == true and
+            .tag_name == $tag and .target_commitish == $commit and
+            ((.assets | map({name, size}) | sort_by(.name)) ==
+              ($expected | sort_by(.name))) and
+            all(.assets[]; .state == "uploaded" and .size > 0)
+            ' <<< "$release"
+          tag_commit="$(gh api "repos/$GH_REPO/commits/refs%2Ftags%2F$RELEASE_TAG" --jq .sha)"
+          if [[ "$tag_commit" != "$GITHUB_SHA" ]]; then
+            printf 'Remote tag %s no longer points to event commit %s.\n' "$RELEASE_TAG" "$GITHUB_SHA" >&2
+            exit 1
+          fi
+          gh api --method PATCH "repos/$GH_REPO/releases/$RELEASE_ID" \
+            -F draft=false -f make_latest=false

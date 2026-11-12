@@ -1,0 +1,10 @@
+/* Reuse the verified Styria hardware/pins, but own a separate Kconfig board. */
+#include "../styria_mini_uf2/styria_mini_uf2.dts"
+#include "../../../arc8/arc8_flash_partitions.dtsi"
+/ {
+    model = "Styria Mini ARC8 MCUboot second-stage";
+    compatible = "styria,mini-mcuboot";
+    chosen {
+        zephyr,code-partition = &boot_partition;
+    };
+};

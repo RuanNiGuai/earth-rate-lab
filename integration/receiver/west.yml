@@ -1,0 +1,10 @@
+manifest:
+  version: "1.2"
+  projects:
+
+    # nRF-Connect SDK
+    - name: sdk-nrf
+      path: nrf
+      url: https://github.com/jitingcn/sdk-nrf.git
+      revision: ecf4e4df5a883e29dce154d63de6f12577adaa42
+      import: true

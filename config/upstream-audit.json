@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-11-12",
+  "repositories": [
+    {
+      "key": "tracker",
+      "url": "https://github.com/jitingcn/SlimeVR-Tracker-nRF",
+      "branch": "dev",
+      "base": "a9b441ccec8a31f5f2903b17663e939a41c265ab",
+      "head": "a9b441ccec8a31f5f2903b17663e939a41c265ab",
+      "local_path": "integration/tracker",
+      "exclude": [
+        "vqf-c",
+        "Fusion",
+        "VERSION"
+      ],
+      "base_kind": "commit",
+      "local_import_id": "06ce018fa6d17a3ffa8b7826b9928470881bce87",
+      "baseline_role": "previous review head, not an ancestor claim for the historical local import"
+    },
+    {
+      "key": "receiver",
+      "url": "https://github.com/jitingcn/SlimeVR-Tracker-nRF-Receiver",
+      "branch": "dev",
+      "base": "109a4d26ac93e69bc326865fc741960ae13e828d",
+      "head": "109a4d26ac93e69bc326865fc741960ae13e828d",
+      "local_path": "integration/receiver",
+      "exclude": [],
+      "base_kind": "commit",
+      "local_import_id": "46f0f6d6a2156204dbcc5e6fa8a5b52ce89ccd6d",
+      "baseline_role": "previous review head, not an ancestor claim for the historical local import"
+    },
+    {
+      "key": "vqf",
+      "url": "https://github.com/jitingcn/vqf-c",
+      "branch": "cmsis-dsp-optimization",
+      "base": "6d68ad6905bf278ae1b528736f9d3ffccf235e20",
+      "head": "6d68ad6905bf278ae1b528736f9d3ffccf235e20",
+      "local_path": "integration/tracker/vqf-c",
+      "exclude": [],
+      "base_kind": "commit",
+      "local_import_id": "05401d1dd2c152bc03dc54d0aecd4dd6fd733a87",
+      "baseline_role": "previous review head, not an ancestor claim for the historical local import"
+    },
+    {
+      "key": "helper",
+      "url": "https://github.com/jitingcn/SlimeNRF-Helper",
+      "branch": "main",
+      "base": "3d43dd780b997f6263762c34e996c612781b5b43",
+      "head": "2872946e04c8d625e3eb7f74e8bd7e7954ac9c6d",
+      "local_path": "helper",
+      "exclude": [],
+      "base_kind": "commit",
+      "baseline_role": "recorded Helper source baseline",
+      "previous_review_head": "7c3bca93d28a"
+    }
+  ]
+}

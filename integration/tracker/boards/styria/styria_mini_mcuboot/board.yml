@@ -1,0 +1,8 @@
+# Dedicated ARC8 second-stage bootloader board; original styria_mini_uf2 is unchanged.
+board:
+  name: styria_mini_mcuboot
+  vendor: nordic
+  socs:
+    - name: nrf52840
+      variants:
+        - name: spi

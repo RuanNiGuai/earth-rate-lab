@@ -1,0 +1,182 @@
+#
+# Copyright (c) 2020 Nordic Semiconductor
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+choice
+	prompt "Status LED color mapping"
+    default LED_TRI_COLOR
+
+config LED_RGB_COLOR
+    bool "Use RGB color mapping"
+    help
+        Use RGB or RG color mapping for LED status if available.
+
+config LED_TRI_COLOR
+    bool "Use default color mapping"
+    help
+        Use the default color mapping for LED status.
+
+endchoice
+
+menu "Status LED default status color"
+    depends on LED_RGB_COLOR
+
+config LED_DEFAULT_COLOR_R
+    int "Red value"
+    range 0 10000
+    default 4000
+    depends on LED_RGB_COLOR
+    help
+        Red color for default status.
+        Valid range is 0 to 10000.
+
+config LED_DEFAULT_COLOR_G
+    int "Green value"
+    range 0 10000
+    default 6000
+    depends on LED_RGB_COLOR
+    help
+        Green color for default status.
+        Valid range is 0 to 10000.
+
+config LED_DEFAULT_COLOR_B
+    int "Blue value"
+    range 0 10000
+    default 0
+    depends on LED_RGB_COLOR
+    help
+        Blue color for default status.
+        Valid range is 0 to 10000.
+
+endmenu
+
+config RADIO_TX_POWER
+    int "Radio output power (dBm)"
+    default 30
+    help
+        Radio output power level.
+        A lower value may reduce power consumption.
+
+config RADIO_RF_CHANNEL
+    int "Radio RF channel"
+    default 2
+    help
+        Radio RF channel (0-100).
+        Must match the receiver channel.
+
+config RADIO_AUTO_CHANNEL
+    bool "Loss-triggered runtime receiver channel avoidance"
+    default y
+    select ENTROPY_GENERATOR
+    help
+        Compile automatic avoidance support; runtime starts disabled on every
+        boot. Explicit channelauto on enables it until reboot.
+        Exchange short no-ACK identity beacons on the working channel
+        every 2-4 seconds. A full 10-second normal sequence-loss window
+        with at least 100 inferred frames and strictly more than 20% loss starts
+        a distributed energy survey and finalist confirmation. Choose only
+        even channels 0-88 with strictly quieter accepted peak energy than
+        HOME; ties and incomplete coverage do not move. Matched paired-address
+        activity rejects a visit. Known peer channels are excluded; HOME-only
+        beacons do not negotiate destinations or prove other channels vacant.
+        No observed peer is required for one trial migration. After a
+        successful move and original-roster recovery, a fresh window on a
+        stable receiver layout with persistent >20% loss stops automatic
+        radio actions and suggests possible host USB/RF
+        interference: use an extension cable and move away from the host.
+        Explicit channelauto on or reboot clears the persistent-loss stop;
+        reboot leaves avoidance disabled.
+        Manual settings retain range 0-100; candidate channel 90 is excluded.
+        Defers during pairing, OTA, raw capture and channel operations.
+        Test-all suspends loss scans; working-channel beacons continue.
+        A manual override disables avoidance until explicit channelauto on.
+
+config RADIO_RETRANSMIT_DELAY
+    int "Radio retransmit delay (µs)"
+    default 600
+    help
+        Radio retransmit delay.
+
+config PAIRING_TIMEOUT
+    int "Pairing mode timeout (seconds)"
+    default 300
+    help
+        Timeout for pairing mode in seconds.
+        After this time, pairing mode will automatically exit.
+        Default is 300 seconds (5 minutes).
+        Set to 0 to disable timeout.
+
+config ARC8_JOINT10_TRACE
+    bool "ARC8 Joint10 Tracker 13 receiver command-path counters"
+    default n
+    help
+        Diagnostic only. Counts queued commands, constructed radio ACKs and
+        matching Tracker PING echoes. Does not change OTA, ESB or HID wire format.
+        Use the console command joint10trace for a read-only snapshot.
+
+config DATA_COLLECT
+    bool "Enable raw sensor data collection interface"
+    default n
+    help
+        Enable streaming raw IMU and magnetometer data from trackers.
+        Choose HID or CDC transport via DATA_COLLECT_HID.
+
+config DATA_COLLECT_HID
+    bool "Use HID endpoint for data collection (instead of CDC serial)"
+    depends on DATA_COLLECT
+    default y
+    help
+        When enabled, raw data is sent via a dedicated HID endpoint.
+        When disabled, raw data is sent via a second CDC ACM serial port.
+
+config SLIMEVR_USB_DEVICE_VID
+    hex "SlimeVR USB vendor ID"
+    default 0x1209
+    help
+        USB vendor ID used by the SlimeVR USBD_NEXT device.
+
+config SLIMEVR_USB_DEVICE_PID
+    hex "SlimeVR USB product ID"
+    default 0x7690
+    help
+        USB product ID used by the SlimeVR receiver firmware.
+
+config SLIMEVR_USB_DEVICE_MANUFACTURER
+    string "SlimeVR USB manufacturer"
+    default "SlimeVR"
+    help
+        USB manufacturer string and console banner prefix.
+
+config SLIMEVR_USB_DEVICE_PRODUCT
+    string "SlimeVR USB product"
+    default "SlimeNRF Receiver"
+    help
+        USB product string and console banner name.
+
+config SLIMEVR_USB_DEVICE_MAX_POWER
+    int "SlimeVR USB max power"
+    range 0 250
+    default 100
+    help
+        USB bMaxPower value in 2 mA units.
+
+menu "TDMA diagnostics"
+
+config TDMA_DIAGNOSTICS
+    bool "Compile in TDMA/RF phase diagnostics"
+    default n
+    help
+        Per-tracker phase/RSSI histograms, arrival phase checks, PING
+        bias/skew and rejection tracking, the TDMA Stats phase warning,
+        and the console health snapshot.
+        Disable for production builds to remove diagnostic timestamps,
+        phase accounting and warning calculations from the radio paths.
+        TDMA scheduling, membership, loss control, PING/PONG clock sync
+        and ordinary packet statistics stay functional without this
+        option; only measurement instrumentation is removed.
+
+endmenu
+
+source "Kconfig.zephyr"

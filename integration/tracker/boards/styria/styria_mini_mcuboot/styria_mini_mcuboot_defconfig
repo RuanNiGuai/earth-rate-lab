@@ -1,0 +1,5 @@
+# Intentionally do not enable application-specific battery Kconfig, USB stack,
+# or standalone UF2 build output. The first stage Adafruit UF2 is retained.
+CONFIG_ARM_MPU=y
+CONFIG_HW_STACK_PROTECTION=y
+CONFIG_USE_DT_CODE_PARTITION=y

@@ -1,0 +1,38 @@
+{
+  "omitted_uninstalled_projects": [
+    "nrf-802154",
+    "dragoon",
+    "find-my",
+    "libmodem",
+    "doc-internal",
+    "bme68x",
+    "bsec",
+    "babblesim_base",
+    "babblesim_ext_2G4_channel_NtNcable",
+    "babblesim_ext_2G4_channel_multiatt",
+    "babblesim_ext_2G4_device_WLAN_actmod",
+    "babblesim_ext_2G4_device_burst_interferer",
+    "babblesim_ext_2G4_device_playback",
+    "babblesim_ext_2G4_device_playbackv2",
+    "babblesim_ext_2G4_libPhyComv1",
+    "babblesim_ext_2G4_modem_BLE_simple",
+    "babblesim_ext_2G4_modem_magic",
+    "babblesim_ext_2G4_phy_v1",
+    "babblesim_ext_libCryptov1"
+  ],
+  "dirty": [
+    {
+      "project": "zephyr",
+      "files": [
+        "CMakeLists.txt",
+        "Kconfig.zephyr",
+        "cmake/modules/FindZephyr-sdk.cmake",
+        "drivers/led_strip/ws2812_i2s.c",
+        "drivers/led_strip/ws2812_spi.c",
+        "include/zephyr/usb/usbd.h",
+        "subsys/usb/device_next/class/usbd_cdc_acm.c",
+        "subsys/usb/device_next/usbd_endpoint.c"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "OpenSSL-LICENSE.txt": {
+    "url": "https://github.com/openssl/openssl/blob/openssl-3.5.5/LICENSE.txt",
+    "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+  },
+  "libffi-LICENSE.txt": {
+    "url": "https://github.com/libffi/libffi/blob/v3.4.4/LICENSE",
+    "sha256": "2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388"
+  },
+  "xz-LICENSE.txt": {
+    "url": "https://github.com/tukaani-project/xz/blob/v5.2.5/COPYING",
+    "sha256": "bcb02973ef6e87ea73d331b3a80df7748407f17efdb784b61b47e0e610d3bb5c"
+  }
+}

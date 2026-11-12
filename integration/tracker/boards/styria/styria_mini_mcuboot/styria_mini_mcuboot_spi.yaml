@@ -1,0 +1,11 @@
+identifier: styria_mini_mcuboot/nrf52840/spi
+name: Styria Mini second-stage MCUboot SPI
+vendor: nordic
+type: mcu
+arch: arm
+ram: 256
+flash: 1024
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools

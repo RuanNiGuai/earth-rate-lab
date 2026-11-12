@@ -1,0 +1,10 @@
+/* Standalone ARC7 application linked as an MCUboot primary-slot image.
+ * Include via -DDTC_OVERLAY_FILE=.../arc8/app_mcuboot.overlay.
+ */
+#include "../socs/nrf52840.overlay"
+#include "arc8_flash_partitions.dtsi"
+/ {
+    chosen {
+        zephyr,code-partition = &slot0_partition;
+    };
+};

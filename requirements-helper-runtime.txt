@@ -1,0 +1,12 @@
+# Standalone Windows calibration component (Python 3.12).
+numpy==2.2.6
+scipy==1.15.3
+pyserial==3.5
+hidapi==0.14.0.post4
+PyInstaller==6.14.2
+pyinstaller-hooks-contrib==2026.10
+altgraph==0.17.5
+pefile==2023.2.7
+pywin32-ctypes==0.2.3
+packaging==26.3
+setuptools==84.2.1
