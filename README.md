@@ -4,6 +4,19 @@
 
 基于 [jitingcn](https://github.com/jitingcn) 的 Tracker、Receiver、VQF 与 Helper，保留原许可证。本仓库与上游独立，**不是上游官方发行版**。当前为实验版，支持的板型、启动加载器与协议均有限定。
 
+## 相对上游改了什么
+
+本次对照固定为本项目已发布提交 `6f8f6b7` 与2026-11-13核实的 jitingcn Tracker `a9b441c`、Receiver `109a4d2`、VQF `6d68ad6`、Helper `2872946`（0.4.6），不使用本地中间版本充当上游。
+
+| 范围 | 上游已经提供 | 本项目的新增与修改 |
+|---|---|---|
+| 校准与温补 | 逐轴灵敏度、基础校准、温度表、MLS/LUT及采集开关 | 十台刚体联合求解；修改温区／桶密度、温度确认与点保存，增加地球项和g-sens实验链 |
+| 采集与无线 | 原始采集、单目标ARQ重传、批量入口、TDMA | 增加F04积分窗、接收器入队确认和结束审计；修改采集时隙、心跳及恢复逻辑 |
+| 参数与Helper | 参数命令、快照、前后回读、录制／回放和校准引导 | CALWIRE整组计划、逐字段写入与核验；扩展五步向导、温表覆盖及新旧参数比较 |
+| 融合、OTA和休眠 | VQF、ESB OTA、WoM及状态保留 | 修改Earth pair／观测门控／状态恢复；Styria ARC8 v2报文与Helper适配；选择性移植上游修复 |
+
+已有功能也有实质修改，具体行为、源码和代价见[改动总览](docs/CHANGES_zh.md)及[上游文件对照](docs/UPSTREAM_DIFF_zh.md)。本项目没有完整继承当前上游的新SDK、板型和Helper依赖，也没有完整上游实机A/B精度结果。
+
 ## 当前可以做什么
 
 - Helper 内完成三轴正反各 20 圈连续录制、十姿态与可选末尾返回；十台一起动作，文件和流程自动管理。
@@ -13,6 +26,8 @@
 - 温表覆盖检查、自动采集开关、无线备份与回读、ARC8 OTA v2；自动温度采集每次开机默认关闭。
 
 ## 最重要的结果
+
+以下均为本项目内部参数／算法对照或单次采集验收，**不是相对 jitingcn 上游固件的性能提升**。
 
 | 比较 | 已有结果 | 不能据此声称 |
 |---|---|---|
@@ -29,7 +44,7 @@
 |---|---|
 | 使用桌面程序 | [本分支 Releases](https://github.com/RuanNiGuai/earth-rate-lab/releases)、[Helper 五步向导](docs/HELPER_FLEET_zh.md) |
 | 首次使用及异常处理 | [快速开始](QUICKSTART_zh.md)、[操作指南](USER_GUIDE_zh.md) |
-| 看改了什么、优势及代价 | [改动总览](docs/CHANGES_zh.md)、[上游精确对照](docs/UPSTREAM_DIFF_zh.md) |
+| 看改了什么、优势及代价 | [改动总览](docs/CHANGES_zh.md)、[上游文件对照](docs/UPSTREAM_DIFF_zh.md) |
 | 看当前实际部署与尚未完成项 | [状态](docs/STATUS_zh.md)、[待办及验收标准](docs/ROADMAP_zh.md) |
 | 理解模型及回放 | [算法](ALGORITHM_zh.md)、[联合求解](docs/JOINT_SOLVER_zh.md)、[融合回放](docs/FUSION_REPLAY_zh.md) |
 | 修改代码、构建、复现 | [目录与模块](docs/PROJECT_MAP_zh.md)、[构建](docs/BUILD_zh.md)、[证据索引](docs/EVIDENCE_zh.md) |

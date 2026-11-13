@@ -4,8 +4,8 @@
 
 | 内容 | 来源／基线 | 许可文件 |
 |---|---|---|
-| Tracker | SlimeVR／SlimeNRF派生固件，本地整合基线 `06ce018fa6d17a3ffa8b7826b9928470881bce87` | [MIT](integration/tracker/LICENSE-MIT)、[Apache-2.0](integration/tracker/LICENSE-APACHE)，个别文件另有SPDX |
-| Receiver | SlimeVR／SlimeNRF派生固件，基线 `46f0f6d6a2156204dbcc5e6fa8a5b52ce89ccd6d` | [MIT](integration/receiver/LICENSE-MIT)、[Apache-2.0](integration/receiver/LICENSE-APACHE)，个别文件另有SPDX |
+| Tracker | [jitingcn/SlimeVR-Tracker-nRF](https://github.com/jitingcn/SlimeVR-Tracker-nRF)，本地历史整合ID `06ce018fa6d17a3ffa8b7826b9928470881bce87`（非本次上游对照提交） | [MIT](integration/tracker/LICENSE-MIT)、[Apache-2.0](integration/tracker/LICENSE-APACHE)，个别文件另有SPDX |
+| Receiver | [jitingcn/SlimeVR-Tracker-nRF-Receiver](https://github.com/jitingcn/SlimeVR-Tracker-nRF-Receiver)，本地历史整合ID `46f0f6d6a2156204dbcc5e6fa8a5b52ce89ccd6d`（非本次上游对照提交） | [MIT](integration/receiver/LICENSE-MIT)、[Apache-2.0](integration/receiver/LICENSE-APACHE)，个别文件另有SPDX |
 | VQF C库 | https://github.com/jitingcn/vqf-c | [原许可](integration/tracker/vqf-c/LICENSE) |
 | Fusion | https://github.com/xioTechnologies/Fusion | [原许可](integration/tracker/Fusion/LICENSE.md) |
 | Helper | [jitingcn/SlimeNRF-Helper](https://github.com/jitingcn/SlimeNRF-Helper)，基于 `3d43dd780b997f6263762c34e996c612781b5b43` 的本地扩展 | [MIT](helper/LICENSE-MIT)、[Apache-2.0](helper/LICENSE-APACHE)，Rust 依赖另有各自声明 |
@@ -14,6 +14,8 @@
 固件源文件中的Nordic五条款SPDX等声明保持原样；保留所有随源码提供的许可证。VQF／Fusion以源码副本随包提供，固定来源记录见 `config/upstream.json`。源码清单记录本次实际内容，包含基线之后的本地改动；不能只检出上表基线就期待得到本版本。
 
 Helper 源码已整理至 `helper/` 并纳入发布白名单；原始现场录制、设备参数和历史开发副本不公开。合成样例由项目代码生成，不含真实设备标识或个人位置。实验摘要只公开匿名统计。Python依赖由pip安装并沿用各包许可。
+
+上述历史ID用于来源追踪，**本次功能对照统一使用2026-11-13核实的公开上游提交**，见[审计配置](config/upstream-audit.json)与[逐项文件对照](docs/UPSTREAM_DIFF_zh.md)。继承功能的本地修改、选择性移植和本项目新增代码均不改变第三方版权归属。
 
 ## Helper 校准运行组件
 

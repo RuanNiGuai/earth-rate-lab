@@ -1,4 +1,4 @@
-"""Compare published source trees with pinned upstream Git revisions, offline.
+"""Compare a pinned published project commit with upstream Git commits, offline.
 
 Clone/fetch the repositories separately. This tool neither updates repositories
 nor reads credentials. Line ending differences are ignored; missing Git submodule
@@ -13,13 +13,13 @@ from pathlib import Path
 import subprocess
 import tarfile
 
-from release_export import select
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def git(repo, *args):
-    return subprocess.check_output(['git', '-C', str(repo), *args])
+    repo = repo.resolve()
+    return subprocess.check_output(['git', '-c', 'safe.directory=' + repo.as_posix(),
+                                    '-C', str(repo), *args])
 
 
 def archived(repo, revision, exclude):
@@ -51,28 +51,48 @@ def compare(before, after):
     return dict(counts={k:sum(r['status']==k for r in rows) for k in ['added','modified','removed']},files=rows)
 
 
+def audit(pins, project_repo, upstream_repos):
+    # Both sides come from committed Git objects. Dirty checkouts, earlier local
+    # experiments and later documentation edits cannot change this comparison.
+    project = pins['project']
+    published = archived(project_repo, project['commit'], [])
+    output = dict(schema_version=2, checked_at=pins['checked_at'], project=project,
+                  method='LF-normalized git archives of pinned project and upstream commits; path comparison, not ancestry',
+                  repositories=[])
+    for row in pins['repositories']:
+        prefix = row['local_path'].rstrip('/') + '/'
+        exclude = row.get('exclude', [])
+        local = {name[len(prefix):]: data for name, data in published.items()
+                 if name.startswith(prefix) and not any(
+                     name[len(prefix):] == x or name[len(prefix):].startswith(x + '/')
+                     for x in exclude)}
+        if not local:
+            raise ValueError('No published files at ' + row['local_path'])
+        upstream = archived(upstream_repos[row['key']], row['head'], exclude)
+        report = {key: row[key] for key in ['key', 'url', 'branch', 'head', 'local_path']}
+        report['excluded'] = exclude
+        report['upstream_files'] = len(upstream)
+        report['project_files'] = len(local)
+        report['unchanged_files'] = sum(name in local and data == local[name]
+                                        for name, data in upstream.items())
+        report['versus_upstream'] = compare(upstream, local)
+        output['repositories'].append(report)
+    return output
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for key in ['tracker','receiver','vqf','helper']:p.add_argument('--'+key+'-repo',type=Path,required=True)
+    p.add_argument('--project-repo', type=Path, required=True,
+                   help='Git repository containing config/upstream-audit.json project.commit')
     p.add_argument('--out',type=Path,required=True);a=p.parse_args()
     pins=json.loads((ROOT/'config/upstream-audit.json').read_text(encoding='utf8'))
-    files=select(ROOT);output=dict(checked_at=pins['checked_at'],method='LF-normalized published files versus git archive; commits pinned',repositories=[])
-    for row in pins['repositories']:
-        folder=ROOT/row['local_path'];exclude=row.get('exclude',[])
-        local={f.relative_to(folder).as_posix():f.read_bytes().replace(b'\r\n',b'\n') for f in files
-               if f.is_relative_to(folder) and not any(f.relative_to(folder).as_posix()==x or f.relative_to(folder).as_posix().startswith(x+'/') for x in exclude)}
-        repo=getattr(a,row['key']+'_repo')
-        report={k:row[k] for k in ['key','url','branch','base','head','local_path']}
-        report['base_kind']=row.get('base_kind','commit')
-        report['excluded']=exclude
-        for kind in ['base','head']:report['versus_'+kind]=compare(archived(repo,row[kind],exclude),local)
-        if report['base_kind']=='commit':
-            log=git(repo,'log','--reverse','--format=%H%x09%cs%x09%s',row['base']+'..'+row['head']).decode('utf8')
-            report['upstream_commits_since_base']=[dict(zip(['sha','date','subject'],line.split('\t',2))) for line in log.splitlines()]
-        output['repositories'].append(report)
+    output = audit(pins, a.project_repo,
+                   {row['key']: getattr(a, row['key'] + '_repo') for row in pins['repositories']})
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
-    for row in output['repositories']:print(row['key'],row['versus_base']['counts'],row['versus_head']['counts'])
+    for row in output['repositories']:
+        print(row['key'], row['versus_upstream']['counts'], 'unchanged:', row['unchanged_files'])
 
 
 if __name__=='__main__':main()

@@ -29,7 +29,7 @@ earth-rate-lab/
     fusion_replay.py/.c       实际融合核心的主机回放
     validate_fusion.py        RAWFIFO验证
     release_export.py        发布白名单与清单生成
-    audit_upstream.py         固定Git对象的差异审计
+    audit_upstream.py         已发布项目与上游双方固定Git对象的差异审计
   config/                     SDK锁定、公开验签公钥、发布白名单与上游提交
   examples/                   合成数据配置，不含真实设备数据
   tests/                      宿主工具、模型和导出的回归
