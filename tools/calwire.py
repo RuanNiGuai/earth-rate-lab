@@ -88,7 +88,22 @@ def unpack_snapshot(blob, require_scales=True, allow_empty_thermal=False):
     if scales:
         frame='\n'.join(encode(PartialFrame('scale',ref,3,scales)))
         require(scale_records(frame)==scales,'Scale validation')
-    return dict(schema='CALWIRE1',build=build,reference_id=ref,profile_bytes=p.hex(),
+    accel=dict(known=False,reason='Legacy snapshot omits installed acceleration transform')
+    if 4 in objects:
+        raw=objects[4]
+        require(len(raw)==52 and raw[0]==1 and raw[1]==1 and raw[2] in (0,1) and raw[3]==1,
+                'Unsupported acceleration snapshot version/frame/state')
+        v=struct.unpack_from('<12f',raw,4)
+        require(all(math.isfinite(x) for x in v),'Nonfinite acceleration transform')
+        a=v[3:];det=a[0]*(a[4]*a[8]-a[5]*a[7])-a[1]*(a[3]*a[8]-a[5]*a[6])+a[2]*(a[3]*a[7]-a[4]*a[6])
+        require(abs(det)>1e-6,'Singular acceleration transform')
+        if not raw[2]:
+            require(v==(0.,0.,0.,1.,0.,0.,0.,1.,0.,0.,0.,1.),'Disabled acceleration transform is not identity')
+        accel=dict(known=True,version=1,frame='driver_axes_g',enabled=bool(raw[2]),
+                   offset_g=list(v[:3]),matrix=[list(a[i:i+3]) for i in (0,3,6)],
+                   formula='a_cal = A @ (a_raw - b); gyro = (raw - T - M @ a_cal) * S',
+                   active_matches_persisted=True,wire_hex=raw.hex())
+    return dict(accelerometer=accel,schema='CALWIRE1',build=build,reference_id=ref,profile_bytes=p.hex(),
         production=dict(scale=list(values[:3]),gsens_dps_per_g=list(values[3:12]),earth_dps=list(values[12:])),
         earth_valid=bool(p[60]),earth_up_axis=p[61],original_auto='disabled',
         thermal_crc32=zlib.crc32(thermal),thermal_config_sig=sig,thermal_points=points,
@@ -107,18 +122,19 @@ class Radio:
         import os
         lockdir=Path(os.environ.get('EARTH_RATE_STATE_DIR',Path(__file__).resolve().parents[1]/'.local'))/'hardware-locks';lockdir.mkdir(parents=True,exist_ok=True)
         self.lock=lockdir/(hashlib.sha256(receiver_serial.encode()).hexdigest()+'.lock')
-        with self.lock.open('x',encoding='ascii') as out:out.write(str(os.getpid()))
+        from hardware_lock import ProcessLock
+        self.lease=ProcessLock(self.lock)
         self.journal=journal
         self.cancel_file=Path(cancel_file) if cancel_file else None
         try:
             self.link=serial.Serial(ports[0].device,115200,timeout=.05,write_timeout=2)
             time.sleep(.5);self.link.reset_input_buffer()
         except BaseException:
-            self.lock.unlink();raise
+            self.lease.close();raise
 
     def close(self):
         try:self.link.close()
-        finally:self.lock.unlink()
+        finally:self.lease.close()
 
     def request(self,slot,address,token,op,offset=0,data=b''):
         req=packet(slot,address,token,op,offset,data)
@@ -204,7 +220,7 @@ def main():
                 blob=radio.snapshot(slot,targets[slot],token,size,crc)
             (dest/'snapshot.bin').write_bytes(blob)
             data=unpack_snapshot(blob);require(data['build']==a.build,'Firmware identity mismatch')
-            data.update(slot=slot,rf_address=targets[slot],snapshot_sha256=hashlib.sha256(blob).hexdigest())
+            data.update(receiver_serial=state['receiver_serial'],slot=slot,rf_address=targets[slot],snapshot_sha256=hashlib.sha256(blob).hexdigest())
             save_new(dest/'backup.json',data)
             for i,raw in enumerate(data['scale_records_hex']):(dest/f'scale-{i}.bin').write_bytes(bytes.fromhex(raw))
             print(json.dumps(dict(saved=slot,bytes=len(blob),points=sum(x[0]!=0 for x in data['thermal_points']))),flush=True)

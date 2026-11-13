@@ -46,7 +46,7 @@ def extract_function(source, name):
 
 
 class Replay:
-    def __init__(self, build, iir='production'):
+    def __init__(self, build, iir='production', math_backend='libm'):
         build = Path(build).resolve()
         build.mkdir(parents=True, exist_ok=True)
         wrapper = (FUSION / 'vqf/vqf.c').read_text(encoding='utf8')
@@ -57,13 +57,28 @@ class Replay:
                                ('MBE_GATE_', 'MBE_GYRO_GATE_', 'ACCEL_UPDATE_', 'ACCEL_RATE_', 'ACCEL_GATE_RECOVERY_')))
         generated = HEADER + macros + '\n' + functions + (ROOT/'tools/fusion_replay.c').read_text(encoding='utf8')
         sources = [CORE / 'vqf.c', CORE / 'vqf.h', FUSION / 'earth_pair.c', FUSION / 'earth_pair.h', FUSION / 'vqf/vqf.c', ROOT/'tools/fusion_replay.py', ROOT/'tools/fusion_replay.c']
-        if iir not in ('production','stable'):raise ValueError('Unknown IIR realization')
+        if iir not in ('production','stable','legacy'):raise ValueError('Unknown IIR realization')
         core_source=(CORE/'vqf.c').read_text(encoding='utf8')
         pair_source=(FUSION/'earth_pair.c').read_text(encoding='utf8')
         if iir=='stable':
             from fusion_stable_iir import transform
             core_source,pair_source=transform(core_source,pair_source,extract_function)
             sources.append(ROOT/'tools/fusion_stable_iir.py')
+        if iir=='legacy':
+            generated='#define VQF_STABLE_IIR 0\n'+generated
+            core_source='#define VQF_STABLE_IIR 0\n'+core_source
+            pair_source='#define VQF_STABLE_IIR 0\n'+pair_source
+        if math_backend not in ('libm','cmsis'):
+            raise ValueError('Unknown math backend')
+        native_sources=[];native_includes=[]
+        if math_backend=='cmsis':
+            cmsis=ROOT/'helper/crates/recording/vendor/vqf/cmsis'
+            native_sources=sorted((cmsis/'src').glob('*.c'))
+            native_includes=['-I'+str(cmsis/'include')]
+            sources+=native_sources+sorted((cmsis/'include').rglob('*.h'))
+            core_source='#define CONFIG_CMSIS_DSP 1\n'+core_source
+        bundle_key=iir if math_backend=='libm' else iir+'-cmsis'
+        self.math_backend=math_backend
         self.hashes = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
         self.iir=iir
         key = hashlib.sha256(generated.encode() + core_source.encode() + pair_source.encode() + json.dumps(self.hashes, sort_keys=True).encode()).hexdigest()[:16]
@@ -71,7 +86,7 @@ class Replay:
         lib = build / ('replay-' + key + ('.dll' if os.name == 'nt' else '.so'))
         bundled = ROOT/'native/replay-manifest.json'
         if bundled.exists():
-            entry=json.loads(bundled.read_text(encoding='utf8'))[iir]
+            entry=json.loads(bundled.read_text(encoding='utf8'))[bundle_key]
             lib=ROOT/'native'/entry['library']
             if entry['sources']!=self.hashes or hashlib.sha256(lib.read_bytes()).hexdigest()!=entry['sha256']:
                 raise ValueError('Bundled replay does not match its source manifest; reinstall the complete component')
@@ -83,7 +98,7 @@ class Replay:
             pair_path=build/('pair-'+key+'.c');pair_path.write_text(pair_source,encoding='utf8')
             cc = compiler()
             env = dict(os.environ, PATH=str(Path(cc).parent) + os.pathsep + os.environ.get('PATH', ''), TEMP=str(build), TMP=str(build))
-            command = [cc, '-std=c11', '-O2', '-ffp-contract=off', '-shared', '-static-libgcc', '-fPIC', '-I' + str(CORE), '-I' + str(FUSION), str(source), str(core_path), str(pair_path), '-lm', '-o', str(lib)]
+            command = [cc, '-std=c11', '-O2', '-ffp-contract=off', '-shared', '-static-libgcc', '-fPIC', '-I' + str(CORE), '-I' + str(FUSION), str(source), str(core_path), str(pair_path), *native_includes, *map(str,native_sources), '-lm', '-o', str(lib)]
             run = subprocess.run(command, env=env, capture_output=True, text=True, errors='replace')
             (build / ('compile-' + key + '.log')).write_text(run.stdout + run.stderr, encoding='utf8')
             if run.returncode:

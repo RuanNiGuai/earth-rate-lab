@@ -1,7 +1,7 @@
 """Compare a joint calibration with its backup and freeze a partial update.
 
-Only scales can currently be selected automatically: the wireless snapshot
-does not carry the installed acceleration matrix required to convert raw M.
+Only scales can currently be selected automatically. Installed acceleration
+is required for replay; writing a raw M also needs an unsupported B transaction.
 Earth and g-sens remain byte-identical. No hardware access or trial override.
 """
 import copy
@@ -15,13 +15,13 @@ from make_plan import require_convergence, require_final_return, assess_quality
 from optimize_fusion import prepare, evaluate
 from fusion_replay import Replay, POLICIES, ROOT
 
-VERSION='joint-scale-replay-selection-1'
+VERSION='joint-scale-replay-selection-2'
 
 
 def source_hashes():
     return {name:inputs.digest(ROOT/name) for name in (
         'tools/jointcal/select_parameters.py','tools/jointcal/optimize_fusion.py',
-        'tools/jointcal/inputs.py','tools/jointcal/joint_rigid_v3.py',
+        'tools/jointcal/inputs.py','tools/calibration_coordinates.py','tools/jointcal/joint_rigid_v3.py',
         'tools/jointcal/joint_fit_v2.py','tools/fusion_replay.py','tools/fusion_replay.c',
         'tools/fusion_stable_iir.py','integration/tracker/vqf-c/src/vqf.c',
         'integration/tracker/vqf-c/src/vqf.h','integration/tracker/src/sensor/fusion/earth_pair.c',
@@ -45,6 +45,8 @@ def device_metrics(run,slot):
 def compare(config_path,result_path,out,emit=lambda **kw:None):
     out=Path(out);out.mkdir(parents=True,exist_ok=False)
     config=inputs.configure(config_path,joint.old);data=inputs.load()
+    inputs.require(all(d['backup'].get('accelerometer',{}).get('known') for d in data),
+                   'Installed acceleration transform unknown; take a fresh CALWIRE snapshot before selecting writes')
     fit=json.loads(Path(result_path).read_text(encoding='utf8'))
     require_convergence(fit)
     inputs.require(fit['input_config']==config['public_description'],'Result/input mismatch')
@@ -92,7 +94,7 @@ def compare(config_path,result_path,out,emit=lambda **kw:None):
             reasons=[('比例：三轴正反转及实际混合参数回放通过，采用新值。' if accepted else
                       '比例：未证明新值在旋转与静置检查中更好，保留备份值。'),
                      '地球项：保留已有向量；新拟合总残差另列诊断，不阻止未改变的字段。',
-                     'g-sens：保留已有矩阵；快照缺少加速度校准矩阵，暂不写入原始坐标的新拟合。']))
+                     'g-sens：按已安装加速度矩阵回放；保留原 M，新原始坐标 M/B 尚不支持联合写入。']))
     selected=prepare(data,mixed,dummy,'new_scale')
     for label,engine,policy in [('selected',engines['production'],{}),
                                ('stable_numeric',engines['stable'],{}),
@@ -107,7 +109,7 @@ def compare(config_path,result_path,out,emit=lambda **kw:None):
         device_writes=0,firmware_change=False,
         limitations=[
             'F04 积分窗按 400/100 Hz 重复均值；未重建窗内高频运动。',
-            '回放未包含已安装的加速度矩阵，不是固件逐位复现。仅更改比例，保留其余补偿。',
+            '回放包含快照中的已安装加速度矩阵；积分窗、温度滤波和启动过程仍不是固件逐位复现。仅更改比例。',
             '校准已使用这批数据；回位是人工返回约束，无外部角度真值。',
             '稳定低通、动态零偏只作回放比较，不通过参数写入启用固件算法。',
             '动态策略等待连续静置 30 秒后渐进加快学习；慢转仍可能误判，不作为默认。'])
@@ -116,6 +118,8 @@ def compare(config_path,result_path,out,emit=lambda **kw:None):
 
 
 def load_selection(path,config_path,result_path,data,result):
+    inputs.require(all(d['backup'].get('accelerometer',{}).get('known') for d in data),
+                   'Installed acceleration transform unknown; cannot install a selected comparison')
     report=json.loads(Path(path).read_text(encoding='utf8'))
     inputs.require(report.get('schema')=='JOINT_PARAMETER_SELECTION1' and report.get('version')==VERSION,
                    'Unknown parameter selection version; rerun comparison')

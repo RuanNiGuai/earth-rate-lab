@@ -156,7 +156,7 @@ int main(void) {
         expected,_=lfilter(b,a,x,zi=lfilter_zi(b,a)*x[0])
         fmt=lambda v:','.join(f'{float(z):.10g}' for z in v)
         code='#include <math.h>\n#include <stddef.h>\n#include <stdbool.h>\n#include <assert.h>\ntypedef float vqf_real_t;typedef float vqf_double_t;\n#define M_SQRT2 1.4142135623730951f\n'
-        code+='\n'.join(REPLACEMENTS.values())
+        code+='\n'.join(extract_function((CORE/'vqf.c').read_text(encoding='utf8'),name) for name in REPLACEMENTS)
         code+='\nstatic const double x[]={'+fmt(x)+'};\nstatic const double truth[]={'+fmt(expected)+'};\n'
         code+='int main(void){float b[3],a[2],s[2];filterCoeffs(.66f,1.0f/400,b,a);filterInitialState(x[0],b,a,s);'
         code+='float previous[1]={0};filterAdaptStateForCoeffChange(previous,1,b,a,b,a,s);'

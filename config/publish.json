@@ -14,6 +14,8 @@
     "requirements-build.txt",
     "requirements-helper-runtime.txt",
     "docs/STATUS_zh.md",
+    "docs/DEPLOYMENT_20261113_zh.md",
+    "docs/DEPLOYMENT_20261113.json",
     "docs/BUILD_zh.md",
     "docs/RESULTS_zh.md",
     "docs/HISTORY_zh.md",
@@ -72,7 +74,15 @@
     "docs/HELPER_FLEET_zh.md",
     "tools/helper_utilities.py",
     "tools/thermal_coverage.py",
-    "tools/audit_upstream.py"
+    "tools/audit_upstream.py",
+    "tools/calibration_coordinates.py",
+    "tools/verify_persistence.py",
+    "docs/ACCURACY_CANDIDATE_zh.md",
+    "docs/WRIST_RETURN_20261113_zh.md",
+    "docs/WRIST_RETEST_20261113_zh.md",
+    "docs/CALIBRATION_ABLATION_20261113_zh.md",
+    "tools/hardware_lock.py",
+    "tools/compare_motion_calibration.py"
   ],
   "trees": [
     "config",

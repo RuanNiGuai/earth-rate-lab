@@ -2,7 +2,8 @@
 
 The two states are integrator-equivalent capacitor states rather than DF2T
 delay states. Snapshot bytes are incompatible even though sizes are unchanged.
-Production firmware is not changed by this experimental source transformation.
+Production now implements this realization. Historical sources can still be
+transformed for reproducibility; new sources use the production compile branch.
 """
 REPLACEMENTS = {
 'filterCoeffs': r'''
@@ -44,6 +45,9 @@ static void filterAdaptStateForCoeffChange(vqf_real_t last_y[], size_t N, const 
 
 
 def transform(core, pair, extract):
+    if '#if VQF_STABLE_IIR' in core:
+        prefix='#undef VQF_STABLE_IIR\n#define VQF_STABLE_IIR 1\n'
+        return prefix+core,prefix+pair
     for name, body in REPLACEMENTS.items():core=core.replace(extract(core,name),body+'\n',1)
     old='''p->state.restGyrLpState[2*j]-=d[j]*(1-c->restGyrLpB[0]);
         p->state.restGyrLpState[2*j+1]-=d[j]*(c->restGyrLpB[2]-c->restGyrLpA[1]);'''

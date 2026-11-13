@@ -657,6 +657,13 @@ void vqf_init(float g_time, float a_time, float m_time)
 	rest_event_total = 0;
 }
 
+/* The baseline occupies all 512 bytes. Version its existing retained ID,
+ * covered by the whole retained-data CRC, without changing the RAM layout. */
+uint8_t vqf_retained_id(void)
+{
+    return 0x40u + VQF_STATE_VERSION;
+}
+
 void vqf_load(const void *data)
 {
     north_reset_session();

@@ -67,7 +67,7 @@ def main():
     env.update({f'GIT_CONFIG_KEY_{idx}':'safe.directory', f'GIT_CONFIG_VALUE_{idx}':source.as_posix(),
                 'GIT_CONFIG_COUNT':str(idx+1)})
     sha = fingerprint(source)
-    identity = sha[:12] + '_cw5_f04ack' if a.target == 'tracker' else sha[:12] + '_cw4_f04ack'
+    identity = sha[:12] + '_cw6_stable' if a.target == 'tracker' else sha[:12] + '_cw4_f04ack'
     configs = []
     overlays = []
     extra = ['-DBOARD_ROOT='+source.as_posix(), '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON']

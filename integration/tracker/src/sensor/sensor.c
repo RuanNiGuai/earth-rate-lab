@@ -699,7 +699,7 @@ void sensor_retained_write(void) // TODO: move to sys?
 		return;
 	}
 	sensor_fusion->save(retained->fusion_data);
-	retained->fusion_id = fusion_id;
+	retained->fusion_id = fusion_id == FUSION_VQF ? vqf_retained_id() : fusion_id;
 	retained_update();
 }
 
@@ -1058,7 +1058,7 @@ int sensor_init(void)
 	sensor_retained_read(); // TODO: useless
 	if (fusion_id == FUSION_VQF)
 		vqf_update_sensor_ids(sensor_imu_id);
-	if (retained->fusion_id == fusion_id) // Check if the retained fusion data is valid and matches the selected fusion
+	if (retained->fusion_id == (fusion_id == FUSION_VQF ? vqf_retained_id() : fusion_id)) // Includes filter representation version
 	{ // Load state if the data is valid (fusion was initialized before)
 		sensor_fusion->load(retained->fusion_data);
 		retained->fusion_id = 0; // Invalidate retained fusion data

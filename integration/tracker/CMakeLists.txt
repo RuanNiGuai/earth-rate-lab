@@ -166,3 +166,10 @@ target_include_directories(app PRIVATE vqf-c/src)
 add_custom_target(touch_util_h ALL
     COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_SOURCE_DIR}/src/build_defines.h
 )
+
+# The host default and firmware option must select the same state representation.
+if(CONFIG_VQF_STABLE_IIR)
+  target_compile_definitions(app PRIVATE VQF_STABLE_IIR=1)
+else()
+  target_compile_definitions(app PRIVATE VQF_STABLE_IIR=0)
+endif()

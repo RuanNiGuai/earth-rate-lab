@@ -8,6 +8,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/* State-variable Butterworth realization. Set to 0 only for legacy A/B.
+ * Coefficients and saved filter states are incompatible between modes. */
+#ifndef VQF_STABLE_IIR
+#define VQF_STABLE_IIR 1
+#endif
+#define VQF_STATE_VERSION (3u + VQF_STABLE_IIR)
+
 #define VQF_SINGLE_PRECISION
 // #define VQF_NO_MOTION_BIAS_ESTIMATION
 
@@ -19,8 +26,8 @@ extern "C" {
  * @brief Typedef for the floating-point data type used for most operations.
  *
  * By default, all floating-point calculations are performed using `double`. Set the `VQF_SINGLE_PRECISION` define to
- * change this type to `float`. Note that the Butterworth filter implementation will always use double precision as
- * using floats can cause numeric issues.
+ * change this type to `float`. The stable Butterworth realization supports float integrator states; legacy
+ * DF2T in float can exhibit DC error at small cutoff/sample-rate ratios.
  */
 #ifdef VQF_SINGLE_PRECISION
 typedef float vqf_real_t;

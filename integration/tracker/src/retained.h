@@ -70,7 +70,7 @@ struct retained_data {
 	float gyroSensScale[3]; // Gyro sensitivity
 
 
-	uint8_t fusion_id; // fusion_data_stored
+	uint8_t fusion_id; // fusion_data format ID; VQF uses 0x40 + VQF_STATE_VERSION
 	uint8_t fusion_data[512];
 
 	/* Armed only immediately before WoM system-off; consumed once at boot. */

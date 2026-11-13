@@ -36,7 +36,8 @@ class PlanReviewTests(unittest.TestCase):
             metadata=dict(slot=slot,rf_address=self.state['targets'][str(slot)],snapshot_sha256=sha)
             (folder/'backup.json').write_text(json.dumps(metadata))
             self.config['devices'].append(dict(snapshot=path,snapshot_sha256=sha))
-            self.data.append(dict(backup=dict(build='unit',snapshot_sha256=sha)))
+            from calwire import unpack_snapshot
+            self.data.append(dict(backup={**unpack_snapshot(raw,require_scales=False), 'snapshot_sha256':sha}))
         devices=[dict(slot=i,scale=[1.01,.99,1.005],gsens_dps_per_g=[[.001]*3]*3,earth_dps=[0,.0041780746,0],
                       earth_train_rms_dps=.0007,earth_holdout_rms_dps=.0008,
                       gsens_train_rms_dps=.001,gsens_holdout_rms_dps=.002,
@@ -81,16 +82,12 @@ class PlanReviewTests(unittest.TestCase):
         self.assertEqual(restored['failures'],result['failures'])
         self.assertFalse(restored['installable'])
 
-    def test_passing_review_still_creates_physically_bound_ten_device_plan(self):
+    def test_full_raw_candidate_is_diagnostic_even_when_fit_quality_passes(self):
         result=self.bridge()
-        self.assertEqual(result['state'],'COMPLETE')
-        reviewed=result['reviewed_plan']
-        self.assertTrue(reviewed['quality_gates_passed'])
-        self.assertEqual(len(reviewed['devices']),10)
-        self.assertEqual(reviewed['sha256'],inputs.digest(reviewed['path']))
-        plan=json.loads(Path(reviewed['path']).read_text())
-        self.assertEqual(len(h.review_plan(Path(reviewed['path']),self.state)['devices']),10)
-        self.assertEqual(json.loads(Path(plan['evidence_path']).read_text())['mode'],'QUALITY_ACCEPTED')
+        self.assertEqual(result['state'],'PLAN_REJECTED')
+        self.assertNotIn('reviewed_plan',result)
+        self.assertTrue(any('M/E/B' in r for r in result['failures']))
+        self.assertFalse(list(self.session.glob('helper-plan-*/plan.json')))
 
     def test_cli_without_review_option_retains_nonzero_failure_and_report(self):
         self.fit['static']['devices'][1]['earth_train_rms_dps']=.0014

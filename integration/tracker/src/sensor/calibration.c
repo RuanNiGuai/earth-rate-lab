@@ -546,6 +546,26 @@ static void calibration_thread(void);
 // eager, but avoids sensor-loop timing regressions from background work.
 K_THREAD_DEFINE(calibration_thread_id, 4096, calibration_thread, NULL, NULL, NULL, 8, 0, 0);
 
+bool sensor_calibration_wire_idle(void)
+{
+    return sensor_is_initialized() && sensor_calibration_request(0)==0;
+}
+
+bool sensor_calibration_accel_snapshot(float out[4][3])
+{
+    unsigned key=irq_lock();
+#if CONFIG_SENSOR_USE_6_SIDE_CALIBRATION
+    bool ok=!memcmp(accBAinv,retained->accBAinv,sizeof(accBAinv));
+    memcpy(out,accBAinv,sizeof(accBAinv));
+#else
+    bool ok=true;
+    memset(out,0,sizeof(accBAinv));
+    for(int i=0;i<3;i++) out[i+1][i]=1;
+#endif
+    irq_unlock(key);
+    return ok;
+}
+
 void sensor_calibration_process_accel(float a[3])
 {
 	sensor_sample_accel(a);
@@ -874,6 +894,7 @@ void sensor_calibration_clear(float *a_bias, float *g_bias, bool write)
 #if CONFIG_SENSOR_USE_6_SIDE_CALIBRATION
 void sensor_calibration_clear_6_side(float a_inv[][3], bool write)
 {
+    if(write && calwire_active()) return;
 	if (a_inv == NULL) {
 		a_inv = accBAinv;
 	}
@@ -2241,6 +2262,7 @@ float sensor_calibration_get_mag_quality(void)
 
 static int sensor_calibration_request(int id)
 {
+    if(id>0 && calwire_active()) return -1;
 	static int requested = 0;
 	switch (id) {
 	case -1:

@@ -142,13 +142,9 @@ def atomic_save(path, value, *, best_effort=False):
 
 @contextmanager
 def lock(path):
-    # An abandoned lock is intentionally not stolen: inspect the previous run.
-    with path.open('x', encoding='ascii') as stream:
-        stream.write(str(os.getpid()))
-    try:
+    from hardware_lock import ProcessLock
+    with ProcessLock(path):
         yield
-    finally:
-        path.unlink()
 
 
 class Journal:
@@ -184,10 +180,11 @@ class Radio:
         locks = Path(os.environ.get('EARTH_RATE_STATE_DIR', Path(__file__).resolve().parents[1] / '.local')) / 'hardware-locks'
         locks.mkdir(parents=True, exist_ok=True)
         self.lock_path = locks / (hashlib.sha256(receiver_serial.encode()).hexdigest() + '.lock')
-        with self.lock_path.open('x', encoding='ascii') as stream:
-            stream.write(str(os.getpid()))
-        self.device = hid.device()
+        from hardware_lock import ProcessLock
+        self.lease=ProcessLock(self.lock_path)
+        self.device = None
         try:
+            self.device = hid.device()
             self.device.open_path(matches[0]['path'])
             # Python hidapi treats read(..., 0) as hid_read(), not as a timed
             # poll. F04 suspends ordinary poses, so a blocking main handle can
@@ -195,9 +192,9 @@ class Radio:
             self.device.set_nonblocking(True)
         except BaseException:
             try:
-                self.device.close()
+                if self.device is not None:self.device.close()
             finally:
-                self.lock_path.unlink()
+                self.lease.close()
             raise
         self.targets, self.journal = targets, journal
         self.registered, self.live = {}, {}
@@ -207,7 +204,7 @@ class Radio:
         try:
             self.device.close()
         finally:
-            self.lock_path.unlink()
+            self.lease.close()
 
     def read(self, timeout_ms=100):
         report = bytes(self.device.read(64, timeout_ms))

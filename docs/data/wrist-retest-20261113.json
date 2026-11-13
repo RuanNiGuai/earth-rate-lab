@@ -1,0 +1,128 @@
+{
+  "schema": "WRIST_RETEST_FINDINGS1",
+  "date": "2026-11-13",
+  "capture_name": "capture-20261113-170859.slimecap",
+  "source_sha256": "d02daa8e658582d16262e403bec96b98bf42b339d2dcf4978475564817fa43fa",
+  "snapshot_sha256": "6d16c959c4b448f913cd52537425ca7779a5e0438b96aedec830e2285db52d4f",
+  "installed_build": "e144bbfe183d_cw6_stable",
+  "report_sha256": "5b30c0eda63a016a89c7b757f638bd06975840b2e0a3590eaa400b240272d432",
+  "diagnostics_sha256": "4f891a52cf3fd62db9e8b789ab144fc0e736045898fbff50e25d9114699fe855",
+  "axis_model_report_sha256": "65d7e1eb81cdad82ff03614c72d14eb1e4e98d81f1dd7a723c5777ab67ef6505",
+  "device_label": "slot-0",
+  "different_device_from_historical_wrist": true,
+  "physical_return_scope": "first and final only",
+  "operator_return_uncertainty_deg": 0.5,
+  "raw_samples": 84861,
+  "unique_samples": 84861,
+  "duration_s": 207.20212820291718,
+  "sender_rate_hz": 409.60004,
+  "reordered_samples": 58,
+  "maximum_reorder_lag": 24,
+  "missing_samples": 10,
+  "missing_fresh_accel": 2,
+  "gaps": [
+    {
+      "after_sequence": 73439,
+      "missing": 4,
+      "start_s": 179.2944160845297,
+      "end_s": 179.3066231145876
+    },
+    {
+      "after_sequence": 73445,
+      "missing": 5,
+      "start_s": 179.30906452059918,
+      "end_s": 179.32371295666866
+    },
+    {
+      "after_sequence": 73454,
+      "missing": 1,
+      "start_s": 179.3310371747034,
+      "end_s": 179.33591998672657
+    }
+  ],
+  "missing_sample_seconds": 0.024414060115814443,
+  "timing": "unwrapped sender sequence / advertised nominal sample rate; receiver timing audit only",
+  "before_s": [
+    5,
+    22
+  ],
+  "after_s": [
+    185,
+    205
+  ],
+  "endpoint_sensitivity_deg": [
+    1.7772679530571889,
+    1.815942514244996
+  ],
+  "gravity_return_difference_deg": 0.01779878008118509,
+  "return_deg": {
+    "installed_full": 1.785148847344306,
+    "unit_scale_raw": 54.82165226202441,
+    "installed_scale_only": 1.5296784238384078,
+    "installed_full_no_motion_bias": 1.7849903301514483,
+    "installed_full_no_rate_gate": 1.735697954660103,
+    "installed_full_cmsis": 1.7824892408061914
+  },
+  "full_world_rotvec_deg": [
+    -0.014457617312389214,
+    0.003514253287177313,
+    1.7850868422853234
+  ],
+  "gap_reconstruction_closure_difference_deg": 0.0002395787139755079,
+  "gap_reconstruction_maximum_trace_change_deg": 0.0007634757631691027,
+  "modeled_replay_error_bound_conditional_on_operator_deg": [
+    1.285148847344306,
+    2.2851488473443062
+  ],
+  "physical_device_output_accuracy_measured": false,
+  "motion_rest_fraction": 6.467259498787389e-05,
+  "current_scale_relative_sensitivity": [
+    {
+      "axis": "x",
+      "relative_scale_perturbation": -0.0001,
+      "return_deg": 1.9808254433217234
+    },
+    {
+      "axis": "x",
+      "relative_scale_perturbation": 0.0001,
+      "return_deg": 1.5897356439456145
+    },
+    {
+      "axis": "y",
+      "relative_scale_perturbation": -0.0001,
+      "return_deg": 1.981181636549295
+    },
+    {
+      "axis": "y",
+      "relative_scale_perturbation": 0.0001,
+      "return_deg": 1.5890628100905242
+    },
+    {
+      "axis": "z",
+      "relative_scale_perturbation": -0.0001,
+      "return_deg": 1.6115403820583647
+    },
+    {
+      "axis": "z",
+      "relative_scale_perturbation": 0.0001,
+      "return_deg": 1.9574186663691675
+    }
+  ],
+  "rejected_prior_calibration_matrix_heldout_deg": {
+    "all_six": 11.602392624035499,
+    "first_directions": 11.761205607453656,
+    "reverse_directions": 11.445083687665862
+  },
+  "wrist_used_in_parameter_fit": false,
+  "device_writes": 0,
+  "firmware_changed": false,
+  "limitations": [
+    "Raw sensor replay, not a recorded device orientation or an exact restoration of its live filter state.",
+    "No in-capture calibration snapshot. Use the RF-matched pre-existing deployment snapshot, conditional on unchanged parameters.",
+    "Earth disabled: boot geographic heading, Earth runtime status and state were not captured.",
+    "Sender sequence and advertised nominal rate define time. Receiver arrival intervals never drive integration.",
+    "Ten missing gyro samples and two missing fresh accel samples occur only after motion; explicitly model endpoint rest and compare hold versus linear.",
+    "Physical return error below 0.5 degrees is the operator-provided constraint, not an independent measurement by this tool.",
+    "FIFO temperature is used directly; the live temperature smoother state is not recorded."
+  ]
+}

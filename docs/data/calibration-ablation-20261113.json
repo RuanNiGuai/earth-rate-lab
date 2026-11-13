@@ -1,0 +1,4451 @@
+{
+  "schema": "CALIBRATION_ABLATION_FINDINGS1",
+  "date": "2026-11-13",
+  "wrist_source_sha256": "d02daa8e658582d16262e403bec96b98bf42b339d2dcf4978475564817fa43fa",
+  "long_static_source_sha256": "83e557a78030b8fd6f92bc8e38d11beccea346de5fe7fd3d389dc7e56536b34b",
+  "wrist_private_report_sha256": "4a9faedf6545e7ca7c19b69a974dab8a851298c43202b3fdba51f1cf4959dfa3",
+  "long_private_report_sha256": "9e3d42f27a16332456234ab337efbab928b619223a700412d408e4414cdafc62",
+  "baseline": "No saved compensation: S=1,T=0,M=0,A=I,b=0,E=0; identical production VQF and causal rest/motion bias learning in every case",
+  "earth_initial_reference": {
+    "operator_confirmed_same_calibration_and_boot_pose": true,
+    "confirmation_date": "2026-11-13",
+    "direction_selected_by_closure": false,
+    "reference_source": "unchanged same-device installed snapshot"
+  },
+  "installed_build": "e144bbfe183d_cw6_stable",
+  "device_writes": 0,
+  "parameters_fitted": false,
+  "wrist": {
+    "samples": 84861,
+    "sender_rate_hz": 409.60004,
+    "temperature_range_c": [
+      25.40625,
+      26.5
+    ],
+    "before_s": [
+      5,
+      22
+    ],
+    "after_s": [
+      185,
+      205
+    ],
+    "missing_samples": 10,
+    "operator_return_uncertainty_deg": 0.5,
+    "static_metric": "RMS of two non-overlapping 5-second quaternion increments during pre-motion 10-20 s, / duration * 60. Post-motion 190-205 s is recovery and is separate.",
+    "motion_metric": "Quaternion mean return difference, 5-22 s versus 185-205 s",
+    "single_addition": {
+      "scale": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 1.5296784238384078,
+          "absolute_reduction": 53.291973838186,
+          "reduction_percent": 97.20971849493483
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10737676437735938,
+          "absolute_reduction": -9.994239305012587e-05,
+          "reduction_percent": -0.09316308145737562
+        }
+      },
+      "thermal": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 55.05827846865067,
+          "absolute_reduction": -0.2366262066262621,
+          "reduction_percent": -0.4316291043095318
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10361594836761567,
+          "absolute_reduction": 0.00366087361669358,
+          "reduction_percent": 3.4125485346956257
+        }
+      },
+      "gsens": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.72591542691842,
+          "absolute_reduction": 0.0957368351059884,
+          "reduction_percent": 0.1746332537523799
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10707149134432346,
+          "absolute_reduction": 0.00020533063998579015,
+          "reduction_percent": 0.19140261259400718
+        }
+      },
+      "accel": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.82165226202441,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10727682198430925,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      "earth": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.17259497639183,
+          "absolute_reduction": 0.6490572856325798,
+          "reduction_percent": 1.1839433122707783
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10728347780210397,
+          "absolute_reduction": -6.655817794715135e-06,
+          "reduction_percent": -0.006204339084251249
+        }
+      }
+    },
+    "leave_one_out": {
+      "scale": {
+        "motion": {
+          "disabled": 54.31379892803846,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 52.75309913421491,
+          "reduction_percent": 97.12651329012843
+        },
+        "static": {
+          "disabled": 0.10346826022883628,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": -0.00010735252721953692,
+          "reduction_percent": -0.10375406620553006
+        }
+      },
+      "thermal": {
+        "motion": {
+          "disabled": 1.2340724615937788,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": -0.32662733222977347,
+          "reduction_percent": -26.46743545415
+        },
+        "static": {
+          "disabled": 0.10715392657345722,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.00357831381740141,
+          "reduction_percent": 3.339414552343417
+        }
+      },
+      "gsens": {
+        "motion": {
+          "disabled": 1.6310230973856568,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.07032330356210448,
+          "reduction_percent": 4.31160684816939
+        },
+        "static": {
+          "disabled": 0.10380719622262644,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.0002315834665706229,
+          "reduction_percent": 0.2230899927919887
+        }
+      },
+      "accel": {
+        "motion": {
+          "disabled": 1.5606997938235523,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        },
+        "static": {
+          "disabled": 0.10357561275605581,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      "earth": {
+        "motion": {
+          "disabled": 1.785148847344306,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.22444905352075373,
+          "reduction_percent": 12.573128221473382
+        },
+        "static": {
+          "disabled": 0.10360690936375411,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 3.1296607698294565e-05,
+          "reduction_percent": 0.03020706619904578
+        }
+      }
+    },
+    "all_enabled_vs_none": {
+      "motion": {
+        "disabled": 54.82165226202441,
+        "enabled": 1.5606997938235523,
+        "absolute_reduction": 53.260952468200855,
+        "reduction_percent": 97.15313251347467
+      },
+      "static": {
+        "disabled": 0.10727682198430925,
+        "enabled": 0.10357561275605581,
+        "absolute_reduction": 0.003701209228253441,
+        "reduction_percent": 3.450148093308352
+      }
+    },
+    "cases": {
+      "0": {
+        "enabled": [],
+        "motion_return_deg": 54.82165226202441,
+        "motion_world_rotvec_deg": [
+          -0.685423247661106,
+          -0.2808741916149959,
+          54.81664766654722
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10727682198430925,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.292547303474208,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011625494282887547,
+                0.004968458625546085
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13950594501827668,
+                0.05962150932896546
+              ],
+              "rms_deg_per_min": 0.10727682198430925,
+              "net_angle_deg": 0.009646431580048145
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4014339573231622,
+                0.4923118055248081,
+                0.024951150126127922
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.817209130183414,
+                5.907742243225577,
+                0.29941383075316497
+              ],
+              "rms_deg_per_min": 10.292547303474208,
+              "net_angle_deg": 1.8691342565281364
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "1": {
+        "enabled": [
+          "scale"
+        ],
+        "motion_return_deg": 1.5296784238384078,
+        "motion_world_rotvec_deg": [
+          -0.018207712814825375,
+          0.0017161837955703052,
+          1.5295690943085862
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10737676437735938,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4356655810184698,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011616575019836041,
+                0.005019047860203148
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13939891385120634,
+                0.06022858020413448
+              ],
+              "rms_deg_per_min": 0.10737676437735938,
+              "net_angle_deg": 0.009605621403212052
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.060025903896455124,
+                0.015910848915200428,
+                0.00989926062802151
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7203109171003196,
+                0.19093020562793067,
+                0.11879113913695451
+              ],
+              "rms_deg_per_min": 0.4356655810184698,
+              "net_angle_deg": 0.06752819683389
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "2": {
+        "enabled": [
+          "thermal"
+        ],
+        "motion_return_deg": 55.05827846865067,
+        "motion_world_rotvec_deg": [
+          -0.6843306872499344,
+          -0.27868615716135053,
+          55.053320094866
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10361594836761567,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.274552579817847,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011228217331957007,
+                0.0048001973607147055
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13473862114155127,
+                0.057602373953807746
+              ],
+              "rms_deg_per_min": 0.10361594836761567,
+              "net_angle_deg": 0.009741826468274584
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.3989497663965584,
+                0.49155593123284647,
+                0.02474930146495663
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.787398836153006,
+                5.898671750836247,
+                0.29699164658256805
+              ],
+              "rms_deg_per_min": 10.274552579817847,
+              "net_angle_deg": 1.8660108505674078
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "3": {
+        "enabled": [
+          "scale",
+          "thermal"
+        ],
+        "motion_return_deg": 1.85521576958123,
+        "motion_world_rotvec_deg": [
+          -0.014516351476834213,
+          0.0026724429041618735,
+          1.855157051381796
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10380037486339382,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4308529187474089,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011230953643934448,
+                0.0048488897572661095
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13477145688848718,
+                0.058186682769486
+              ],
+              "rms_deg_per_min": 0.10380037486339382,
+              "net_angle_deg": 0.009723156454723023
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.05931358198626217,
+                0.015993211582474385,
+                0.00966930037526683
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.711763053343252,
+                0.19191855773173688,
+                0.11603161583441367
+              ],
+              "rms_deg_per_min": 0.4308529187474089,
+              "net_angle_deg": 0.06712749421677011
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "4": {
+        "enabled": [
+          "gsens"
+        ],
+        "motion_return_deg": 54.72591542691842,
+        "motion_world_rotvec_deg": [
+          -0.6853256765468907,
+          -0.28065210452051736,
+          54.72090443722143
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10707149134432346,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.29150850832794,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01159738711107107,
+                0.004972627990762764
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13916865892354086,
+                0.059671541716451594
+              ],
+              "rms_deg_per_min": 0.10707149134432346,
+              "net_angle_deg": 0.009636664112926486
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4012922475488392,
+                0.49226248262030686,
+                0.02495645303550066
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.81550861272547,
+                5.907150368313762,
+                0.2994774656718522
+              ],
+              "rms_deg_per_min": 10.29150850832794,
+              "net_angle_deg": 1.8689316764901298
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "5": {
+        "enabled": [
+          "scale",
+          "gsens"
+        ],
+        "motion_return_deg": 1.4601991910202303,
+        "motion_world_rotvec_deg": [
+          -0.018140873510557504,
+          0.002551654714968498,
+          1.4600842699045233
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10717974069713188,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4453662958876896,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011591234270002328,
+                0.005019145726481763
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1390948248235056,
+                0.060229754599592546
+              ],
+              "rms_deg_per_min": 0.10717974069713188,
+              "net_angle_deg": 0.009591659843250291
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06136469514533272,
+                0.016387177234026648,
+                0.009907026283228832
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7363764136557468,
+                0.19664614601204253,
+                0.11888432700854273
+              ],
+              "rms_deg_per_min": 0.4453662958876896,
+              "net_angle_deg": 0.06940991320230015
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "6": {
+        "enabled": [
+          "thermal",
+          "gsens"
+        ],
+        "motion_return_deg": 54.96234303875049,
+        "motion_world_rotvec_deg": [
+          -0.6842308104258545,
+          -0.2785077467893042,
+          54.95737815746242
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10345725900419847,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.273382957717478,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.0112077661040002,
+                0.004800452575786726
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1344932063821033,
+                0.05760543653497107
+              ],
+              "rms_deg_per_min": 0.10345725900419847,
+              "net_angle_deg": 0.009737872774593747
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.3987858731737273,
+                0.49151238355593246,
+                0.024762352797142676
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.78543211728697,
+                5.898149178662247,
+                0.2971482625840951
+              ],
+              "rms_deg_per_min": 10.273382957717478,
+              "net_angle_deg": 1.865795179655127
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "7": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "gsens"
+        ],
+        "motion_return_deg": 1.785148847344306,
+        "motion_world_rotvec_deg": [
+          -0.014457617312389214,
+          0.003514253287177313,
+          1.7850868422853234
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10360690936375411,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.441475707523627,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011209756372864378,
+                0.004840465484592854
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13451708961080577,
+                0.058085591487534734
+              ],
+              "rms_deg_per_min": 0.10360690936375411,
+              "net_angle_deg": 0.009718123118482075
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06078191654571871,
+                0.0165021638933272,
+                0.009678313649326697
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7293830697774351,
+                0.19802598605839916,
+                0.1161397751336945
+              ],
+              "rms_deg_per_min": 0.441475707523627,
+              "net_angle_deg": 0.06922214873022899
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "8": {
+        "enabled": [
+          "accel"
+        ],
+        "motion_return_deg": 54.82165226202441,
+        "motion_world_rotvec_deg": [
+          -0.685423247661106,
+          -0.2808741916149959,
+          54.81664766654722
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10727682198430925,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.292547303474208,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011625494282887547,
+                0.004968458625546085
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13950594501827668,
+                0.05962150932896546
+              ],
+              "rms_deg_per_min": 0.10727682198430925,
+              "net_angle_deg": 0.009646431580048145
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4014339573231622,
+                0.4923118055248081,
+                0.024951150126127922
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.817209130183414,
+                5.907742243225577,
+                0.29941383075316497
+              ],
+              "rms_deg_per_min": 10.292547303474208,
+              "net_angle_deg": 1.8691342565281364
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "9": {
+        "enabled": [
+          "scale",
+          "accel"
+        ],
+        "motion_return_deg": 1.5296784238384078,
+        "motion_world_rotvec_deg": [
+          -0.018207712814825375,
+          0.0017161837955703052,
+          1.5295690943085862
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10737676437735938,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4356655810184698,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011616575019836041,
+                0.005019047860203148
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13939891385120634,
+                0.06022858020413448
+              ],
+              "rms_deg_per_min": 0.10737676437735938,
+              "net_angle_deg": 0.009605621403212052
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.060025903896455124,
+                0.015910848915200428,
+                0.00989926062802151
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7203109171003196,
+                0.19093020562793067,
+                0.11879113913695451
+              ],
+              "rms_deg_per_min": 0.4356655810184698,
+              "net_angle_deg": 0.06752819683389
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "10": {
+        "enabled": [
+          "thermal",
+          "accel"
+        ],
+        "motion_return_deg": 55.05827846865067,
+        "motion_world_rotvec_deg": [
+          -0.6843306872499344,
+          -0.27868615716135053,
+          55.053320094866
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10361594836761567,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.274552579817847,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011228217331957007,
+                0.0048001973607147055
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13473862114155127,
+                0.057602373953807746
+              ],
+              "rms_deg_per_min": 0.10361594836761567,
+              "net_angle_deg": 0.009741826468274584
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.3989497663965584,
+                0.49155593123284647,
+                0.02474930146495663
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.787398836153006,
+                5.898671750836247,
+                0.29699164658256805
+              ],
+              "rms_deg_per_min": 10.274552579817847,
+              "net_angle_deg": 1.8660108505674078
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "11": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "accel"
+        ],
+        "motion_return_deg": 1.85521576958123,
+        "motion_world_rotvec_deg": [
+          -0.014516351476834213,
+          0.0026724429041618735,
+          1.855157051381796
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10380037486339382,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4308529187474089,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011230953643934448,
+                0.0048488897572661095
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13477145688848718,
+                0.058186682769486
+              ],
+              "rms_deg_per_min": 0.10380037486339382,
+              "net_angle_deg": 0.009723156454723023
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.05931358198626217,
+                0.015993211582474385,
+                0.00966930037526683
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.711763053343252,
+                0.19191855773173688,
+                0.11603161583441367
+              ],
+              "rms_deg_per_min": 0.4308529187474089,
+              "net_angle_deg": 0.06712749421677011
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "12": {
+        "enabled": [
+          "gsens",
+          "accel"
+        ],
+        "motion_return_deg": 54.72591542691842,
+        "motion_world_rotvec_deg": [
+          -0.6853256765468907,
+          -0.28065210452051736,
+          54.72090443722143
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10707149134432346,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.29150850832794,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01159738711107107,
+                0.004972627990762764
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13916865892354086,
+                0.059671541716451594
+              ],
+              "rms_deg_per_min": 0.10707149134432346,
+              "net_angle_deg": 0.009636664112926486
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4012922475488392,
+                0.49226248262030686,
+                0.02495645303550066
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.81550861272547,
+                5.907150368313762,
+                0.2994774656718522
+              ],
+              "rms_deg_per_min": 10.29150850832794,
+              "net_angle_deg": 1.8689316764901298
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "13": {
+        "enabled": [
+          "scale",
+          "gsens",
+          "accel"
+        ],
+        "motion_return_deg": 1.4601991910202303,
+        "motion_world_rotvec_deg": [
+          -0.018140873510557504,
+          0.002551654714968498,
+          1.4600842699045233
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10717974069713188,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4453662958876896,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011591234270002328,
+                0.005019145726481763
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1390948248235056,
+                0.060229754599592546
+              ],
+              "rms_deg_per_min": 0.10717974069713188,
+              "net_angle_deg": 0.009591659843250291
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06136469514533272,
+                0.016387177234026648,
+                0.009907026283228832
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7363764136557468,
+                0.19664614601204253,
+                0.11888432700854273
+              ],
+              "rms_deg_per_min": 0.4453662958876896,
+              "net_angle_deg": 0.06940991320230015
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "14": {
+        "enabled": [
+          "thermal",
+          "gsens",
+          "accel"
+        ],
+        "motion_return_deg": 54.96234303875049,
+        "motion_world_rotvec_deg": [
+          -0.6842308104258545,
+          -0.2785077467893042,
+          54.95737815746242
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10345725900419847,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.273382957717478,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.0112077661040002,
+                0.004800452575786726
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1344932063821033,
+                0.05760543653497107
+              ],
+              "rms_deg_per_min": 0.10345725900419847,
+              "net_angle_deg": 0.009737872774593747
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.3987858731737273,
+                0.49151238355593246,
+                0.024762352797142676
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.78543211728697,
+                5.898149178662247,
+                0.2971482625840951
+              ],
+              "rms_deg_per_min": 10.273382957717478,
+              "net_angle_deg": 1.865795179655127
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "15": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "gsens",
+          "accel"
+        ],
+        "motion_return_deg": 1.785148847344306,
+        "motion_world_rotvec_deg": [
+          -0.014457617312389214,
+          0.003514253287177313,
+          1.7850868422853234
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10360690936375411,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.441475707523627,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011209756372864378,
+                0.004840465484592854
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13451708961080577,
+                0.058085591487534734
+              ],
+              "rms_deg_per_min": 0.10360690936375411,
+              "net_angle_deg": 0.009718123118482075
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06078191654571871,
+                0.0165021638933272,
+                0.009678313649326697
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7293830697774351,
+                0.19802598605839916,
+                0.1161397751336945
+              ],
+              "rms_deg_per_min": 0.441475707523627,
+              "net_angle_deg": 0.06922214873022899
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "16": {
+        "enabled": [
+          "earth"
+        ],
+        "motion_return_deg": 54.17259497639183,
+        "motion_world_rotvec_deg": [
+          -0.689333630352537,
+          -0.2752944053601018,
+          54.16750943704755
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10728347780210397,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.323797098167265,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01162312303282014,
+                0.004975996760449859
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13947749001468898,
+                0.059711966956644505
+              ],
+              "rms_deg_per_min": 0.10728347780210397,
+              "net_angle_deg": 0.009649539751519533
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4055594731355598,
+                0.49416169976380425,
+                0.025286377224401885
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.866715324766773,
+                5.929940976261376,
+                0.30343655632529676
+              ],
+              "rms_deg_per_min": 10.323797098167265,
+              "net_angle_deg": 1.8746803230438709
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "17": {
+        "enabled": [
+          "scale",
+          "earth"
+        ],
+        "motion_return_deg": 1.3051260294036062,
+        "motion_world_rotvec_deg": [
+          -0.019639625522920236,
+          0.0015771782752113845,
+          1.3049772987469288
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10731930094462237,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.44494677293329854,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011614478836567405,
+                0.005006814194590558
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13937375964952625,
+                0.06008177620244708
+              ],
+              "rms_deg_per_min": 0.10731930094462237,
+              "net_angle_deg": 0.009602655714677888
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.061298048863900716,
+                0.016388377326810283,
+                0.009924891048683786
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7355766582004617,
+                0.19666054712685252,
+                0.11909870421493746
+              ],
+              "rms_deg_per_min": 0.44494677293329854,
+              "net_angle_deg": 0.06901331184785062
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "18": {
+        "enabled": [
+          "thermal",
+          "earth"
+        ],
+        "motion_return_deg": 54.409814784516996,
+        "motion_world_rotvec_deg": [
+          -0.6882858456699049,
+          -0.27317657222788405,
+          54.40477536062877
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10360395236762336,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.307057123209805,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011226699869347424,
+                0.004800150421385374
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.134720411588458,
+                0.05760181068180076
+              ],
+              "rms_deg_per_min": 0.10360395236762336,
+              "net_angle_deg": 0.009740692346863793
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4032643849646584,
+                0.4934202625092612,
+                0.02496259405267527
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.8391742640264,
+                5.921043728337987,
+                0.29955115788514397
+              ],
+              "rms_deg_per_min": 10.307057123209805,
+              "net_angle_deg": 1.8718996894167597
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "19": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "earth"
+        ],
+        "motion_return_deg": 1.6310230973856568,
+        "motion_world_rotvec_deg": [
+          -0.015967770837390087,
+          0.0025232283151497364,
+          1.6309429811672924
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10380719622262644,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.43837297367974926,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011230058725448392,
+                0.004852988936646213
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13476071786560578,
+                0.058235872926850965
+              ],
+              "rms_deg_per_min": 0.10380719622262644,
+              "net_angle_deg": 0.009718438390904123
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.0603633020327226,
+                0.016302408531842665,
+                0.009698563274489152
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7243596951309179,
+                0.1956289214864964,
+                0.116382770659374
+              ],
+              "rms_deg_per_min": 0.43837297367974926,
+              "net_angle_deg": 0.06821912004029995
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "20": {
+        "enabled": [
+          "gsens",
+          "earth"
+        ],
+        "motion_return_deg": 54.07548773419372,
+        "motion_world_rotvec_deg": [
+          -0.6892317263045564,
+          -0.2750834821254064,
+          54.07039543406589
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10705428480799248,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.322634613975916,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011596937838158865,
+                0.0049685287579759865
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1391632676480679,
+                0.05962235091820647
+              ],
+              "rms_deg_per_min": 0.10705428480799248,
+              "net_angle_deg": 0.009631953447540602
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4054003939146769,
+                0.4941091063150038,
+                0.02526893108601051
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.864806373929756,
+                5.929309854814138,
+                0.3032272026441556
+              ],
+              "rms_deg_per_min": 10.322634613975916,
+              "net_angle_deg": 1.8744822962916377
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "21": {
+        "enabled": [
+          "scale",
+          "gsens",
+          "earth"
+        ],
+        "motion_return_deg": 1.2340724615937788,
+        "motion_world_rotvec_deg": [
+          -0.019562347741495085,
+          0.002405586322632469,
+          1.2339150571126902
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10715392657345722,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4542191303151201,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.0115896015280035,
+                0.005015259437083303
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1390752319176063,
+                0.06018311912225678
+              ],
+              "rms_deg_per_min": 0.10715392657345722,
+              "net_angle_deg": 0.009589509594436104
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06258072795609002,
+                0.016834331865235235,
+                0.009924034888951425
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7509688088098728,
+                0.2020120021105549,
+                0.11908843029714582
+              ],
+              "rms_deg_per_min": 0.4542191303151201,
+              "net_angle_deg": 0.07082065509728477
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "22": {
+        "enabled": [
+          "thermal",
+          "gsens",
+          "earth"
+        ],
+        "motion_return_deg": 54.31379892803846,
+        "motion_world_rotvec_deg": [
+          -0.6881527389165154,
+          -0.2729766654953308,
+          54.30875328658732
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10346826022883628,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.305963426392905,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01120544358752786,
+                0.0048091597099149805
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13446533618171352,
+                0.0577099221547138
+              ],
+              "rms_deg_per_min": 0.10346826022883628,
+              "net_angle_deg": 0.009741245539661993
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4031219474141876,
+                0.4933484937644727,
+                0.02498019712547846
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.83746501325383,
+                5.920182503316422,
+                0.29976239477941086
+              ],
+              "rms_deg_per_min": 10.305963426392905,
+              "net_angle_deg": 1.8716722424802883
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "23": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "gsens",
+          "earth"
+        ],
+        "motion_return_deg": 1.5606997938235523,
+        "motion_world_rotvec_deg": [
+          -0.015889970372182014,
+          0.003351235973845494,
+          1.5606153031736862
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10357561275605581,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.44844187795444185,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011207449876408903,
+                0.004836502274053539
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13448941165063716,
+                0.058038032956418566
+              ],
+              "rms_deg_per_min": 0.10357561275605581,
+              "net_angle_deg": 0.009716275160933553
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06175555444581155,
+                0.01678445411282039,
+                0.009701472393347153
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.741066725719531,
+                0.20141346902312623,
+                0.11641768008907913
+              ],
+              "rms_deg_per_min": 0.44844187795444185,
+              "net_angle_deg": 0.07017531228246204
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "24": {
+        "enabled": [
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 54.17259497639183,
+        "motion_world_rotvec_deg": [
+          -0.689333630352537,
+          -0.2752944053601018,
+          54.16750943704755
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10728347780210397,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.323797098167265,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01162312303282014,
+                0.004975996760449859
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13947749001468898,
+                0.059711966956644505
+              ],
+              "rms_deg_per_min": 0.10728347780210397,
+              "net_angle_deg": 0.009649539751519533
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4055594731355598,
+                0.49416169976380425,
+                0.025286377224401885
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.866715324766773,
+                5.929940976261376,
+                0.30343655632529676
+              ],
+              "rms_deg_per_min": 10.323797098167265,
+              "net_angle_deg": 1.8746803230438709
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "25": {
+        "enabled": [
+          "scale",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 1.3051260294036062,
+        "motion_world_rotvec_deg": [
+          -0.019639625522920236,
+          0.0015771782752113845,
+          1.3049772987469288
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10731930094462237,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.44494677293329854,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011614478836567405,
+                0.005006814194590558
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13937375964952625,
+                0.06008177620244708
+              ],
+              "rms_deg_per_min": 0.10731930094462237,
+              "net_angle_deg": 0.009602655714677888
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.061298048863900716,
+                0.016388377326810283,
+                0.009924891048683786
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7355766582004617,
+                0.19666054712685252,
+                0.11909870421493746
+              ],
+              "rms_deg_per_min": 0.44494677293329854,
+              "net_angle_deg": 0.06901331184785062
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "26": {
+        "enabled": [
+          "thermal",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 54.409814784516996,
+        "motion_world_rotvec_deg": [
+          -0.6882858456699049,
+          -0.27317657222788405,
+          54.40477536062877
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10360395236762336,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.307057123209805,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011226699869347424,
+                0.004800150421385374
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.134720411588458,
+                0.05760181068180076
+              ],
+              "rms_deg_per_min": 0.10360395236762336,
+              "net_angle_deg": 0.009740692346863793
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4032643849646584,
+                0.4934202625092612,
+                0.02496259405267527
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.8391742640264,
+                5.921043728337987,
+                0.29955115788514397
+              ],
+              "rms_deg_per_min": 10.307057123209805,
+              "net_angle_deg": 1.8718996894167597
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "27": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 1.6310230973856568,
+        "motion_world_rotvec_deg": [
+          -0.015967770837390087,
+          0.0025232283151497364,
+          1.6309429811672924
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10380719622262644,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.43837297367974926,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011230058725448392,
+                0.004852988936646213
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13476071786560578,
+                0.058235872926850965
+              ],
+              "rms_deg_per_min": 0.10380719622262644,
+              "net_angle_deg": 0.009718438390904123
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.0603633020327226,
+                0.016302408531842665,
+                0.009698563274489152
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7243596951309179,
+                0.1956289214864964,
+                0.116382770659374
+              ],
+              "rms_deg_per_min": 0.43837297367974926,
+              "net_angle_deg": 0.06821912004029995
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "28": {
+        "enabled": [
+          "gsens",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 54.07548773419372,
+        "motion_world_rotvec_deg": [
+          -0.6892317263045564,
+          -0.2750834821254064,
+          54.07039543406589
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10705428480799248,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.322634613975916,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011596937838158865,
+                0.0049685287579759865
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1391632676480679,
+                0.05962235091820647
+              ],
+              "rms_deg_per_min": 0.10705428480799248,
+              "net_angle_deg": 0.009631953447540602
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4054003939146769,
+                0.4941091063150038,
+                0.02526893108601051
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.864806373929756,
+                5.929309854814138,
+                0.3032272026441556
+              ],
+              "rms_deg_per_min": 10.322634613975916,
+              "net_angle_deg": 1.8744822962916377
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "29": {
+        "enabled": [
+          "scale",
+          "gsens",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 1.2340724615937788,
+        "motion_world_rotvec_deg": [
+          -0.019562347741495085,
+          0.002405586322632469,
+          1.2339150571126902
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10715392657345722,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4542191303151201,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.0115896015280035,
+                0.005015259437083303
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1390752319176063,
+                0.06018311912225678
+              ],
+              "rms_deg_per_min": 0.10715392657345722,
+              "net_angle_deg": 0.009589509594436104
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06258072795609002,
+                0.016834331865235235,
+                0.009924034888951425
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7509688088098728,
+                0.2020120021105549,
+                0.11908843029714582
+              ],
+              "rms_deg_per_min": 0.4542191303151201,
+              "net_angle_deg": 0.07082065509728477
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "30": {
+        "enabled": [
+          "thermal",
+          "gsens",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 54.31379892803846,
+        "motion_world_rotvec_deg": [
+          -0.6881527389165154,
+          -0.2729766654953308,
+          54.30875328658732
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10346826022883628,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.305963426392905,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01120544358752786,
+                0.0048091597099149805
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13446533618171352,
+                0.0577099221547138
+              ],
+              "rms_deg_per_min": 0.10346826022883628,
+              "net_angle_deg": 0.009741245539661993
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4031219474141876,
+                0.4933484937644727,
+                0.02498019712547846
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.83746501325383,
+                5.920182503316422,
+                0.29976239477941086
+              ],
+              "rms_deg_per_min": 10.305963426392905,
+              "net_angle_deg": 1.8716722424802883
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      },
+      "31": {
+        "enabled": [
+          "scale",
+          "thermal",
+          "gsens",
+          "accel",
+          "earth"
+        ],
+        "motion_return_deg": 1.5606997938235523,
+        "motion_world_rotvec_deg": [
+          -0.015889970372182014,
+          0.003351235973845494,
+          1.5606153031736862
+        ],
+        "static": {
+          "rms_deg_per_min": 0.10357561275605581,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.44844187795444185,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011207449876408903,
+                0.004836502274053539
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13448941165063716,
+                0.058038032956418566
+              ],
+              "rms_deg_per_min": 0.10357561275605581,
+              "net_angle_deg": 0.009716275160933553
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.06175555444581155,
+                0.01678445411282039,
+                0.009701472393347153
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.741066725719531,
+                0.20141346902312623,
+                0.11641768008907913
+              ],
+              "rms_deg_per_min": 0.44844187795444185,
+              "net_angle_deg": 0.07017531228246204
+            }
+          }
+        },
+        "earth_active_before_motion": true
+      }
+    },
+    "cmsis_check": {
+      "0": {
+        "motion_return_deg": 54.82250451938083,
+        "static": {
+          "rms_deg_per_min": 0.10727691695507134,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.292454322789329,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011625559431914284,
+                0.0049683346641304655
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13950672680667386,
+                0.059620021791832775
+              ],
+              "rms_deg_per_min": 0.10727691695507134,
+              "net_angle_deg": 0.009646576277762465
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4014118400213347,
+                0.4923358658739869,
+                0.024919573888968663
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.816943722535566,
+                5.908030967443919,
+                0.29903491587025044
+              ],
+              "rms_deg_per_min": 10.292454322789329,
+              "net_angle_deg": 1.869143188832184
+            }
+          }
+        }
+      },
+      "1": {
+        "motion_return_deg": 1.527238585794076,
+        "static": {
+          "rms_deg_per_min": 0.10737079224910558,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.43431245805926477,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011615766399729438,
+                0.0050191448540138316
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1393892104089795,
+                0.06022974412997636
+              ],
+              "rms_deg_per_min": 0.10737079224910558,
+              "net_angle_deg": 0.009606696958854789
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.059838159159480035,
+                0.015851569299130897,
+                0.009892287003723228
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7180579800366051,
+                0.19021885016562798,
+                0.11870745563720289
+              ],
+              "rms_deg_per_min": 0.43431245805926477,
+              "net_angle_deg": 0.06728449821569653
+            }
+          }
+        }
+      },
+      "2": {
+        "motion_return_deg": 55.0578879589409,
+        "static": {
+          "rms_deg_per_min": 0.103616080609751,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.274669654466335,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011228177372018092,
+                0.004800330476144796
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13473814162223746,
+                0.05760397133912482
+              ],
+              "rms_deg_per_min": 0.103616080609751,
+              "net_angle_deg": 0.009741633888893422
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.3989495819686837,
+                0.49160601769103807,
+                0.0247774395542583
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.787396623018292,
+                5.899272788393242,
+                0.2973293036871624
+              ],
+              "rms_deg_per_min": 10.274669654466335,
+              "net_angle_deg": 1.8660244197084983
+            }
+          }
+        }
+      },
+      "4": {
+        "motion_return_deg": 54.72541187111536,
+        "static": {
+          "rms_deg_per_min": 0.10707623020378024,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.291458531671822,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01159798198953174,
+                0.004972657777521645
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13917579746576603,
+                0.05967189915759307
+              ],
+              "rms_deg_per_min": 0.10707623020378024,
+              "net_angle_deg": 0.00963537692939861
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4012826269428185,
+                0.4922707103765253,
+                0.024904938092174603
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.815393165441947,
+                5.907249101398025,
+                0.29885928629157044
+              ],
+              "rms_deg_per_min": 10.291458531671822,
+              "net_angle_deg": 1.8689622653625821
+            }
+          }
+        }
+      },
+      "8": {
+        "motion_return_deg": 54.82250451938083,
+        "static": {
+          "rms_deg_per_min": 0.10727691695507134,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.292454322789329,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011625559431914284,
+                0.0049683346641304655
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13950672680667386,
+                0.059620021791832775
+              ],
+              "rms_deg_per_min": 0.10727691695507134,
+              "net_angle_deg": 0.009646576277762465
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.4014118400213347,
+                0.4923358658739869,
+                0.024919573888968663
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.816943722535566,
+                5.908030967443919,
+                0.29903491587025044
+              ],
+              "rms_deg_per_min": 10.292454322789329,
+              "net_angle_deg": 1.869143188832184
+            }
+          }
+        }
+      },
+      "16": {
+        "motion_return_deg": 54.17205732179536,
+        "static": {
+          "rms_deg_per_min": 0.1072570097056639,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 10.324077418587025,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.011623049894002776,
+                0.004968236731341525
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.1394766123487949,
+                0.059618846598250716
+              ],
+              "rms_deg_per_min": 0.1072570097056639,
+              "net_angle_deg": 0.00964682943327814
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                1.405597224810578,
+                0.4941763955977612,
+                0.025285060622803224
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                16.867168344911228,
+                5.930117326286081,
+                0.30342075710456995
+              ],
+              "rms_deg_per_min": 10.324077418587025,
+              "net_angle_deg": 1.8747171442494688
+            }
+          }
+        }
+      },
+      "31": {
+        "motion_return_deg": 1.557694105004137,
+        "static": {
+          "rms_deg_per_min": 0.1035898118547475,
+          "nonoverlapping_increments": 2,
+          "post_motion_recovery_rms_deg_per_min": 0.4474839712778992,
+          "groups": {
+            "before_motion": {
+              "span_s": [
+                10,
+                20
+              ],
+              "increment_angles_deg": [
+                0.01120735762968533,
+                0.004840937612030817
+              ],
+              "increment_durations_s": [
+                4.999999511718798,
+                4.999999511718798
+              ],
+              "increment_rates_deg_per_min": [
+                0.13448830468984618,
+                0.05809125701734356
+              ],
+              "rms_deg_per_min": 0.1035898118547475,
+              "net_angle_deg": 0.009715680955433853
+            },
+            "after_motion": {
+              "span_s": [
+                190,
+                205
+              ],
+              "increment_angles_deg": [
+                0.061617881217976005,
+                0.016754894809260158,
+                0.009706479493447911
+              ],
+              "increment_durations_s": [
+                4.999999511718784,
+                4.999999511718812,
+                4.999999511718784
+              ],
+              "increment_rates_deg_per_min": [
+                0.7394146468241687,
+                0.20105875734576367,
+                0.11647776529615592
+              ],
+              "rms_deg_per_min": 0.4474839712778992,
+              "net_angle_deg": 0.07000531958588217
+            }
+          }
+        }
+      }
+    },
+    "cumulative": [
+      {
+        "step": "scale",
+        "mask": 1,
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 1.5296784238384078,
+          "absolute_reduction": 53.291973838186,
+          "reduction_percent": 97.20971849493483
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10737676437735938,
+          "absolute_reduction": -9.994239305012587e-05,
+          "reduction_percent": -0.09316308145737562
+        }
+      },
+      {
+        "step": "add_thermal",
+        "mask": 3,
+        "motion": {
+          "disabled": 1.5296784238384078,
+          "enabled": 1.85521576958123,
+          "absolute_reduction": -0.3255373457428221,
+          "reduction_percent": -21.281423642359698
+        },
+        "static": {
+          "disabled": 0.10737676437735938,
+          "enabled": 0.10380037486339382,
+          "absolute_reduction": 0.003576389513965564,
+          "reduction_percent": 3.3306921983576303
+        }
+      },
+      {
+        "step": "add_gsens",
+        "mask": 7,
+        "motion": {
+          "disabled": 1.85521576958123,
+          "enabled": 1.785148847344306,
+          "absolute_reduction": 0.0700669222369239,
+          "reduction_percent": 3.7767532696609094
+        },
+        "static": {
+          "disabled": 0.10380037486339382,
+          "enabled": 0.10360690936375411,
+          "absolute_reduction": 0.00019346549963970838,
+          "reduction_percent": 0.1863822745286981
+        }
+      },
+      {
+        "step": "add_accel",
+        "mask": 15,
+        "motion": {
+          "disabled": 1.785148847344306,
+          "enabled": 1.785148847344306,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        },
+        "static": {
+          "disabled": 0.10360690936375411,
+          "enabled": 0.10360690936375411,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      {
+        "step": "add_earth",
+        "mask": 31,
+        "motion": {
+          "disabled": 1.785148847344306,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.22444905352075373,
+          "reduction_percent": 12.573128221473382
+        },
+        "static": {
+          "disabled": 0.10360690936375411,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 3.1296607698294565e-05,
+          "reduction_percent": 0.03020706619904578
+        }
+      }
+    ],
+    "endpoint_sensitivity": {
+      "0": {
+        "minimum_deg": 54.808500284408886,
+        "maximum_deg": 54.863455210899005,
+        "cases": 9
+      },
+      "1": {
+        "minimum_deg": 1.520753673236533,
+        "maximum_deg": 1.5633397558981492,
+        "cases": 9
+      },
+      "2": {
+        "minimum_deg": 55.04611221898125,
+        "maximum_deg": 55.098150881585084,
+        "cases": 9
+      },
+      "4": {
+        "minimum_deg": 54.71276467806883,
+        "maximum_deg": 54.76768866465269,
+        "cases": 9
+      },
+      "8": {
+        "minimum_deg": 54.808500284408886,
+        "maximum_deg": 54.863455210899005,
+        "cases": 9
+      },
+      "16": {
+        "minimum_deg": 54.16007652450102,
+        "maximum_deg": 54.21332137919039,
+        "cases": 9
+      },
+      "31": {
+        "minimum_deg": 1.5529014547355293,
+        "maximum_deg": 1.5923935399604356,
+        "cases": 9
+      }
+    }
+  },
+  "long_static": {
+    "device_count": 10,
+    "metric": "RMS of non-overlapping five-second quaternion increments after the first 15 seconds, normalized to deg/min",
+    "reconstruction": "Conservative 20 ms overlap of raw sender-duration F04 means, repeated 400/100 Hz production update cadence. Not reconstructed original gyro noise.",
+    "initialization_excluded_s": 15,
+    "earth_enabled": false,
+    "earth_exclusion_reason": "No verified initial geographic heading for this separate older recording; the current user direction confirmation applies only to the new wrist recording.",
+    "duration_s": [
+      1518.2294219999999,
+      1518.209891,
+      1517.47015,
+      1517.648371,
+      1518.808031,
+      1517.108824,
+      1518.529713,
+      1517.589778,
+      1518.388112,
+      1517.309018
+    ],
+    "aggregate": {
+      "0": {
+        "rms_deg_per_min": 0.1557840319550647,
+        "median_deg_per_min": 0.14880222012550187,
+        "maximum_deg_per_min": 0.20824703245845633
+      },
+      "1": {
+        "rms_deg_per_min": 0.1562000242493572,
+        "median_deg_per_min": 0.14922512212293787,
+        "maximum_deg_per_min": 0.2088977897677562
+      },
+      "2": {
+        "rms_deg_per_min": 0.15576038878496684,
+        "median_deg_per_min": 0.1489257817703704,
+        "maximum_deg_per_min": 0.20799265436339412
+      },
+      "3": {
+        "rms_deg_per_min": 0.15617734393446303,
+        "median_deg_per_min": 0.14935213860726732,
+        "maximum_deg_per_min": 0.20864147848301773
+      },
+      "4": {
+        "rms_deg_per_min": 0.15578268542816223,
+        "median_deg_per_min": 0.14880153611543157,
+        "maximum_deg_per_min": 0.20824569790358302
+      },
+      "5": {
+        "rms_deg_per_min": 0.15620114744742053,
+        "median_deg_per_min": 0.1492256630774744,
+        "maximum_deg_per_min": 0.2088987288090764
+      },
+      "6": {
+        "rms_deg_per_min": 0.15575938917337231,
+        "median_deg_per_min": 0.14892513313467176,
+        "maximum_deg_per_min": 0.20799159344274637
+      },
+      "7": {
+        "rms_deg_per_min": 0.1561765611129433,
+        "median_deg_per_min": 0.1493527920546971,
+        "maximum_deg_per_min": 0.2086423572146318
+      },
+      "8": {
+        "rms_deg_per_min": 0.1557840319550647,
+        "median_deg_per_min": 0.14880222012550187,
+        "maximum_deg_per_min": 0.20824703245845633
+      },
+      "9": {
+        "rms_deg_per_min": 0.1562000242493572,
+        "median_deg_per_min": 0.14922512212293787,
+        "maximum_deg_per_min": 0.2088977897677562
+      },
+      "10": {
+        "rms_deg_per_min": 0.15576038878496684,
+        "median_deg_per_min": 0.1489257817703704,
+        "maximum_deg_per_min": 0.20799265436339412
+      },
+      "11": {
+        "rms_deg_per_min": 0.15617734393446303,
+        "median_deg_per_min": 0.14935213860726732,
+        "maximum_deg_per_min": 0.20864147848301773
+      },
+      "12": {
+        "rms_deg_per_min": 0.15578268542816223,
+        "median_deg_per_min": 0.14880153611543157,
+        "maximum_deg_per_min": 0.20824569790358302
+      },
+      "13": {
+        "rms_deg_per_min": 0.15620114744742053,
+        "median_deg_per_min": 0.1492256630774744,
+        "maximum_deg_per_min": 0.2088987288090764
+      },
+      "14": {
+        "rms_deg_per_min": 0.15575938917337231,
+        "median_deg_per_min": 0.14892513313467176,
+        "maximum_deg_per_min": 0.20799159344274637
+      },
+      "15": {
+        "rms_deg_per_min": 0.1561765611129433,
+        "median_deg_per_min": 0.1493527920546971,
+        "maximum_deg_per_min": 0.2086423572146318
+      }
+    },
+    "single_addition": {
+      "scale": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.1562000242493572,
+        "absolute_reduction": -0.0004159922942924832,
+        "reduction_percent": -0.2670314082077902,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.14004582614967517,
+            "absolute_reduction": -0.0005626176940399519,
+            "reduction_percent": -0.4033587270247666
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18097167160589467,
+            "absolute_reduction": 0.0005755076121635172,
+            "reduction_percent": 0.31700168223063885
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1360533177926605,
+            "absolute_reduction": -0.00040740903095398684,
+            "reduction_percent": -0.3003474521813225
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.17083929543501253,
+            "absolute_reduction": -0.0009348755982191148,
+            "reduction_percent": -0.550236185213508
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11929794463308219,
+            "absolute_reduction": -0.0003355703729095022,
+            "reduction_percent": -0.2820810991680481
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.2088977897677562,
+            "absolute_reduction": -0.0006507573092998653,
+            "reduction_percent": -0.3124929568586704
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.16192265880341694,
+            "absolute_reduction": -0.0007763253146760296,
+            "reduction_percent": -0.48175177049887424
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15792036736431003,
+            "absolute_reduction": -0.0004058486224645663,
+            "reduction_percent": -0.2576579135093711
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14052987688156568,
+            "absolute_reduction": -0.00043995537240740235,
+            "reduction_percent": -0.31405212285641876
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12307560253670387,
+            "absolute_reduction": -0.0002694364959257983,
+            "reduction_percent": -0.21939981078501491
+          }
+        ]
+      },
+      "thermal": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.15576038878496684,
+        "absolute_reduction": 2.3643170097870092e-05,
+        "reduction_percent": 0.015176889313463058,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.1395155132618108,
+            "absolute_reduction": -3.230480617558151e-05,
+            "reduction_percent": -0.023160354951152814
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18158992521241818,
+            "absolute_reduction": -4.274599435999393e-05,
+            "reduction_percent": -0.023545391640952613
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.13570366289071226,
+            "absolute_reduction": -5.7754129005743726e-05,
+            "reduction_percent": -0.042577125644977794
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.16986070867460293,
+            "absolute_reduction": 4.37111621904851e-05,
+            "reduction_percent": 0.02572691295051248
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11901870885030047,
+            "absolute_reduction": -5.633459012778508e-05,
+            "reduction_percent": -0.047354964523976625
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20799265436339412,
+            "absolute_reduction": 0.00025437809506220765,
+            "reduction_percent": 0.12215208642310622
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.1609917263313426,
+            "absolute_reduction": 0.00015460715739831765,
+            "reduction_percent": 0.09594208819471518
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15759156297730986,
+            "absolute_reduction": -7.704423546439632e-05,
+            "reduction_percent": -0.0489124660252215
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14026000056343094,
+            "absolute_reduction": -0.00017007905427265935,
+            "reduction_percent": -0.12140705943756315
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12268928860880136,
+            "absolute_reduction": 0.00011687743197670575,
+            "reduction_percent": 0.0951722830740407
+          }
+        ]
+      },
+      "gsens": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.15578268542816223,
+        "absolute_reduction": 1.3465269024792725e-06,
+        "reduction_percent": 0.000864354892847858,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.13947990469949717,
+            "absolute_reduction": 3.303756138051117e-06,
+            "reduction_percent": 0.0023685690733891655
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18154670975118112,
+            "absolute_reduction": 4.694668770677257e-07,
+            "reduction_percent": 0.0002585922177859036
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1356372066737248,
+            "absolute_reduction": 8.702087981704576e-06,
+            "reduction_percent": 0.006415297048871419
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.16990689153542676,
+            "absolute_reduction": -2.471698633349506e-06,
+            "reduction_percent": -0.0014547582904104364
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.1189613564266051,
+            "absolute_reduction": 1.017833567582005e-06,
+            "reduction_percent": 0.0008555928493457823
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20824569790358302,
+            "absolute_reduction": 1.3345548733056933e-06,
+            "reduction_percent": 0.0006408518083310151
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.16114459780484472,
+            "absolute_reduction": 1.735683896192386e-06,
+            "reduction_percent": 0.0010770855647880167
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.1575059040380166,
+            "absolute_reduction": 8.614703828874193e-06,
+            "reduction_percent": 0.005469149064914485
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.1400971681928465,
+            "absolute_reduction": -7.246683688233446e-06,
+            "reduction_percent": -0.005172880111692903
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12280803217939032,
+            "absolute_reduction": -1.8661386122498236e-06,
+            "reduction_percent": -0.0015195805490989499
+          }
+        ]
+      },
+      "accel": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.1557840319550647,
+        "absolute_reduction": 0.0,
+        "reduction_percent": 0.0,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.13948320845563522,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18154717921805819,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1356459087617065,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.1699044198367934,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11896237426017268,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20824703245845633,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.1611463334887409,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15751451874184547,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14008992150915828,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12280616604077807,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          }
+        ]
+      }
+    },
+    "leave_one_out": {
+      "scale": {
+        "disabled": 0.15575938917337231,
+        "enabled": 0.1561765611129433,
+        "absolute_reduction": -0.0004171719395709983,
+        "reduction_percent": -0.26783100639066676
+      },
+      "thermal": {
+        "disabled": 0.15620114744742053,
+        "enabled": 0.1561765611129433,
+        "absolute_reduction": 2.458633447721681e-05,
+        "reduction_percent": 0.015740175330973744
+      },
+      "gsens": {
+        "disabled": 0.15617734393446303,
+        "enabled": 0.1561765611129433,
+        "absolute_reduction": 7.82821519718091e-07,
+        "reduction_percent": 0.0005012388480921968
+      },
+      "accel": {
+        "disabled": 0.1561765611129433,
+        "enabled": 0.1561765611129433,
+        "absolute_reduction": 0.0,
+        "reduction_percent": 0.0
+      }
+    },
+    "all_enabled_except_earth_vs_none": {
+      "disabled": 0.1557840319550647,
+      "enabled": 0.1561765611129433,
+      "absolute_reduction": -0.00039252915787860165,
+      "reduction_percent": -0.2519700850930763
+    },
+    "devices": [
+      {
+        "slot": 0,
+        "array_sha256": "23eb16bba44d7ee0d591b2464858731a507406ca13288e1d95b2e31d016896b3",
+        "snapshot_sha256": "6d16c959c4b448f913cd52537425ca7779a5e0438b96aedec830e2285db52d4f",
+        "metadata_sha256": "f315071cacf4ca66b5bd494b9c4b536eb5bdea5468a4ef8822d100fda804a62e",
+        "window_samples": 75912,
+        "duration_s": 1518.2294219999999,
+        "temperature_range_c": [
+          24.11,
+          24.67
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03318118244104524,
+            "maximum_displacement_deg": 0.05976818422153698,
+            "five_second_drift_rms_deg_per_min": 0.13948320845563522,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03310114566275328,
+            "maximum_displacement_deg": 0.060199046359987206,
+            "five_second_drift_rms_deg_per_min": 0.14004582614967517,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03346998332222801,
+            "maximum_displacement_deg": 0.04719284568496204,
+            "five_second_drift_rms_deg_per_min": 0.1395155132618108,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03338312382728103,
+            "maximum_displacement_deg": 0.0475207388041639,
+            "five_second_drift_rms_deg_per_min": 0.14007962363313725,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.033175725885828046,
+            "maximum_displacement_deg": 0.059756510134139025,
+            "five_second_drift_rms_deg_per_min": 0.13947990469949717,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.033104063117472084,
+            "maximum_displacement_deg": 0.06021672988582528,
+            "five_second_drift_rms_deg_per_min": 0.14004481176489747,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03346721907797169,
+            "maximum_displacement_deg": 0.04720371061701651,
+            "five_second_drift_rms_deg_per_min": 0.1395121494383232,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03338617114881881,
+            "maximum_displacement_deg": 0.047520971927749095,
+            "five_second_drift_rms_deg_per_min": 0.14007245419293932,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03318118244104524,
+            "maximum_displacement_deg": 0.05976818422153698,
+            "five_second_drift_rms_deg_per_min": 0.13948320845563522,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03310114566275328,
+            "maximum_displacement_deg": 0.060199046359987206,
+            "five_second_drift_rms_deg_per_min": 0.14004582614967517,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03346998332222801,
+            "maximum_displacement_deg": 0.04719284568496204,
+            "five_second_drift_rms_deg_per_min": 0.1395155132618108,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03338312382728103,
+            "maximum_displacement_deg": 0.0475207388041639,
+            "five_second_drift_rms_deg_per_min": 0.14007962363313725,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.033175725885828046,
+            "maximum_displacement_deg": 0.059756510134139025,
+            "five_second_drift_rms_deg_per_min": 0.13947990469949717,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.033104063117472084,
+            "maximum_displacement_deg": 0.06021672988582528,
+            "five_second_drift_rms_deg_per_min": 0.14004481176489747,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03346721907797169,
+            "maximum_displacement_deg": 0.04720371061701651,
+            "five_second_drift_rms_deg_per_min": 0.1395121494383232,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1518.22,
+            "angle_from_15s_deg": 0.03338617114881881,
+            "maximum_displacement_deg": 0.047520971927749095,
+            "five_second_drift_rms_deg_per_min": 0.14007245419293932,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 1,
+        "array_sha256": "05fa8609bf3f699c0aeeeba00966a23309a0f74745e20f8ca88daf5f60cc0314",
+        "snapshot_sha256": "bb77e643a8dbcc15ea955b3a1565c244cd2c8cc6970e8e0a62ac64adccc1a31b",
+        "metadata_sha256": "36ac1e51f79fd9cb2c22330fa870c634a3238544f3115440981a90e92333ff4f",
+        "window_samples": 75911,
+        "duration_s": 1518.209891,
+        "temperature_range_c": [
+          24.16,
+          24.85
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09511531966224186,
+            "maximum_displacement_deg": 0.09511531966224186,
+            "five_second_drift_rms_deg_per_min": 0.18154717921805819,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09575557262538617,
+            "maximum_displacement_deg": 0.09575557262538617,
+            "five_second_drift_rms_deg_per_min": 0.18097167160589467,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.05222933699511547,
+            "maximum_displacement_deg": 0.069126282745736,
+            "five_second_drift_rms_deg_per_min": 0.18158992521241818,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.052550258250743685,
+            "maximum_displacement_deg": 0.06926717038122439,
+            "five_second_drift_rms_deg_per_min": 0.18101376777927328,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09512916624195204,
+            "maximum_displacement_deg": 0.09512916624195204,
+            "five_second_drift_rms_deg_per_min": 0.18154670975118112,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09574096597970104,
+            "maximum_displacement_deg": 0.09574096597970104,
+            "five_second_drift_rms_deg_per_min": 0.18097489252351084,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.05223134163350493,
+            "maximum_displacement_deg": 0.06912826237526183,
+            "five_second_drift_rms_deg_per_min": 0.18158839174211344,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.052549007428336264,
+            "maximum_displacement_deg": 0.0692677502284414,
+            "five_second_drift_rms_deg_per_min": 0.18101514422552198,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09511531966224186,
+            "maximum_displacement_deg": 0.09511531966224186,
+            "five_second_drift_rms_deg_per_min": 0.18154717921805819,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09575557262538617,
+            "maximum_displacement_deg": 0.09575557262538617,
+            "five_second_drift_rms_deg_per_min": 0.18097167160589467,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.05222933699511547,
+            "maximum_displacement_deg": 0.069126282745736,
+            "five_second_drift_rms_deg_per_min": 0.18158992521241818,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.052550258250743685,
+            "maximum_displacement_deg": 0.06926717038122439,
+            "five_second_drift_rms_deg_per_min": 0.18101376777927328,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09512916624195204,
+            "maximum_displacement_deg": 0.09512916624195204,
+            "five_second_drift_rms_deg_per_min": 0.18154670975118112,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.09574096597970104,
+            "maximum_displacement_deg": 0.09574096597970104,
+            "five_second_drift_rms_deg_per_min": 0.18097489252351084,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.05223134163350493,
+            "maximum_displacement_deg": 0.06912826237526183,
+            "five_second_drift_rms_deg_per_min": 0.18158839174211344,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1518.2,
+            "angle_from_15s_deg": 0.052549007428336264,
+            "maximum_displacement_deg": 0.0692677502284414,
+            "five_second_drift_rms_deg_per_min": 0.18101514422552198,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 2,
+        "array_sha256": "8f056eb1b29050e4ef163577f3de285157b2194a0e811178535c0fcea0b2ffb3",
+        "snapshot_sha256": "4dc13ed5be6e9830fb74696baaab809a63f91eba866c21e049e3cbeeb1d3a862",
+        "metadata_sha256": "6c49b02dddddee3d3576c407fa31c2e708c0826e91c3cb3b82ddba9ae08790b0",
+        "window_samples": 75874,
+        "duration_s": 1517.47015,
+        "temperature_range_c": [
+          23.23,
+          23.81
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012192793181487459,
+            "maximum_displacement_deg": 0.029238494095523603,
+            "five_second_drift_rms_deg_per_min": 0.1356459087617065,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012294859133351717,
+            "maximum_displacement_deg": 0.029412726139251586,
+            "five_second_drift_rms_deg_per_min": 0.1360533177926605,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009392494304319859,
+            "maximum_displacement_deg": 0.051410253679879565,
+            "five_second_drift_rms_deg_per_min": 0.13570366289071226,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009470505211086588,
+            "maximum_displacement_deg": 0.05180054843611071,
+            "five_second_drift_rms_deg_per_min": 0.13611071636970024,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012185543193115173,
+            "maximum_displacement_deg": 0.02923851768710066,
+            "five_second_drift_rms_deg_per_min": 0.1356372066737248,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012291171470807109,
+            "maximum_displacement_deg": 0.029412809925542235,
+            "five_second_drift_rms_deg_per_min": 0.13605416975929796,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009395297304961907,
+            "maximum_displacement_deg": 0.05141100086700738,
+            "five_second_drift_rms_deg_per_min": 0.13570184670758018,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009469910434939497,
+            "maximum_displacement_deg": 0.051797090377828675,
+            "five_second_drift_rms_deg_per_min": 0.1361047947846899,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012192793181487459,
+            "maximum_displacement_deg": 0.029238494095523603,
+            "five_second_drift_rms_deg_per_min": 0.1356459087617065,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012294859133351717,
+            "maximum_displacement_deg": 0.029412726139251586,
+            "five_second_drift_rms_deg_per_min": 0.1360533177926605,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009392494304319859,
+            "maximum_displacement_deg": 0.051410253679879565,
+            "five_second_drift_rms_deg_per_min": 0.13570366289071226,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009470505211086588,
+            "maximum_displacement_deg": 0.05180054843611071,
+            "five_second_drift_rms_deg_per_min": 0.13611071636970024,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012185543193115173,
+            "maximum_displacement_deg": 0.02923851768710066,
+            "five_second_drift_rms_deg_per_min": 0.1356372066737248,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.012291171470807109,
+            "maximum_displacement_deg": 0.029412809925542235,
+            "five_second_drift_rms_deg_per_min": 0.13605416975929796,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009395297304961907,
+            "maximum_displacement_deg": 0.05141100086700738,
+            "five_second_drift_rms_deg_per_min": 0.13570184670758018,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1517.46,
+            "angle_from_15s_deg": 0.009469910434939497,
+            "maximum_displacement_deg": 0.051797090377828675,
+            "five_second_drift_rms_deg_per_min": 0.1361047947846899,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 3,
+        "array_sha256": "46741674693a58a41777a6ea5724f6dfeeda6a9f419705683b8a610316e64f3e",
+        "snapshot_sha256": "b6c2f7724d745831a59e07c6f80e4ddd21e38c8b159eeebdcd18f21ee16c3094",
+        "metadata_sha256": "6627da804f26f025844af42faec20c6eb95f597986c84fbd4a7fbd81c1fa2284",
+        "window_samples": 75883,
+        "duration_s": 1517.648371,
+        "temperature_range_c": [
+          21.95,
+          22.55
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13295560922125538,
+            "maximum_displacement_deg": 0.17312362950087726,
+            "five_second_drift_rms_deg_per_min": 0.1699044198367934,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.1342739058953426,
+            "maximum_displacement_deg": 0.17479153532336805,
+            "five_second_drift_rms_deg_per_min": 0.17083929543501253,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.1179178673288829,
+            "maximum_displacement_deg": 0.15153893572296845,
+            "five_second_drift_rms_deg_per_min": 0.16986070867460293,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11897957701622947,
+            "maximum_displacement_deg": 0.15292325918923014,
+            "five_second_drift_rms_deg_per_min": 0.1707888739199159,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13297816108416635,
+            "maximum_displacement_deg": 0.173139578250739,
+            "five_second_drift_rms_deg_per_min": 0.16990689153542676,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13425019276205727,
+            "maximum_displacement_deg": 0.17476854435374803,
+            "five_second_drift_rms_deg_per_min": 0.1708445515014861,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11792335638084624,
+            "maximum_displacement_deg": 0.15154629694820992,
+            "five_second_drift_rms_deg_per_min": 0.1698567595116696,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11898340712995514,
+            "maximum_displacement_deg": 0.15292272027030615,
+            "five_second_drift_rms_deg_per_min": 0.17079585089070068,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13295560922125538,
+            "maximum_displacement_deg": 0.17312362950087726,
+            "five_second_drift_rms_deg_per_min": 0.1699044198367934,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.1342739058953426,
+            "maximum_displacement_deg": 0.17479153532336805,
+            "five_second_drift_rms_deg_per_min": 0.17083929543501253,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.1179178673288829,
+            "maximum_displacement_deg": 0.15153893572296845,
+            "five_second_drift_rms_deg_per_min": 0.16986070867460293,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11897957701622947,
+            "maximum_displacement_deg": 0.15292325918923014,
+            "five_second_drift_rms_deg_per_min": 0.1707888739199159,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13297816108416635,
+            "maximum_displacement_deg": 0.173139578250739,
+            "five_second_drift_rms_deg_per_min": 0.16990689153542676,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.13425019276205727,
+            "maximum_displacement_deg": 0.17476854435374803,
+            "five_second_drift_rms_deg_per_min": 0.1708445515014861,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11792335638084624,
+            "maximum_displacement_deg": 0.15154629694820992,
+            "five_second_drift_rms_deg_per_min": 0.1698567595116696,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1517.64,
+            "angle_from_15s_deg": 0.11898340712995514,
+            "maximum_displacement_deg": 0.15292272027030615,
+            "five_second_drift_rms_deg_per_min": 0.17079585089070068,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 4,
+        "array_sha256": "49392eacabf245182de43aa26bd8c558e675a41af4ab7f1952f46785bee0def2",
+        "snapshot_sha256": "76b04cc06458940d500a869612dc793bb00b0a38ed4bdafbd8886ac83369ac01",
+        "metadata_sha256": "d422ae23596f74f93c92dc9bbeb4ba0bcf0c6c71e87b241909ee5bf886e89417",
+        "window_samples": 75941,
+        "duration_s": 1518.808031,
+        "temperature_range_c": [
+          22.74,
+          23.36
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02878429487704955,
+            "maximum_displacement_deg": 0.029773013899994222,
+            "five_second_drift_rms_deg_per_min": 0.11896237426017268,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02897799882288669,
+            "maximum_displacement_deg": 0.02990211543424868,
+            "five_second_drift_rms_deg_per_min": 0.11929794463308219,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07044725977523172,
+            "maximum_displacement_deg": 0.07044725977523172,
+            "five_second_drift_rms_deg_per_min": 0.11901870885030047,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.0709317575160928,
+            "maximum_displacement_deg": 0.0709317575160928,
+            "five_second_drift_rms_deg_per_min": 0.1193627084321113,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02878147814047594,
+            "maximum_displacement_deg": 0.029770463511366186,
+            "five_second_drift_rms_deg_per_min": 0.1189613564266051,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02897882492717684,
+            "maximum_displacement_deg": 0.02990638649509791,
+            "five_second_drift_rms_deg_per_min": 0.11929567466227803,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07044553260755847,
+            "maximum_displacement_deg": 0.07044553260755847,
+            "five_second_drift_rms_deg_per_min": 0.11902394373928023,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07093077153719986,
+            "maximum_displacement_deg": 0.07093077153719986,
+            "five_second_drift_rms_deg_per_min": 0.11936048970724854,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02878429487704955,
+            "maximum_displacement_deg": 0.029773013899994222,
+            "five_second_drift_rms_deg_per_min": 0.11896237426017268,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02897799882288669,
+            "maximum_displacement_deg": 0.02990211543424868,
+            "five_second_drift_rms_deg_per_min": 0.11929794463308219,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07044725977523172,
+            "maximum_displacement_deg": 0.07044725977523172,
+            "five_second_drift_rms_deg_per_min": 0.11901870885030047,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.0709317575160928,
+            "maximum_displacement_deg": 0.0709317575160928,
+            "five_second_drift_rms_deg_per_min": 0.1193627084321113,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02878147814047594,
+            "maximum_displacement_deg": 0.029770463511366186,
+            "five_second_drift_rms_deg_per_min": 0.1189613564266051,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.02897882492717684,
+            "maximum_displacement_deg": 0.02990638649509791,
+            "five_second_drift_rms_deg_per_min": 0.11929567466227803,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07044553260755847,
+            "maximum_displacement_deg": 0.07044553260755847,
+            "five_second_drift_rms_deg_per_min": 0.11902394373928023,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1518.8,
+            "angle_from_15s_deg": 0.07093077153719986,
+            "maximum_displacement_deg": 0.07093077153719986,
+            "five_second_drift_rms_deg_per_min": 0.11936048970724854,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 5,
+        "array_sha256": "b4486e7774525231d248ef3236354cee27000423079f839ef48164336e0ba72c",
+        "snapshot_sha256": "63f045c43d78d4dac0899152f0acf8a852c5c7007082861ca56ada5d2c878224",
+        "metadata_sha256": "601bc9c90d8dc291d847e606e37e32a5d0ed66e91dfc3c1ea9bab5163c7db307",
+        "window_samples": 75856,
+        "duration_s": 1517.108824,
+        "temperature_range_c": [
+          22.85,
+          23.47
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3322240830644891,
+            "maximum_displacement_deg": 0.41254468054072546,
+            "five_second_drift_rms_deg_per_min": 0.20824703245845633,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.33445107850105715,
+            "maximum_displacement_deg": 0.4153123471353282,
+            "five_second_drift_rms_deg_per_min": 0.2088977897677562,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3133434177898544,
+            "maximum_displacement_deg": 0.39212361883825364,
+            "five_second_drift_rms_deg_per_min": 0.20799265436339412,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3154126278860559,
+            "maximum_displacement_deg": 0.3947401662053573,
+            "five_second_drift_rms_deg_per_min": 0.20864147848301773,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.33220806025804805,
+            "maximum_displacement_deg": 0.4125351857068332,
+            "five_second_drift_rms_deg_per_min": 0.20824569790358302,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.334438026904002,
+            "maximum_displacement_deg": 0.41531149775222015,
+            "five_second_drift_rms_deg_per_min": 0.2088987288090764,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3133498963286682,
+            "maximum_displacement_deg": 0.3921277422451627,
+            "five_second_drift_rms_deg_per_min": 0.20799159344274637,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.31544542865033687,
+            "maximum_displacement_deg": 0.3947493327670126,
+            "five_second_drift_rms_deg_per_min": 0.2086423572146318,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3322240830644891,
+            "maximum_displacement_deg": 0.41254468054072546,
+            "five_second_drift_rms_deg_per_min": 0.20824703245845633,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.33445107850105715,
+            "maximum_displacement_deg": 0.4153123471353282,
+            "five_second_drift_rms_deg_per_min": 0.2088977897677562,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3133434177898544,
+            "maximum_displacement_deg": 0.39212361883825364,
+            "five_second_drift_rms_deg_per_min": 0.20799265436339412,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3154126278860559,
+            "maximum_displacement_deg": 0.3947401662053573,
+            "five_second_drift_rms_deg_per_min": 0.20864147848301773,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.33220806025804805,
+            "maximum_displacement_deg": 0.4125351857068332,
+            "five_second_drift_rms_deg_per_min": 0.20824569790358302,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.334438026904002,
+            "maximum_displacement_deg": 0.41531149775222015,
+            "five_second_drift_rms_deg_per_min": 0.2088987288090764,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.3133498963286682,
+            "maximum_displacement_deg": 0.3921277422451627,
+            "five_second_drift_rms_deg_per_min": 0.20799159344274637,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1517.1000000000001,
+            "angle_from_15s_deg": 0.31544542865033687,
+            "maximum_displacement_deg": 0.3947493327670126,
+            "five_second_drift_rms_deg_per_min": 0.2086423572146318,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 6,
+        "array_sha256": "eca6571001ab2f33c1d45d241a8fb228c9f439cea8e79f9251f0ca5cf78a8530",
+        "snapshot_sha256": "a24b94388cdfb23d58462a75bf122cb56d5b32edafd7ada2928f6424d576583f",
+        "metadata_sha256": "b0051ee052b6906386d575ca4d4e61b5a54ef6b78bcbd392293dee7316a8aa11",
+        "window_samples": 75927,
+        "duration_s": 1518.529713,
+        "temperature_range_c": [
+          23.25,
+          23.81
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15275785112486573,
+            "maximum_displacement_deg": 0.16020717772626783,
+            "five_second_drift_rms_deg_per_min": 0.1611463334887409,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15384751088524004,
+            "maximum_displacement_deg": 0.16143111669951007,
+            "five_second_drift_rms_deg_per_min": 0.16192265880341694,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.0850364329298016,
+            "maximum_displacement_deg": 0.1098906877217673,
+            "five_second_drift_rms_deg_per_min": 0.1609917263313426,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08569152067834702,
+            "maximum_displacement_deg": 0.11073089173308408,
+            "five_second_drift_rms_deg_per_min": 0.16177483140671062,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15280138952422193,
+            "maximum_displacement_deg": 0.1602337459447793,
+            "five_second_drift_rms_deg_per_min": 0.16114459780484472,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.1538356506603509,
+            "maximum_displacement_deg": 0.1614183147969432,
+            "five_second_drift_rms_deg_per_min": 0.1619230352905918,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08503620684463467,
+            "maximum_displacement_deg": 0.10988754249823161,
+            "five_second_drift_rms_deg_per_min": 0.16098953245943853,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08569042164233391,
+            "maximum_displacement_deg": 0.11073232935116034,
+            "five_second_drift_rms_deg_per_min": 0.1617695425892305,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15275785112486573,
+            "maximum_displacement_deg": 0.16020717772626783,
+            "five_second_drift_rms_deg_per_min": 0.1611463334887409,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15384751088524004,
+            "maximum_displacement_deg": 0.16143111669951007,
+            "five_second_drift_rms_deg_per_min": 0.16192265880341694,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.0850364329298016,
+            "maximum_displacement_deg": 0.1098906877217673,
+            "five_second_drift_rms_deg_per_min": 0.1609917263313426,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08569152067834702,
+            "maximum_displacement_deg": 0.11073089173308408,
+            "five_second_drift_rms_deg_per_min": 0.16177483140671062,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.15280138952422193,
+            "maximum_displacement_deg": 0.1602337459447793,
+            "five_second_drift_rms_deg_per_min": 0.16114459780484472,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.1538356506603509,
+            "maximum_displacement_deg": 0.1614183147969432,
+            "five_second_drift_rms_deg_per_min": 0.1619230352905918,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08503620684463467,
+            "maximum_displacement_deg": 0.10988754249823161,
+            "five_second_drift_rms_deg_per_min": 0.16098953245943853,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1518.52,
+            "angle_from_15s_deg": 0.08569042164233391,
+            "maximum_displacement_deg": 0.11073232935116034,
+            "five_second_drift_rms_deg_per_min": 0.1617695425892305,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 7,
+        "array_sha256": "7b94a6ccc73ea4028d31fd2a3bf15c7a5682e212c78ee1aeb37f5ad79e6fcfd6",
+        "snapshot_sha256": "39bdaa15c692b0d8ca3ff2671ef38365c1000f8b21dd6fbac67fc9979539ab32",
+        "metadata_sha256": "f26c76e664e07bbd99b36eb164daa022cf6bd80bf3adf6eefe4430d3d2545950",
+        "window_samples": 75880,
+        "duration_s": 1517.589778,
+        "temperature_range_c": [
+          23.56,
+          24.58
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06547700679968775,
+            "maximum_displacement_deg": 0.07211807086076916,
+            "five_second_drift_rms_deg_per_min": 0.15751451874184547,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.065815812249733,
+            "maximum_displacement_deg": 0.07271824632785552,
+            "five_second_drift_rms_deg_per_min": 0.15792036736431003,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06336849190165986,
+            "maximum_displacement_deg": 0.07287058824556583,
+            "five_second_drift_rms_deg_per_min": 0.15759156297730986,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06377383909015319,
+            "maximum_displacement_deg": 0.07347544169497158,
+            "five_second_drift_rms_deg_per_min": 0.15800429233130758,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06548265671183949,
+            "maximum_displacement_deg": 0.07212079221520304,
+            "five_second_drift_rms_deg_per_min": 0.1575059040380166,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06584017548296728,
+            "maximum_displacement_deg": 0.0727255876672978,
+            "five_second_drift_rms_deg_per_min": 0.15792318051352874,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06336625208464103,
+            "maximum_displacement_deg": 0.07287192375545586,
+            "five_second_drift_rms_deg_per_min": 0.15759360668131447,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06377328090975234,
+            "maximum_displacement_deg": 0.07347710580157307,
+            "five_second_drift_rms_deg_per_min": 0.1580059994864115,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06547700679968775,
+            "maximum_displacement_deg": 0.07211807086076916,
+            "five_second_drift_rms_deg_per_min": 0.15751451874184547,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.065815812249733,
+            "maximum_displacement_deg": 0.07271824632785552,
+            "five_second_drift_rms_deg_per_min": 0.15792036736431003,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06336849190165986,
+            "maximum_displacement_deg": 0.07287058824556583,
+            "five_second_drift_rms_deg_per_min": 0.15759156297730986,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06377383909015319,
+            "maximum_displacement_deg": 0.07347544169497158,
+            "five_second_drift_rms_deg_per_min": 0.15800429233130758,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06548265671183949,
+            "maximum_displacement_deg": 0.07212079221520304,
+            "five_second_drift_rms_deg_per_min": 0.1575059040380166,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06584017548296728,
+            "maximum_displacement_deg": 0.0727255876672978,
+            "five_second_drift_rms_deg_per_min": 0.15792318051352874,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06336625208464103,
+            "maximum_displacement_deg": 0.07287192375545586,
+            "five_second_drift_rms_deg_per_min": 0.15759360668131447,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1517.58,
+            "angle_from_15s_deg": 0.06377328090975234,
+            "maximum_displacement_deg": 0.07347710580157307,
+            "five_second_drift_rms_deg_per_min": 0.1580059994864115,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 8,
+        "array_sha256": "dd4210a0496c72b4d36bd506e67aba3e39a05aab2bf47f76ad97a1f70b0252d7",
+        "snapshot_sha256": "a409e6ca5856139d55fb55bee29ed107835bb592ad707a7566346c760d7d55b6",
+        "metadata_sha256": "dafe87ab8d1bd39358775a5916714f5b548299dd1a95ca61bc5031410aa8d41a",
+        "window_samples": 75920,
+        "duration_s": 1518.388112,
+        "temperature_range_c": [
+          22.88,
+          23.48
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08411158493069265,
+            "maximum_displacement_deg": 0.14638576807843523,
+            "five_second_drift_rms_deg_per_min": 0.14008992150915828,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.084925674143045,
+            "maximum_displacement_deg": 0.1478250035251597,
+            "five_second_drift_rms_deg_per_min": 0.14052987688156568,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10863387396771523,
+            "maximum_displacement_deg": 0.16481575159209527,
+            "five_second_drift_rms_deg_per_min": 0.14026000056343094,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10969910171344065,
+            "maximum_displacement_deg": 0.16644253305196322,
+            "five_second_drift_rms_deg_per_min": 0.14069998488322707,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08410908590543316,
+            "maximum_displacement_deg": 0.14638266568249497,
+            "five_second_drift_rms_deg_per_min": 0.1400971681928465,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08492859002849569,
+            "maximum_displacement_deg": 0.14782601908897292,
+            "five_second_drift_rms_deg_per_min": 0.14052814564142005,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10864949484248093,
+            "maximum_displacement_deg": 0.16482010220709903,
+            "five_second_drift_rms_deg_per_min": 0.14025665958802905,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10970787828263838,
+            "maximum_displacement_deg": 0.16644334378865672,
+            "five_second_drift_rms_deg_per_min": 0.14069958462298265,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08411158493069265,
+            "maximum_displacement_deg": 0.14638576807843523,
+            "five_second_drift_rms_deg_per_min": 0.14008992150915828,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.084925674143045,
+            "maximum_displacement_deg": 0.1478250035251597,
+            "five_second_drift_rms_deg_per_min": 0.14052987688156568,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10863387396771523,
+            "maximum_displacement_deg": 0.16481575159209527,
+            "five_second_drift_rms_deg_per_min": 0.14026000056343094,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10969910171344065,
+            "maximum_displacement_deg": 0.16644253305196322,
+            "five_second_drift_rms_deg_per_min": 0.14069998488322707,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08410908590543316,
+            "maximum_displacement_deg": 0.14638266568249497,
+            "five_second_drift_rms_deg_per_min": 0.1400971681928465,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.08492859002849569,
+            "maximum_displacement_deg": 0.14782601908897292,
+            "five_second_drift_rms_deg_per_min": 0.14052814564142005,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10864949484248093,
+            "maximum_displacement_deg": 0.16482010220709903,
+            "five_second_drift_rms_deg_per_min": 0.14025665958802905,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1518.38,
+            "angle_from_15s_deg": 0.10970787828263838,
+            "maximum_displacement_deg": 0.16644334378865672,
+            "five_second_drift_rms_deg_per_min": 0.14069958462298265,
+            "rest_fraction": 1.0
+          }
+        }
+      },
+      {
+        "slot": 9,
+        "array_sha256": "f887e0333156b00676b98c2c4fd29387794a177b286337fba794cbd9f1720fdb",
+        "snapshot_sha256": "20cbe908efc9fb1e0bd0d3e963d7209a5f2146ac4ae2f938b34e5d12f1409999",
+        "metadata_sha256": "ceb0a320ebdee8270d5fba34dcc1fb8e16b5835537f136953039b9ac19d86cb9",
+        "window_samples": 75866,
+        "duration_s": 1517.309018,
+        "temperature_range_c": [
+          22.76,
+          23.31
+        ],
+        "accel_transform_effectively_identity": true,
+        "cases": {
+          "0": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.017842949945057352,
+            "maximum_displacement_deg": 0.05074344570799449,
+            "five_second_drift_rms_deg_per_min": 0.12280616604077807,
+            "rest_fraction": 1.0
+          },
+          "1": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.017874404029340964,
+            "maximum_displacement_deg": 0.051163644222493365,
+            "five_second_drift_rms_deg_per_min": 0.12307560253670387,
+            "rest_fraction": 1.0
+          },
+          "2": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.026879704308278983,
+            "maximum_displacement_deg": 0.04804646015398871,
+            "five_second_drift_rms_deg_per_min": 0.12268928860880136,
+            "rest_fraction": 1.0
+          },
+          "3": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.027008998572918056,
+            "maximum_displacement_deg": 0.04840227930176372,
+            "five_second_drift_rms_deg_per_min": 0.12295818399001972,
+            "rest_fraction": 1.0
+          },
+          "4": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.01784692447348364,
+            "maximum_displacement_deg": 0.050736210034697346,
+            "five_second_drift_rms_deg_per_min": 0.12280803217939032,
+            "rest_fraction": 1.0
+          },
+          "5": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.0178760696019911,
+            "maximum_displacement_deg": 0.05114941008957195,
+            "five_second_drift_rms_deg_per_min": 0.12307651610397198,
+            "rest_fraction": 1.0
+          },
+          "6": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.026901330922760536,
+            "maximum_displacement_deg": 0.048053337617673386,
+            "five_second_drift_rms_deg_per_min": 0.12269096232139416,
+            "rest_fraction": 1.0
+          },
+          "7": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.02703142626784182,
+            "maximum_displacement_deg": 0.04841095982155795,
+            "five_second_drift_rms_deg_per_min": 0.12295713106456158,
+            "rest_fraction": 1.0
+          },
+          "8": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.017842949945057352,
+            "maximum_displacement_deg": 0.05074344570799449,
+            "five_second_drift_rms_deg_per_min": 0.12280616604077807,
+            "rest_fraction": 1.0
+          },
+          "9": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.017874404029340964,
+            "maximum_displacement_deg": 0.051163644222493365,
+            "five_second_drift_rms_deg_per_min": 0.12307560253670387,
+            "rest_fraction": 1.0
+          },
+          "10": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.026879704308278983,
+            "maximum_displacement_deg": 0.04804646015398871,
+            "five_second_drift_rms_deg_per_min": 0.12268928860880136,
+            "rest_fraction": 1.0
+          },
+          "11": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.027008998572918056,
+            "maximum_displacement_deg": 0.04840227930176372,
+            "five_second_drift_rms_deg_per_min": 0.12295818399001972,
+            "rest_fraction": 1.0
+          },
+          "12": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.01784692447348364,
+            "maximum_displacement_deg": 0.050736210034697346,
+            "five_second_drift_rms_deg_per_min": 0.12280803217939032,
+            "rest_fraction": 1.0
+          },
+          "13": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.0178760696019911,
+            "maximum_displacement_deg": 0.05114941008957195,
+            "five_second_drift_rms_deg_per_min": 0.12307651610397198,
+            "rest_fraction": 1.0
+          },
+          "14": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.026901330922760536,
+            "maximum_displacement_deg": 0.048053337617673386,
+            "five_second_drift_rms_deg_per_min": 0.12269096232139416,
+            "rest_fraction": 1.0
+          },
+          "15": {
+            "duration_s": 1517.3,
+            "angle_from_15s_deg": 0.02703142626784182,
+            "maximum_displacement_deg": 0.04841095982155795,
+            "five_second_drift_rms_deg_per_min": 0.12295713106456158,
+            "rest_fraction": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "One independent device/trajectory; physical final return below 0.5 deg is operator-provided, not an external orientation time series.",
+    "Pre-motion static evidence is only 10 seconds (two increments); post-motion filter recovery is excluded from this metric. See the independent long-static comparison for longer support.",
+    "Ten missing gyro and two missing fresh acceleration samples occur in post-motion rest at ~179.3 s and retain modeled sender time. Static windows avoid all gaps.",
+    "Current calibration is from the external RF-matched snapshot; capture omits a complete calibration and live quaternion/runtime state.",
+    "Earth initial direction is supported by the operator confirmation. Magnitude and direction are frozen, without sweep or choosing the best result.",
+    "Every case starts a fresh production filter; online initialization/history and temperature-smoother state were not recorded.",
+    "Single-addition and full-system marginal changes differ; signed changes need not add and can reflect cancellation.",
+    "The installed acceleration transform on this device is identity; toggling it cannot establish the value of a separate nonidentity calibration."
+  ]
+}

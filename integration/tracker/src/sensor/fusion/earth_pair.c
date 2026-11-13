@@ -45,7 +45,7 @@ bool earth_pair_save(const earth_pair_t *pair, bool auto_pending, bool motion_ga
     memset(storage,0,capacity);
     if(!snapshot_pair_valid(pair)) return false;
     earth_pair_snapshot_t record={0};
-    record.version=2; record.auto_pending=auto_pending; record.motion_gate=motion_gate;
+    record.version=VQF_STATE_VERSION; record.auto_pending=auto_pending; record.motion_gate=motion_gate;
     record.accel_gate_mode=accel_gate_mode;
     record.samples=samples; record.pair=*pair;
     record.checksum=snapshot_checksum(&record);
@@ -59,7 +59,7 @@ bool earth_pair_load(earth_pair_t *pair, bool *auto_pending, bool *motion_gate,
     if(capacity<sizeof(earth_pair_snapshot_t)) return false;
     earth_pair_snapshot_t record;
     memcpy(&record,storage,sizeof(record));
-    if(record.version!=2 || record.accel_gate_mode>2 || record.checksum!=snapshot_checksum(&record) || !snapshot_pair_valid(&record.pair)) return false;
+    if(record.version!=VQF_STATE_VERSION || record.accel_gate_mode>2 || record.checksum!=snapshot_checksum(&record) || !snapshot_pair_valid(&record.pair)) return false;
     *pair=record.pair; *auto_pending=record.auto_pending;
     *motion_gate=record.motion_gate; *samples=record.samples;
     *accel_gate_mode=record.accel_gate_mode;
@@ -101,8 +101,12 @@ bool earth_pair_start(earth_pair_t *p, const vqf_params_t *params,
     for (int j=0;j<3;j++) {
         p->state.bias[j]-=d[j];
         p->state.restLastGyrLp[j]-=d[j];
+        #if VQF_STABLE_IIR
+        p->state.restGyrLpState[2*j+1]-=d[j];
+#else
         p->state.restGyrLpState[2*j]-=d[j]*(1-c->restGyrLpB[0]);
         p->state.restGyrLpState[2*j+1]-=d[j]*(c->restGyrLpB[2]-c->restGyrLpA[1]);
+#endif
     }
     for (int row=0;row<2;row++) for (int z=0;z<2;z++)
         for (int k=0;k<3;k++)
@@ -205,12 +209,18 @@ static void pair_rotate_world_state(earth_pair_t *p, float yaw)
 
 static void pair_translate_earth_subtraction(earth_pair_t *p, const float diff[3])
 {
+#if !VQF_STABLE_IIR
     const vqf_coeffs_t *c=&p->coeffs;
+#endif
     for (int j=0; j<3; j++) {
         p->state.bias[j]-=diff[j];
         p->state.restLastGyrLp[j]-=diff[j];
+        #if VQF_STABLE_IIR
+        p->state.restGyrLpState[2*j+1]-=diff[j];
+#else
         p->state.restGyrLpState[2*j]-=diff[j]*(1-c->restGyrLpB[0]);
         p->state.restGyrLpState[2*j+1]-=diff[j]*(c->restGyrLpB[2]-c->restGyrLpA[1]);
+#endif
     }
     for (int row=0; row<2; row++) for (int tap=0; tap<2; tap++) {
         double change=0;

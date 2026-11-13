@@ -4,7 +4,7 @@ Trial authorization is recorded separately from quality-gate acceptance.
 Every prefix of the three-field transaction is identifiable for rollback.
 An unrecognized state is never overwritten. Reboot verification is separate.
 """
-import argparse,hashlib,json,math,struct,zlib
+import argparse,hashlib,json,math,os,struct,zlib
 from pathlib import Path
 from calwire import Radio,unpack_snapshot,require
 from batch_calibration import Journal,save_new,validate_targets
@@ -146,6 +146,17 @@ def apply_entries(radio,entries,journal):
         raise
     return dict(already_applied_slots=sorted(installed),written_slots=[e['slot'] for e in touched])
 
+def rollback_entries(radio,entries,journal):
+    # A foreign peer must stop the entire explicit rollback before any writes.
+    for e in entries:identify(radio,e)
+    for e in reversed(entries):restore(radio,e,journal)
+
+
+def durable_bytes(path,raw):
+    with path.open('xb') as stream:
+        stream.write(raw);stream.flush();os.fsync(stream.fileno())
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--plan',type=Path,required=True);p.add_argument('--session',type=Path,required=True)
@@ -155,13 +166,12 @@ def main():
     save_new(a.out/'plan.json',plan);journal=Journal(a.out/'journal.jsonl')
     for e in entries:
         folder=a.out/f"slot-{e['slot']}";folder.mkdir()
-        (folder/'before.bin').write_bytes(e['before']);(folder/'expected-after.bin').write_bytes(e['after'])
+        durable_bytes(folder/'before.bin',e['before']);durable_bytes(folder/'expected-after.bin',e['after'])
     radio=Radio(plan['receiver_serial'],journal)
     details={}
     try:
         if a.mode=='apply':details=apply_entries(radio,entries,journal)
-        elif a.mode=='rollback':
-            for e in reversed(entries):restore(radio,e,journal)
+        elif a.mode=='rollback':rollback_entries(radio,entries,journal)
         else:
             for e in entries:
                 verify_session(radio,e,e['after']);print(json.dumps(dict(verified=e['slot'])),flush=True)

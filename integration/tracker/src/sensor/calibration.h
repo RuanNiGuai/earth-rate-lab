@@ -156,4 +156,8 @@ void sensor_tcal_dump_lut(void);
 
 /* Read-only site latitude for archived Earth observations. */
 float sensor_earth_reference_latitude(void);
+
+/* CALWIRE: active accelerometer transform, in raw driver axes and g. */
+bool sensor_calibration_wire_idle(void);
+bool sensor_calibration_accel_snapshot(float out[4][3]);
 #endif

@@ -50,6 +50,8 @@ class StatusRadio:
 
 class BridgeTests(unittest.TestCase):
     def setUp(self):
+        processes=patch('capture_preflight.windows_processes',return_value=[])
+        processes.start();self.addCleanup(processes.stop)
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)

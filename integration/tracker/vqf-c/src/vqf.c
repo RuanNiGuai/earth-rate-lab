@@ -274,6 +274,15 @@ static vqf_real_t gainFromTau(vqf_real_t tau, vqf_real_t Ts)
     }
 }
 
+#if VQF_STABLE_IIR
+static void filterCoeffs(vqf_real_t tau, vqf_real_t Ts, vqf_double_t b[3], vqf_double_t a[2])
+{
+    if(tau<=0 || Ts<=0 || tau<Ts/2) { b[0]=1; b[1]=b[2]=a[0]=a[1]=0; return; }
+    vqf_double_t g=tanf(Ts/(M_SQRT2*tau));
+    b[0]=1/(1+g*(g+M_SQRT2)); b[1]=g*b[0]; b[2]=g*b[1];
+    a[0]=g; a[1]=1; /* a[1] is enabled; a[0] records g for diagnostics. */
+}
+#else
 static void filterCoeffs(vqf_real_t tau, vqf_real_t Ts, vqf_double_t outB[3], vqf_double_t outA[2])
 {
     // assert(tau > 0);
@@ -308,7 +317,14 @@ static void filterCoeffs(vqf_real_t tau, vqf_real_t Ts, vqf_double_t outB[3], vq
     outA[0] = 2*(C*C-1)/D; // a1
     outA[1] = (1-M_SQRT2*C+C*C)/D; // a2
 }
+#endif
 
+#if VQF_STABLE_IIR
+static void filterInitialState(vqf_real_t x, const vqf_double_t b[], const vqf_double_t a[], vqf_double_t state[2])
+{
+    (void)b; (void)a; state[0]=0; state[1]=x;
+}
+#else
 static void filterInitialState(vqf_real_t x0, const vqf_double_t b[], const vqf_double_t a[], vqf_double_t out[2])
 {
     // initial state for steady state (equivalent to scipy.signal.lfilter_zi, obtained by setting y=x=x0 in the filter
@@ -316,7 +332,18 @@ static void filterInitialState(vqf_real_t x0, const vqf_double_t b[], const vqf_
     out[0] = x0*(1 - b[0]);
     out[1] = x0*(b[2] - a[1]);
 }
+#endif
 
+#if VQF_STABLE_IIR
+static void filterAdaptStateForCoeffChange(vqf_real_t last_y[], size_t N, const vqf_double_t b_old[3],
+                                         const vqf_double_t a_old[2], const vqf_double_t b_new[3],
+                                         const vqf_double_t a_new[2], vqf_double_t state[])
+{
+    (void)last_y;(void)N;(void)b_old;(void)a_old;(void)b_new;(void)a_new;(void)state;
+    /* Trapezoidal integrator states are retained across cutoff changes. This
+     * has different transient behavior from DF2T; adaptive tau is not enabled. */
+}
+#else
 static void filterAdaptStateForCoeffChange(vqf_real_t last_y[], size_t N, const vqf_double_t b_old[3],
                                          const vqf_double_t a_old[2], const vqf_double_t b_new[3],
                                          const vqf_double_t a_new[2], vqf_double_t state[])
@@ -329,7 +356,18 @@ static void filterAdaptStateForCoeffChange(vqf_real_t last_y[], size_t N, const 
         state[1+2*i] = state[1+2*i] + (b_old[1] - b_new[1] - a_old[0] + a_new[0] + b_old[0] - b_new[0])*last_y[i];
     }
 }
+#endif
 
+#if VQF_STABLE_IIR
+static vqf_real_t filterStep(vqf_real_t x, const vqf_double_t b[3], const vqf_double_t a[2], vqf_double_t s[2])
+{
+    if(a[1]==0) { s[0]=0;s[1]=x;return x; }
+    vqf_double_t difference=x-s[1];
+    vqf_double_t band=b[0]*s[0]+b[1]*difference;
+    vqf_double_t low=s[1]+b[1]*s[0]+b[2]*difference;
+    s[0]=2*band-s[0];s[1]=2*low-s[1];return low;
+}
+#else
 static vqf_real_t filterStep(vqf_real_t x, const vqf_double_t b[3], const vqf_double_t a[2], vqf_double_t state[2])
 {
     // difference equations based on scipy.signal.lfilter documentation
@@ -339,6 +377,7 @@ static vqf_real_t filterStep(vqf_real_t x, const vqf_double_t b[3], const vqf_do
     state[1] = b[2]*x - a[1]*y;
     return y;
 }
+#endif
 
 static void filterVec(const vqf_real_t x[], size_t N, vqf_real_t tau, vqf_real_t Ts, const vqf_double_t b[3],
                     const vqf_double_t a[2], vqf_double_t state[], vqf_real_t out[])

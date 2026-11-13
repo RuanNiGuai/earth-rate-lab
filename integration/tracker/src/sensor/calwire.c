@@ -21,6 +21,7 @@
 
 K_MSGQ_DEFINE(cw_queue,CW_SIZE,2,4);
 static atomic_t active,apply_state;
+static bool storage_uncertain;
 static uint8_t snapshot[12288],scratch[4096],staged[60],present[60];
 static uint8_t apply_bytes[36] __aligned(4),apply_before[36] __aligned(4);
 static unsigned apply_field;
@@ -28,7 +29,7 @@ static uint32_t session,last_session,expires,thermal_crc;
 static size_t snapshot_size;
 static uint8_t begin_reply[8];
 bool calwire_active(void){return atomic_get(&active)!=0;}
-static bool idle(void){return !arc8_ota_active()&&!f04_summary_active()&&
+static bool idle(void){return sensor_calibration_wire_idle()&&!arc8_ota_active()&&!f04_summary_active()&&
     !connection_get_data_collection()&&!sensor_tcal_get_auto_calibration()&&
     !sensor_earth_cal_active()&&!sensor_gyro_scale_active()&&!sensor_gsens_guide_active()&&
     cal_archive_wire_idle();}
@@ -37,8 +38,11 @@ static const float *field_ptr(unsigned f){return f==1?retained->gyroSensScale:
 void calwire_sensor_poll(bool rest){
     if(!atomic_cas(&apply_state,1,2))return;
     bool ok=rest&&idle()&&!memcmp(field_ptr(apply_field),apply_before,cw_field_size(apply_field));
-    if(ok)ok=apply_field==1?sys_gyro_scale_save((float*)apply_bytes):
-        apply_field==2?sys_gyro_gsens_save((float*)apply_bytes):sys_earth_reference_save((float*)apply_bytes);
+    if(ok) {
+        ok=apply_field==1?sys_gyro_scale_save((float*)apply_bytes):
+            apply_field==2?sys_gyro_gsens_save((float*)apply_bytes):sys_earth_reference_save((float*)apply_bytes);
+        if(!ok)storage_uncertain=true; /* NVS outcome unknown until reload. */
+    }
     if(ok)ok=!memcmp(field_ptr(apply_field),apply_bytes,cw_field_size(apply_field));
     atomic_set(&apply_state,ok?3:4);
 }
@@ -65,6 +69,14 @@ static bool take_snapshot(void){
     profile[63]=retained->tcal_enabled;
     irq_unlock(key);
     if(!append(2,profile,sizeof(profile)))return false;
+    /* TLV 4 v1: driver axes, g, a_cal=A*(a_raw-b). Gyro M multiplies
+     * a_cal before gyro S. Both live and persisted accel must agree.
+     * This object is read-only; existing profile offsets remain unchanged. */
+    float accel[4][3];
+    if(!sensor_calibration_accel_snapshot(accel))return false;
+    uint8_t accel_wire[52]={1,1,IS_ENABLED(CONFIG_SENSOR_USE_6_SIDE_CALIBRATION),1};
+    memcpy(accel_wire+4,accel,sizeof(accel));
+    if(!append(4,accel_wire,sizeof(accel_wire)))return false;
     size_t space=sizeof(snapshot)-snapshot_size-4;
     size_t n=sensor_tcal_wire_snapshot(snapshot+snapshot_size+4,space);
     if(!n)return false;
@@ -84,6 +96,7 @@ static bool take_snapshot(void){
 static uint8_t handle(const uint8_t *p,uint8_t *out,uint8_t *length){
     unsigned op=p[3],offset=cw_u16(p+14),n=p[16];uint32_t token=cw_u32(p+4);
     *length=0;
+    if(storage_uncertain && op!=5)return 8;
     if(op==0){
         if(n||offset||token==last_session)return 1;
         if(calwire_active()&&token!=session)return 2;

@@ -26,6 +26,7 @@ class CalwireTests(unittest.TestCase):
 #define MIN(a,b) ((a)<(b)?(a):(b))
 typedef int atomic_t;
 static atomic_t active,apply_state;
+static bool storage_uncertain,fail_readback;
 static uint8_t snapshot[64],scratch[4096],staged[60],present[60],apply_bytes[36],apply_before[36];
 static unsigned apply_field,writes;
 static uint32_t session,last_session,expires,thermal_crc;
@@ -43,7 +44,7 @@ static bool atomic_cas(int *p,int old,int value){if(*p!=old)return false;*p=valu
 static bool calwire_active(void){return active;}
 static bool idle(void){return is_idle;}
 static const float *field_ptr(unsigned f){return f==1?scales:f==2?gsens:earth;}
-static bool sys_gyro_scale_save(const float *p){memcpy(scales,p,12);writes++;return true;}
+static bool sys_gyro_scale_save(const float *p){memcpy(scales,p,12);writes++;return !fail_readback;}
 static bool sys_gyro_gsens_save(const float *p){memcpy(gsens,p,36);writes++;return true;}
 static bool sys_earth_reference_save(const float *p){memcpy(earth,p,12);writes++;return true;}
 static size_t sensor_tcal_wire_snapshot(uint8_t *p,size_t n){assert(n>=4);memcpy(p,"TEST",4);return 4;}
@@ -74,6 +75,13 @@ int main(void){
     assert(call(0,0,0)==1); /* closed token cannot restart a snapshot */
     uint8_t p[48]={0x26,2,1,0};cw_put32(p+4,1);cw_put32(p+44,cw_crc(p,44));
     assert(cw_valid(p,48,0x26));for(unsigned i=0;i<48;i++){p[i]^=1;assert(!cw_valid(p,48,0x26));p[i]^=1;}
+    /* Flash commits but readback fails: do not expose stale/uncertain state. */
+    cw_put32(req+4,456);assert(call(0,0,0)==0);
+    next[0]=1.03f;memcpy(req+18,next,12);assert(call(2,0,12)==0);
+    cw_put32(req+18,cw_crc(scales,12));cw_put32(req+22,cw_crc(next,12));cw_put32(req+26,thermal_crc);
+    fail_readback=true;assert(call(4,1,12)==8&&storage_uncertain);
+    assert(call(1,0,0)==8);assert(call(5,0,0)==0);
+    cw_put32(req+4,789);assert(call(0,0,0)==8);
     puts("CALWIRE native bounds, stale CAS, rest gate, dry run, replay and session tests passed");
 }
 '''

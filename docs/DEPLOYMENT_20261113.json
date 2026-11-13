@@ -1,0 +1,225 @@
+{
+  "completed_at": "2026-11-13T16:34:35.590065+08:00",
+  "status": "ALL_TEN_FLASHED_CONFIRMED_AND_PARAMETERS_PRESERVED",
+  "build": "e144bbfe183d_cw6_stable",
+  "image_sha256": "6a7781ec7c33d7d86009a9e3d71e59b9b3e7aec0ede14550dc454261eb84bdf8",
+  "tracker_count": 10,
+  "firmware_flashes": 10,
+  "calibration_writes": 0,
+  "receiver_updated": false,
+  "calwire_request_counts": {
+    "0": 20,
+    "1": 7020,
+    "5": 20
+  },
+  "devices": [
+    {
+      "slot": 0,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "efb865e9e71a67c8f1eca9739b1e8203348e4d8942ab56bee88346eb4a6e0a10",
+      "after_snapshot_sha256": "6d16c959c4b448f913cd52537425ca7779a5e0438b96aedec830e2285db52d4f"
+    },
+    {
+      "slot": 1,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "0390239448a9487603b93171701b0e31fb96b2767add0cfc5d6d18de39369287",
+      "after_snapshot_sha256": "bb77e643a8dbcc15ea955b3a1565c244cd2c8cc6970e8e0a62ac64adccc1a31b"
+    },
+    {
+      "slot": 2,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "f861cd81112e2662685d94b8889437c9d8e17b06cdaf800c2dd742739808d4e3",
+      "after_snapshot_sha256": "4dc13ed5be6e9830fb74696baaab809a63f91eba866c21e049e3cbeeb1d3a862"
+    },
+    {
+      "slot": 3,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "14f9cd0cb49d77e0a4426a176b0b17f4f1d85fd23c273d9d4305e78cc7d1e262",
+      "after_snapshot_sha256": "b6c2f7724d745831a59e07c6f80e4ddd21e38c8b159eeebdcd18f21ee16c3094"
+    },
+    {
+      "slot": 4,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "1bc33c9a0bf39f72990e45814643ed18d7d179c1267391de16959f78b58a25a8",
+      "after_snapshot_sha256": "76b04cc06458940d500a869612dc793bb00b0a38ed4bdafbd8886ac83369ac01"
+    },
+    {
+      "slot": 5,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "8b3fed8e064016204ddb5ebc4699d8c2e8ee3eb802e990a0401934a3bd71b046",
+      "after_snapshot_sha256": "63f045c43d78d4dac0899152f0acf8a852c5c7007082861ca56ada5d2c878224"
+    },
+    {
+      "slot": 6,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "ab54591f0bf4709b58faaf3c2d0d827af756d8e147fc9ebe795a760590b23f5f",
+      "after_snapshot_sha256": "a24b94388cdfb23d58462a75bf122cb56d5b32edafd7ada2928f6424d576583f"
+    },
+    {
+      "slot": 7,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "187c28823025cc6bb8a281e0f43d5eb5fd32c868a1b4bbaa3c66ff38e743cb9f",
+      "after_snapshot_sha256": "39bdaa15c692b0d8ca3ff2671ef38365c1000f8b21dd6fbac67fc9979539ab32"
+    },
+    {
+      "slot": 8,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "ecfd2f139da65c4c7d3cae6ccb30465c8ec3f2b4a1f682dc668deb98fb78e020",
+      "after_snapshot_sha256": "a409e6ca5856139d55fb55bee29ed107835bb592ad707a7566346c760d7d55b6"
+    },
+    {
+      "slot": 9,
+      "build": "e144bbfe183d_cw6_stable",
+      "image_confirmed": true,
+      "second_reboot_observed": true,
+      "calibration_preserved": true,
+      "acceleration_active_matches_persisted": true,
+      "acceleration_pre_post_comparable": false,
+      "before_snapshot_sha256": "c28d0e2cd25f9a7fc7eb8a568ec41a57fb46eb8f9c277804aa4f1b7420fe525c",
+      "after_snapshot_sha256": "20cbe908efc9fb1e0bd0d3e963d7209a5f2146ac4ae2f938b34e5d12f1409999"
+    }
+  ],
+  "private_deployment_evidence_sha256": "16bfa054b9208855c37b6c9c0e3e39bd5d7dc5399563d28fc5bb9d105be4216e",
+  "offline_evidence_sha256": "6da39ebb5311ad6dd96657e80c56a93b3cebdc09eaa87e54f8ba3b992e4cc476",
+  "original_offline_evidence_sha256": "396baeb8cd866b92ad4f97022c83e548251281271bba00a79be9d9e44cb5d58d",
+  "fleet_comparison": {
+    "legacy": {
+      "train_rest_deg_per_min": {
+        "rms": 0.04851683590126039,
+        "median": 0.036170600986848815,
+        "maximum": 0.11731868952797087
+      },
+      "held_rest_deg_per_min": {
+        "rms": 0.09212086318880518,
+        "median": 0.07038638221534735,
+        "maximum": 0.2894317200162675
+      },
+      "train_closure_deg": {
+        "rms": 0.3612589378835834,
+        "median": 0.277086708668977,
+        "maximum": 0.8497878470124047
+      },
+      "held_closure_deg": {
+        "rms": 0.7364419963365788,
+        "median": 0.5836934976542487,
+        "maximum": 1.9127063203852093
+      },
+      "training_score": 0.6038431173898853
+    },
+    "production": {
+      "train_rest_deg_per_min": {
+        "rms": 0.048497538798106664,
+        "median": 0.03635173123537474,
+        "maximum": 0.11824749018938716
+      },
+      "held_rest_deg_per_min": {
+        "rms": 0.09238331837525136,
+        "median": 0.06924010977815362,
+        "maximum": 0.28904424348529645
+      },
+      "train_closure_deg": {
+        "rms": 0.359559828741342,
+        "median": 0.27242223914049696,
+        "maximum": 0.8481052230342628
+      },
+      "held_closure_deg": {
+        "rms": 0.737016224288898,
+        "median": 0.5876343415774318,
+        "maximum": 1.910567983182773
+      },
+      "training_score": 0.6020475227318753
+    },
+    "cmsis": {
+      "train_rest_deg_per_min": {
+        "rms": 0.048496779281222764,
+        "median": 0.036350982626945916,
+        "maximum": 0.11824768450175187
+      },
+      "held_rest_deg_per_min": {
+        "rms": 0.09257194712138511,
+        "median": 0.06923555171727613,
+        "maximum": 0.2890429519096509
+      },
+      "train_closure_deg": {
+        "rms": 0.36007654255363103,
+        "median": 0.272826116945106,
+        "maximum": 0.8469932381999131
+      },
+      "held_closure_deg": {
+        "rms": 0.7372849197810295,
+        "median": 0.5864322654320462,
+        "maximum": 1.9127981083134817
+      },
+      "training_score": 0.6025604389597449
+    }
+  },
+  "long_static_deg_per_min": {
+    "legacy": {
+      "median": 0.15028240361619305,
+      "maximum": 0.20864038701864307
+    },
+    "production": {
+      "median": 0.1493527920546971,
+      "maximum": 0.2086423572146318
+    },
+    "cmsis": {
+      "median": 0.1493532275377839,
+      "maximum": 0.20864416188067153
+    }
+  },
+  "long_static_improved": 8,
+  "limitations": [
+    "Historic recordings replayed with current installed S/M/E, temperature LUT and acceleration matrix. Not a fresh physical accuracy test.",
+    "F04 window means are reconstructed into substeps; actual high-frequency noise and within-window motion are not recoverable.",
+    "Calibration and some diagnostic recordings overlap; these metrics are conditional, not independent parameter validation.",
+    "The independent long recording has no verified compass pose; Earth compensation is omitted identically in both modes.",
+    "Legacy pre-upgrade snapshot lacks the acceleration matrix. Post-upgrade matrix matches persisted storage, but pre/post equality cannot be measured directly.",
+    "Slow rotation versus bias and linear acceleration versus tilt remain unidentifiable without external reference."
+  ],
+  "independent_physical_accuracy_acceptance": false
+}

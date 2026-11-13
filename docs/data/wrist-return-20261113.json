@@ -1,0 +1,126 @@
+{
+  "schema": "WRIST_RETURN_FINDINGS1",
+  "source_date": "2026-10-29",
+  "calibration_snapshot_date": "2026-11-13",
+  "installed_build": "e144bbfe183d_cw6_stable",
+  "raw_samples": 93056,
+  "source_sha256": "eb6bbd80e74b969d30fb392b36a896927c62b7e38894046bd5ac6c44bbc29802",
+  "csv_sha256": "9283eafbaa4c77d40507d849315ae63c17ff5052b31d3cc5fe7fb8fb8c1b1e0d",
+  "installed_snapshot_sha256": "a24b94388cdfb23d58462a75bf122cb56d5b32edafd7ada2928f6424d576583f",
+  "private_input_sha256": "6e408dba85883235c492811bbaa4f8657db9647031889217e56619c7372def89",
+  "private_comparison_sha256": "c35ca9a02a5443893dca1db0e10a0d0165f631f06269789de13835f34960ef22",
+  "before_s": [
+    87,
+    107
+  ],
+  "after_s": [
+    212,
+    227
+  ],
+  "return_deg": {
+    "recorded_scale_only": 11.310995618429105,
+    "installed_scale_only": 2.0980509353766656,
+    "installed_full": 2.04806967142925,
+    "installed_full_cmsis": 2.048540014641066,
+    "installed_full_no_motion_bias": 2.0492004158500845,
+    "installed_full_no_rate_gate": 2.0573588588423495
+  },
+  "calibration_replay_reduction_percent": 81.89310878971334,
+  "endpoint_sensitivity_deg": {
+    "minimum": 2.0467148745597545,
+    "maximum": 2.0836120197960395,
+    "accepted": 9
+  },
+  "endpoint_gravity_difference_deg": 0.024563305960097735,
+  "current_scale_sensitivity_deg": [
+    {
+      "axis": "x",
+      "scale_perturbation": -0.001,
+      "return_deg": 1.676454532943425
+    },
+    {
+      "axis": "x",
+      "scale_perturbation": 0.001,
+      "return_deg": 2.5192410263456853
+    },
+    {
+      "axis": "y",
+      "scale_perturbation": -0.001,
+      "return_deg": 2.57221201959857
+    },
+    {
+      "axis": "y",
+      "scale_perturbation": 0.001,
+      "return_deg": 1.6195631765522889
+    },
+    {
+      "axis": "z",
+      "scale_perturbation": -0.001,
+      "return_deg": 1.5365090384805444
+    },
+    {
+      "axis": "z",
+      "scale_perturbation": 0.001,
+      "return_deg": 2.656209909289549
+    }
+  ],
+  "pure_gyro_point_sample_quadrature": {
+    "old_0": {
+      "total_deg": 19.510918544731496,
+      "vertical_component_deg": -11.435877757693724
+    },
+    "old_1": {
+      "total_deg": 19.513241865402716,
+      "vertical_component_deg": -11.426105360412684
+    },
+    "old_2": {
+      "total_deg": 19.508580046256476,
+      "vertical_component_deg": -11.445611144354602
+    },
+    "new_scale_0": {
+      "total_deg": 3.3463046441899356,
+      "vertical_component_deg": -2.280283550289756
+    },
+    "new_scale_1": {
+      "total_deg": 3.3248837255565036,
+      "vertical_component_deg": -2.2707704403057547
+    },
+    "new_scale_2": {
+      "total_deg": 3.3677266881243897,
+      "vertical_component_deg": -2.2897579269685844
+    },
+    "current_0": {
+      "total_deg": 3.408363388087665,
+      "vertical_component_deg": -2.10077244217094
+    },
+    "current_1": {
+      "total_deg": 3.3862080568187083,
+      "vertical_component_deg": -2.091266395653417
+    },
+    "current_2": {
+      "total_deg": 3.4305160540095754,
+      "vertical_component_deg": -2.110249798711714
+    }
+  },
+  "gyro_rate_hz": 409.6,
+  "measured_sender_batch_rate_hz": 409.5940586813704,
+  "calibration_already_installed": true,
+  "parameters_refitted": false,
+  "device_writes_this_task": 0,
+  "physical_accuracy_resolved": false,
+  "tests": {
+    "motion_calibration": 9,
+    "fusion_replay": 13,
+    "passed": true
+  },
+  "limitations": [
+    "Historic raw recording, replayed with a newer calibration of the same physical RF identity. No new physical accuracy test.",
+    "Recorded-scale-only omits the historic thermal LUT; static bias is learned causally. It is a diagnostic comparator, not exact old firmware output.",
+    "Current compensation uses recorded FIFO temperature and installed LUT, not the unrecorded firmware temperature smoother state.",
+    "Acceleration freshness is preserved. M uses the previous processed acceleration; gyro precedes accel in each FIFO packet. No future interpolation.",
+    "Earth is disabled in all cases because the historic geographic heading is not verified. No current Earth vector is invented.",
+    "Endpoint low variance and gravity consistency cannot verify matching yaw. Physical return is an operator assertion.",
+    "Sensor rate is the documented nominal sender rate; batch arrival times provide only a rate consistency check.",
+    "No endpoint-derived scale, future bias correction, quaternion reset or parameter selection is applied."
+  ]
+}

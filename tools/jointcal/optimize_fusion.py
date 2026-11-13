@@ -16,6 +16,7 @@ from scipy.spatial.transform import Rotation as R
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from fusion_replay import POLICIES, Replay, metrics, resample_windows
 import inputs
+from calibration_coordinates import installed_accel
 import joint_rigid_v3 as joint
 
 
@@ -60,10 +61,15 @@ def fit_accelerometers(data, fit):
         rows.append(dict(slot=slot,offset_g=b.tolist(),diagonal_gain=g.tolist(),
                          raw_train_norm_rms_g=norm_error(s[1][joint.IDS]),
                          corrected_train_norm_rms_g=norm_error((s[1][joint.IDS]-b)*g),
-                         raw_hold_norm_rms_g=norm_error(h[1]),corrected_hold_norm_rms_g=norm_error((h[1]-b)*g)))
+                         raw_hold_norm_rms_g=norm_error(h[1]),corrected_hold_norm_rms_g=norm_error((h[1]-b)*g),
+                         installed_train_norm_rms_g=(norm_error(installed_accel(s[1][joint.IDS],data[slot]['backup']))
+                             if data[slot]['backup'].get('accelerometer',{}).get('known') else None),
+                         installed_hold_norm_rms_g=(norm_error(installed_accel(h[1],data[slot]['backup']))
+                             if data[slot]['backup'].get('accelerometer',{}).get('known') else None)))
     return dict(all_ten_joint=True,fixed_mounts=True,success=result.success,optimality=float(result.optimality),
                 jacobian_rank=int(np.linalg.matrix_rank(result.jac)),parameters=len(result.x),devices=rows,
-                limitation='Raw F04 acceleration; existing firmware accBAinv is not present in CALWIRE gyro snapshots. Not a measured improvement over installed accel calibration.')
+                write_permitted=False,
+                limitation='Installed comparison requires TLV4; legacy snapshots report null installed metrics. Same-data fit is not independent validation, and no affine M/B/accel transaction is supported.')
 
 
 def prepare(data, fit, accel_fit, calibration):
@@ -74,12 +80,13 @@ def prepare(data, fit, accel_fit, calibration):
         M=np.asarray(prior['gsens_dps_per_g'] if calibration in ('old','new_scale') else new['gsens_dps_per_g']).reshape(3,3)
         E=np.asarray(new['earth_dps'] if calibration=='new_all' else prior['earth_dps'])
         for name,rec in [('poses',d)]+[(c,d['scale_captures'][k]) for k,c in enumerate('xyz')]:
-            accel=rec['accel'].copy()
+            accel=installed_accel(rec['accel'],d['backup'],allow_unknown=True)
             if calibration=='new_accel':
-                accel=(accel-af['offset_g'])*af['diagonal_gain']
-            # M was fitted in raw acceleration coordinates. Keep raw M*a here;
-            # firmware writes would need the corresponding affine conversion.
-            gyro=(rec['gyro']-joint.old.table(d,rec['temp'])-rec['accel']@M.T)*S
+                accel=(rec['accel']-af['offset_g'])*af['diagonal_gain']
+            # Installed M acts on calibrated acceleration. Newly fitted M
+            # acts on raw samples; converting it also changes the constant B.
+            ma=installed_accel(rec['accel'],d['backup'],allow_unknown=True) if calibration in ('old','new_scale') else rec['accel']
+            gyro=(rec['gyro']-joint.old.table(d,rec['temp'])-ma@M.T)*S
             duration=rec['duration']*rec['clock_rate']
             start=rec['interval_end'][0]-duration[0]
             t,g,a,dt=resample_windows(gyro,accel,duration,start)
@@ -91,7 +98,8 @@ def prepare(data, fit, accel_fit, calibration):
             earth=E if name=='poses' and calibration!='earth_off' else np.zeros(3)
             rests=joint.old.SEG if name=='poses' else rec['rests']
             recordings.append(dict(slot=slot,kind=name,time=t,gyro=g,accel=a,dt=dt,earth=earth,rests=rests,
-                                   timing_residual_span_s=timing_error))
+                                   timing_residual_span_s=timing_error,
+                                   installed_accel_known=d['backup'].get('accelerometer',{}).get('known',False)))
     return recordings
 
 
@@ -121,7 +129,8 @@ def evaluate(engine, recordings, policy, substeps=1):
                  train_closure_deg=stats(train_closure),held_closure_deg=stats(held_closure))
     # Training-only selection, no validation endpoint in this score.
     summary['training_score']=summary['train_closure_deg']['rms']+5*summary['train_rest_deg_per_min']['rms']
-    return dict(policy=policy,substeps=substeps,summary=summary,devices=rows)
+    return dict(policy=policy,substeps=substeps,summary=summary,devices=rows,
+                installed_accel_known=all(r.get('installed_accel_known',False) for r in recordings))
 
 
 def main():
@@ -147,7 +156,7 @@ def main():
                     selection='Fixed policies supplied by caller; no new search or installation approval',
                     limitations=[
                         'F04 window means repeated at 400/100 update cadence; raw high-frequency signals are unavailable.',
-                        'Installed accel calibration is absent from the snapshot; not a bit-exact installed-firmware replay.',
+                        'Installed acceleration uses TLV4 when available; legacy unknowns are flagged and cannot authorize installation.',
                         'Joint calibration already used these recordings; held segments are conditional checks.',
                         'Manual return constraints have no external angle truth. Earth is off in axis recordings.'],
                     results={k:evaluate(engine,recordings,p,substeps=8) for k,p in policies.items()},
@@ -190,7 +199,7 @@ def main():
                 limitations=[
                     'F04 window means, not the original raw 400/100 Hz stream. Conservative overlap resampling; substeps do not add information.',
                     'Production VQF core, Earth pair and gate functions; no boot-ZRO handoff, temperature low-pass or MCU CMSIS simulation.',
-                    'Snapshot omits installed accelerometer calibration. Baseline uses raw F04 accel, so this is not a bit-exact installed firmware replay.',
+                    'Installed acceleration uses TLV4 when available; legacy snapshots use a labelled raw diagnostic fallback, never an installation baseline.',
                     'Calibration used all four recordings already. Fusion selection has withheld segments, but needs independent recording confirmation.',
                     'Return constraints are user-performed physical returns, not external orientation metrology.',
                     'Earth comparison applies only to poses recording with its matching reference; axes use Earth off for every variant.',

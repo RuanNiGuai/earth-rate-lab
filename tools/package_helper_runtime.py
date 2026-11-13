@@ -32,7 +32,7 @@ def main():
     a.work.mkdir(parents=True,exist_ok=True);a.out.mkdir(parents=True,exist_ok=True)
     scripts=['helper_utilities.py','thermal_coverage.py','helper_fleet.py','fleet_workflow.py','batch_calibration.py','batch_record_only.py','capture_quality.py','capture_preflight.py',
              'fusion_replay.py','fusion_replay.c','fusion_stable_iir.py','native_test.py',
-             'f04_summary.py','calwire.py','calwire_apply.py','cal_archive.py','batch_snapshot.py','f06c1/partial_export_codec.py']
+             'f04_summary.py','calibration_coordinates.py','hardware_lock.py','calwire.py','calwire_apply.py','cal_archive.py','batch_snapshot.py','f06c1/partial_export_codec.py']
     scripts += [str(p.relative_to(ROOT/'tools')) for p in (ROOT/'tools/jointcal').glob('*.py') if not p.name.startswith('test_')]
     args=[sys.executable,'-m','PyInstaller','--noconfirm','--onedir','--name','earth-rate-calibration',
           '--distpath',str(a.work/'dist'),'--workpath',str(a.work/'build'),'--specpath',str(a.work),
@@ -47,7 +47,8 @@ def main():
     # Ship source-bound native replays; users do not need a C compiler.
     from fusion_replay import Replay
     native=a.work/'native';native.mkdir(exist_ok=True)
-    engines={key:Replay(a.work/'native-build',iir=key) for key in ('production','stable')}
+    engines={key:Replay(a.work/'native-build',iir=key) for key in ('production','stable','legacy')}
+    engines['production-cmsis']=Replay(a.work/'native-build',math_backend='cmsis')
     replay_manifest={}
     for key,engine in engines.items():
         name=key+engine.library_path.suffix
@@ -55,7 +56,7 @@ def main():
         replay_manifest[key]=dict(library=name,sources=engine.hashes,
                                   sha256=hashlib.sha256((native/name).read_bytes()).hexdigest())
         for rel in engine.hashes:
-            if rel.startswith('integration/') and rel not in source:
+            if rel.startswith(('integration/','helper/')) and rel not in source:
                 path=ROOT/rel
                 args+=['--add-data',str(path)+';'+str(Path('toolkit')/Path(rel).parent)]
                 source[rel]=hashlib.sha256(path.read_bytes()).hexdigest()

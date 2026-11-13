@@ -101,10 +101,10 @@ def snapshot(request, session, output, cancel, emit):
                 b.check(data['earth_valid'] and data['earth_up_axis']==0,
                         f'#{slot} 尚无有效 +X 地球参考。请将 +X 面朝上，在命令页建立参考后重新准备。')
             if guided and not build:
-                b.check(data['build'].endswith('_cw5_f04ack'),'该固件尚未验证连续校准协议，请更新配套版本。')
+                b.check(data['build'].endswith(('_cw5_f04ack','_cw6_stable')),'该固件尚未验证连续校准协议，请更新配套版本。')
                 build=data['build']
             b.check(data['build'] == build, 'Tracker firmware build mismatch')
-            data.update(slot=slot, rf_address=address, snapshot_sha256=hashlib.sha256(blob).hexdigest())
+            data.update(receiver_serial=state['receiver_serial'],slot=slot, rf_address=address, snapshot_sha256=hashlib.sha256(blob).hexdigest())
             b.save_new(dest/'backup.json', data)
             for i, raw in enumerate(data['scale_records_hex']):
                 (dest/f'scale-{i}.bin').write_bytes(bytes.fromhex(raw))

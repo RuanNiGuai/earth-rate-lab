@@ -12,7 +12,7 @@ def snapshot():
     thermal+=struct.pack('<8f',22.1,0,0,0,22.3,0,0,0)+bytes(138*16)
     thermal+=b''.join(struct.pack('<4f',15+.25*i,0,0,0) for i in range(113))
     meta=bytearray(32);struct.pack_into('<4I',meta,0,0x41524334,4,1,9)
-    result=tlv(1,b'unit\0')+tlv(2,profile)+tlv(3,thermal)+tlv(100,crc(meta))
+    result=tlv(1,b'unit\0')+tlv(2,profile)+tlv(3,thermal)+tlv(4,bytes([1,1,1,1])+struct.pack('<12f',0,0,0,1,0,0,0,1,0,0,0,1))+tlv(100,crc(meta))
     for axis in range(3):
         raw=bytearray(584);struct.pack_into('<5I2B',raw,0,0x41353252,2,1,9,1,1,axis)
         vals=[0.]*22;vals[14]=60

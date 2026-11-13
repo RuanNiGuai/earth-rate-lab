@@ -8,6 +8,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from calwire import unpack_snapshot
+from calibration_coordinates import raw_gsens
 
 _config = None
 
@@ -92,7 +93,8 @@ def load():
         require(np.all((d['duration'] > 0) & (d['duration'] < 1)), 'Invalid window duration')
         d['backup'] = b
         d['lut'] = np.array(b['lut'])
-        d['M'] = np.array(b['production']['gsens_dps_per_g']).reshape(3, 3)
+        d['M'] = raw_gsens(b, allow_unknown=True)
+        d['accel_coordinates_known'] = b['accelerometer']['known']
         d['S'] = np.array(b['production']['scale'])
         d['clock_rate'] = 1 + spec['clock_rate_correction_ppm'] * 1e-6
         d['interval_duration'] = d['duration'] * d['clock_rate']

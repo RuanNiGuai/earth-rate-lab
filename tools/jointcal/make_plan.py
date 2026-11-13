@@ -163,14 +163,20 @@ def main():
                     retained_field_diagnostics=original['unmet_quality_gates'],
                     selection_path=str(a.selection.resolve()),selection_sha256=digest(a.selection),
                     decisions=selection['decisions'],limitations=selection['limitations'])
+    if selection is None:
+        review['quality_gates_passed']=False
+        review['unmet_quality_gates'].append('原始 M/E/B 坐标尚不支持安全写入；请使用包含已安装加速度矩阵的快照，比较并选择仅更新比例。')
     review.update(result_sha256=digest(a.result),input_config_sha256=digest(a.config),device_writes=0)
     save_review(a.out,review)
     unmet=review['unmet_quality_gates']
+    # A trial cannot override a coordinate mismatch. Full raw M/E/B candidates
+    # need an affine conversion and a versioned constant-bias transaction first.
     if unmet and not a.trial:
         if a.review_on_failure:
             print(json.dumps(dict(review=str(a.out/'review.json'),quality_gates_passed=False,device_writes=0)))
             return
         raise ValueError('质量检查未通过，未生成写入计划。\n'+'\n'.join(unmet)+f'\n审阅报告：{a.out / "review.md"}')
+    require(selection is not None, 'Raw M/E/B coordinates cannot be installed, including trials')
     evidence=dict(mode='USER_AUTHORIZED_TRIAL' if unmet else 'QUALITY_ACCEPTED',quality_gates_passed=not unmet,
         unmet_quality_gates=unmet,user_authorization_quote=a.authorization,
         reference_pose_confirmed='original +X-up face and original heading',

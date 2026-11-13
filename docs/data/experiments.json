@@ -1,6 +1,6 @@
 {
   "schema": "PUBLIC_EXPERIMENT_SUMMARY1",
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "raw_data_public": false,
   "note": "Whitelisted aggregates and anonymous slot metrics. Original reports and recordings remain private; hashes bind the source reports, not a public raw-data reproduction.",
   "E01_uncompensated_ablation": {
@@ -352,7 +352,7 @@
       "stable_baseline": 11.310730080378473,
       "stable_guarded": 11.674122334330786
     },
-    "note": "Independent recordings, but manual wrist return has no external angular truth; Earth disabled for long-static comparison."
+    "note": "Independent recordings, but manual wrist return has no external angular truth; Earth disabled for long-static comparison. Wrist values use the recorded 2026-10-29 scale, not the current installed calibration. See E07 and wrist-return-20261113.json."
   },
   "E05_adaptive_counterexamples": {
     "source_report_sha256": "3b83220224d94afe3a3fa0bd3eeb86d8c3132c2dcfa5fd8f499d9de09c5dc897",
@@ -418,5 +418,549 @@
     "corrected_hold_norm_rms_g": 0.0006283306017934461,
     "installed": false,
     "comparison": "raw acceleration, not the existing device acceleration calibration"
+  },
+  "E07_wrist_current_calibration": {
+    "source_report_sha256": "c35ca9a02a5443893dca1db0e10a0d0165f631f06269789de13835f34960ef22",
+    "return_deg": {
+      "recorded_scale_only": 11.310995618429105,
+      "installed_scale_only": 2.0980509353766656,
+      "installed_full": 2.04806967142925,
+      "installed_full_cmsis": 2.048540014641066,
+      "installed_full_no_motion_bias": 2.0492004158500845,
+      "installed_full_no_rate_gate": 2.0573588588423495
+    },
+    "calibration_replay_reduction_percent": 81.89310878971334,
+    "parameter_refitting": false,
+    "calibration_already_installed": true,
+    "independent_physical_accuracy_validated": false,
+    "summary": "wrist-return-20261113.json",
+    "report": "../WRIST_RETURN_20261113_zh.md"
+  },
+  "E08_independent_wrist_retest": {
+    "source_sha256": "d02daa8e658582d16262e403bec96b98bf42b339d2dcf4978475564817fa43fa",
+    "report_sha256": "5b30c0eda63a016a89c7b757f638bd06975840b2e0a3590eaa400b240272d432",
+    "different_device_from_historical_wrist": true,
+    "physical_return_scope": "first and final only",
+    "operator_return_uncertainty_deg": 0.5,
+    "raw_samples": 84861,
+    "duration_s": 207.20212820291718,
+    "reordered_samples": 58,
+    "missing_samples": 10,
+    "missing_fresh_accel": 2,
+    "before_s": [
+      5,
+      22
+    ],
+    "after_s": [
+      185,
+      205
+    ],
+    "endpoint_sensitivity_deg": [
+      1.7772679530571889,
+      1.815942514244996
+    ],
+    "return_deg": {
+      "installed_full": 1.785148847344306,
+      "unit_scale_raw": 54.82165226202441,
+      "installed_scale_only": 1.5296784238384078,
+      "installed_full_no_motion_bias": 1.7849903301514483,
+      "installed_full_no_rate_gate": 1.735697954660103,
+      "installed_full_cmsis": 1.7824892408061914
+    },
+    "gap_reconstruction_closure_difference_deg": 0.0002395787139755079,
+    "physical_device_output_accuracy_measured": false,
+    "wrist_used_in_parameter_fit": false,
+    "comparison": "Independent raw input; same-device external installed calibration; Earth disabled. No captured live quaternion/runtime state. Operator bounds physical return below 0.5 deg."
+  },
+  "E09_calibration_vs_none": {
+    "wrist_source_sha256": "d02daa8e658582d16262e403bec96b98bf42b339d2dcf4978475564817fa43fa",
+    "long_source_sha256": "83e557a78030b8fd6f92bc8e38d11beccea346de5fe7fd3d389dc7e56536b34b",
+    "wrist_report_sha256": "4a9faedf6545e7ca7c19b69a974dab8a851298c43202b3fdba51f1cf4959dfa3",
+    "baseline": "No saved compensation: S=1,T=0,M=0,A=I,b=0,E=0; identical production VQF and causal rest/motion bias learning in every case",
+    "wrist_single_addition": {
+      "scale": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 1.5296784238384078,
+          "absolute_reduction": 53.291973838186,
+          "reduction_percent": 97.20971849493483
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10737676437735938,
+          "absolute_reduction": -9.994239305012587e-05,
+          "reduction_percent": -0.09316308145737562
+        }
+      },
+      "thermal": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 55.05827846865067,
+          "absolute_reduction": -0.2366262066262621,
+          "reduction_percent": -0.4316291043095318
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10361594836761567,
+          "absolute_reduction": 0.00366087361669358,
+          "reduction_percent": 3.4125485346956257
+        }
+      },
+      "gsens": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.72591542691842,
+          "absolute_reduction": 0.0957368351059884,
+          "reduction_percent": 0.1746332537523799
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10707149134432346,
+          "absolute_reduction": 0.00020533063998579015,
+          "reduction_percent": 0.19140261259400718
+        }
+      },
+      "accel": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.82165226202441,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10727682198430925,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      "earth": {
+        "motion": {
+          "disabled": 54.82165226202441,
+          "enabled": 54.17259497639183,
+          "absolute_reduction": 0.6490572856325798,
+          "reduction_percent": 1.1839433122707783
+        },
+        "static": {
+          "disabled": 0.10727682198430925,
+          "enabled": 0.10728347780210397,
+          "absolute_reduction": -6.655817794715135e-06,
+          "reduction_percent": -0.006204339084251249
+        }
+      }
+    },
+    "wrist_leave_one_out": {
+      "scale": {
+        "motion": {
+          "disabled": 54.31379892803846,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 52.75309913421491,
+          "reduction_percent": 97.12651329012843
+        },
+        "static": {
+          "disabled": 0.10346826022883628,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": -0.00010735252721953692,
+          "reduction_percent": -0.10375406620553006
+        }
+      },
+      "thermal": {
+        "motion": {
+          "disabled": 1.2340724615937788,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": -0.32662733222977347,
+          "reduction_percent": -26.46743545415
+        },
+        "static": {
+          "disabled": 0.10715392657345722,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.00357831381740141,
+          "reduction_percent": 3.339414552343417
+        }
+      },
+      "gsens": {
+        "motion": {
+          "disabled": 1.6310230973856568,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.07032330356210448,
+          "reduction_percent": 4.31160684816939
+        },
+        "static": {
+          "disabled": 0.10380719622262644,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.0002315834665706229,
+          "reduction_percent": 0.2230899927919887
+        }
+      },
+      "accel": {
+        "motion": {
+          "disabled": 1.5606997938235523,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        },
+        "static": {
+          "disabled": 0.10357561275605581,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 0.0,
+          "reduction_percent": 0.0
+        }
+      },
+      "earth": {
+        "motion": {
+          "disabled": 1.785148847344306,
+          "enabled": 1.5606997938235523,
+          "absolute_reduction": 0.22444905352075373,
+          "reduction_percent": 12.573128221473382
+        },
+        "static": {
+          "disabled": 0.10360690936375411,
+          "enabled": 0.10357561275605581,
+          "absolute_reduction": 3.1296607698294565e-05,
+          "reduction_percent": 0.03020706619904578
+        }
+      }
+    },
+    "wrist_all_enabled": {
+      "motion": {
+        "disabled": 54.82165226202441,
+        "enabled": 1.5606997938235523,
+        "absolute_reduction": 53.260952468200855,
+        "reduction_percent": 97.15313251347467
+      },
+      "static": {
+        "disabled": 0.10727682198430925,
+        "enabled": 0.10357561275605581,
+        "absolute_reduction": 0.003701209228253441,
+        "reduction_percent": 3.450148093308352
+      }
+    },
+    "wrist_earth_initial_reference": {
+      "operator_confirmed_same_calibration_and_boot_pose": true,
+      "confirmation_date": "2026-11-13",
+      "direction_selected_by_closure": false,
+      "reference_source": "unchanged same-device installed snapshot"
+    },
+    "long_static_single_addition": {
+      "scale": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.1562000242493572,
+        "absolute_reduction": -0.0004159922942924832,
+        "reduction_percent": -0.2670314082077902,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.14004582614967517,
+            "absolute_reduction": -0.0005626176940399519,
+            "reduction_percent": -0.4033587270247666
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18097167160589467,
+            "absolute_reduction": 0.0005755076121635172,
+            "reduction_percent": 0.31700168223063885
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1360533177926605,
+            "absolute_reduction": -0.00040740903095398684,
+            "reduction_percent": -0.3003474521813225
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.17083929543501253,
+            "absolute_reduction": -0.0009348755982191148,
+            "reduction_percent": -0.550236185213508
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11929794463308219,
+            "absolute_reduction": -0.0003355703729095022,
+            "reduction_percent": -0.2820810991680481
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.2088977897677562,
+            "absolute_reduction": -0.0006507573092998653,
+            "reduction_percent": -0.3124929568586704
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.16192265880341694,
+            "absolute_reduction": -0.0007763253146760296,
+            "reduction_percent": -0.48175177049887424
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15792036736431003,
+            "absolute_reduction": -0.0004058486224645663,
+            "reduction_percent": -0.2576579135093711
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14052987688156568,
+            "absolute_reduction": -0.00043995537240740235,
+            "reduction_percent": -0.31405212285641876
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12307560253670387,
+            "absolute_reduction": -0.0002694364959257983,
+            "reduction_percent": -0.21939981078501491
+          }
+        ]
+      },
+      "thermal": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.15576038878496684,
+        "absolute_reduction": 2.3643170097870092e-05,
+        "reduction_percent": 0.015176889313463058,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.1395155132618108,
+            "absolute_reduction": -3.230480617558151e-05,
+            "reduction_percent": -0.023160354951152814
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18158992521241818,
+            "absolute_reduction": -4.274599435999393e-05,
+            "reduction_percent": -0.023545391640952613
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.13570366289071226,
+            "absolute_reduction": -5.7754129005743726e-05,
+            "reduction_percent": -0.042577125644977794
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.16986070867460293,
+            "absolute_reduction": 4.37111621904851e-05,
+            "reduction_percent": 0.02572691295051248
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11901870885030047,
+            "absolute_reduction": -5.633459012778508e-05,
+            "reduction_percent": -0.047354964523976625
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20799265436339412,
+            "absolute_reduction": 0.00025437809506220765,
+            "reduction_percent": 0.12215208642310622
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.1609917263313426,
+            "absolute_reduction": 0.00015460715739831765,
+            "reduction_percent": 0.09594208819471518
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15759156297730986,
+            "absolute_reduction": -7.704423546439632e-05,
+            "reduction_percent": -0.0489124660252215
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14026000056343094,
+            "absolute_reduction": -0.00017007905427265935,
+            "reduction_percent": -0.12140705943756315
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12268928860880136,
+            "absolute_reduction": 0.00011687743197670575,
+            "reduction_percent": 0.0951722830740407
+          }
+        ]
+      },
+      "gsens": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.15578268542816223,
+        "absolute_reduction": 1.3465269024792725e-06,
+        "reduction_percent": 0.000864354892847858,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.13947990469949717,
+            "absolute_reduction": 3.303756138051117e-06,
+            "reduction_percent": 0.0023685690733891655
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18154670975118112,
+            "absolute_reduction": 4.694668770677257e-07,
+            "reduction_percent": 0.0002585922177859036
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1356372066737248,
+            "absolute_reduction": 8.702087981704576e-06,
+            "reduction_percent": 0.006415297048871419
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.16990689153542676,
+            "absolute_reduction": -2.471698633349506e-06,
+            "reduction_percent": -0.0014547582904104364
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.1189613564266051,
+            "absolute_reduction": 1.017833567582005e-06,
+            "reduction_percent": 0.0008555928493457823
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20824569790358302,
+            "absolute_reduction": 1.3345548733056933e-06,
+            "reduction_percent": 0.0006408518083310151
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.16114459780484472,
+            "absolute_reduction": 1.735683896192386e-06,
+            "reduction_percent": 0.0010770855647880167
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.1575059040380166,
+            "absolute_reduction": 8.614703828874193e-06,
+            "reduction_percent": 0.005469149064914485
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.1400971681928465,
+            "absolute_reduction": -7.246683688233446e-06,
+            "reduction_percent": -0.005172880111692903
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12280803217939032,
+            "absolute_reduction": -1.8661386122498236e-06,
+            "reduction_percent": -0.0015195805490989499
+          }
+        ]
+      },
+      "accel": {
+        "disabled": 0.1557840319550647,
+        "enabled": 0.1557840319550647,
+        "absolute_reduction": 0.0,
+        "reduction_percent": 0.0,
+        "per_device": [
+          {
+            "slot": 0,
+            "disabled": 0.13948320845563522,
+            "enabled": 0.13948320845563522,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 1,
+            "disabled": 0.18154717921805819,
+            "enabled": 0.18154717921805819,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 2,
+            "disabled": 0.1356459087617065,
+            "enabled": 0.1356459087617065,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 3,
+            "disabled": 0.1699044198367934,
+            "enabled": 0.1699044198367934,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 4,
+            "disabled": 0.11896237426017268,
+            "enabled": 0.11896237426017268,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 5,
+            "disabled": 0.20824703245845633,
+            "enabled": 0.20824703245845633,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 6,
+            "disabled": 0.1611463334887409,
+            "enabled": 0.1611463334887409,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 7,
+            "disabled": 0.15751451874184547,
+            "enabled": 0.15751451874184547,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 8,
+            "disabled": 0.14008992150915828,
+            "enabled": 0.14008992150915828,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          },
+          {
+            "slot": 9,
+            "disabled": 0.12280616604077807,
+            "enabled": 0.12280616604077807,
+            "absolute_reduction": 0.0,
+            "reduction_percent": 0.0
+          }
+        ]
+      }
+    },
+    "long_static_all_except_earth": {
+      "disabled": 0.1557840319550647,
+      "enabled": 0.1561765611129433,
+      "absolute_reduction": -0.00039252915787860165,
+      "reduction_percent": -0.2519700850930763
+    },
+    "note": "VQF quaternion metrics. Pure wrist static uses only pre-motion 10-20 s; long static uses ten independent ~25-minute F04 captures with Earth off. Current acceleration transform is identity. No parameter fitting or device writes."
   }
 }

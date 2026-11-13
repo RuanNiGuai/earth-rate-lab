@@ -1,0 +1,49 @@
+{
+  "schema": "PUBLICATION_UPDATE_VALIDATION1",
+  "checked_at": "2026-11-13T10:29:05.593246+00:00",
+  "base_commit": "04f11a8a0006c46f7a2f31aeb2fed8dd5aa8b591",
+  "tests": {
+    "total": 205,
+    "suites": [
+      {
+        "directory": "tools",
+        "pattern": "test_calwire*.py",
+        "passed": 22
+      },
+      {
+        "directory": "tools",
+        "pattern": "test_batch_*.py",
+        "passed": 35
+      },
+      {
+        "directory": "tools/jointcal",
+        "pattern": "test_*.py",
+        "passed": 30
+      },
+      {
+        "directory": "tests",
+        "pattern": "test_*.py",
+        "passed": 116
+      },
+      {
+        "directory": "integration/tests",
+        "pattern": "test_calwire.py",
+        "passed": 2
+      }
+    ]
+  },
+  "tested_from_allowlisted_export": true,
+  "check_log_sha256": "00af937f7c336a3bd978fcce6a881d44846004cd9af87fd21901bbfde31240b2",
+  "content_and_document_links": "passed",
+  "known_hardware_identity_scan": "passed",
+  "ablation_report_verification": {
+    "passed": true,
+    "wrist_cases": 32,
+    "long_static_reported_cases": 160,
+    "raw_f04_unique_windows_checked": 1216480
+  },
+  "private_raw_inputs_and_calibration_coefficients_published": false,
+  "hardware_operations_this_update": 0,
+  "release_assets_rebuilt_or_replaced": false,
+  "upstream_file_statistics_remain_bound_to_commit": "6f8f6b77cf60bad262f155e3dee9ff552995d715"
+}
